@@ -8,7 +8,7 @@
 import UIKit
 import youtube_ios_player_helper
 
-class ViewController: UIViewController, YTPlayerViewDelegate {
+class VideoExampleViewController: UIViewController, YTPlayerViewDelegate {
 
     lazy var playerView: YTPlayerView = {
         var playerView = YTPlayerView()
