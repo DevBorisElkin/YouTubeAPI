@@ -14,7 +14,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     var router: VideoSearchPresenterToRouterProtocol?
     
     // TODO fill real data
-    var searchResults: [String] = ["Hello", "There"]
+    var searchResults: [VideoViewModel] = []
     
     func viewDidLoad() {
         
@@ -24,12 +24,14 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         
     }
     
+    // MARK: For table view
     func numberOfRowsInSection() -> Int {
         return searchResults.count
     }
     
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: YouTubeVideoSearchCell.reuseId, for: indexPath) as! YouTubeVideoSearchCell
+        cell.setUp(viewModel: searchResults[indexPath.row])
         return cell
     }
     
@@ -41,13 +43,42 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         return VideoSearchConstants.tableViewCellHeight
     }
     
-    // Logic related
+    // MARK: Logic related
     func performSearch(for search: String) {
-        var preparedSearch: String = YouTubeHelper.getRequestString(for: search)
+        var finalSearchString = search
+        if finalSearchString.contains(" "){
+            guard let searchWithSpaces = finalSearchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                print("Couldn't replace spaces")
+                return
+            }
+            finalSearchString = searchWithSpaces
+        }
+        var preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
         interactor?.performSearch(for: preparedSearch)
     }
 }
 
 extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
-
+    func receivedData(result: Result<SearchResultWrapped, Error>) {
+        
+        switch result {
+        case .success(let data):
+            print("Successfully received data")
+            
+            searchResults = data.items.map({ item in
+                VideoViewModel(videoId: item.id.videoId, videoName: item.snippet.description)
+            })
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.onFetchVideosListSuccess()
+            }
+            
+            
+        case .failure(let error):
+            print("Error receiving data: \(error)")
+        }
+        
+    }
+    
+    
 }

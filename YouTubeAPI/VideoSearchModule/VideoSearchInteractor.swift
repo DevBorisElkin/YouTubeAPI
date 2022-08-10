@@ -11,14 +11,8 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
     
     func performSearch(for search: String) {
         print("Performin request for string: \(search)")
-        NetworkingHelpers.decodeDataWithResult(from: search, type: SearchResultWrapped.self, printJSON: true) { result in
-            switch result {
-                
-            case .success(let data):
-                print("Success retrieving data")
-            case .failure(let error):
-                print("Error retrieving data \(error)")
-            }
+        NetworkingHelpers.decodeDataWithResult(from: search, type: SearchResultWrapped.self, printJSON: true) { [weak self] result in
+            self?.presenter?.receivedData(result: result)
         }
     }
     

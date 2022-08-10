@@ -36,7 +36,7 @@ protocol VideoSearchPresenterToInteractorProtocol {
 }
 
 protocol VideoSearchInteractorToPresenterProtocol {
-    
+    func receivedData(result: Result<SearchResultWrapped, Error>)
 }
 
 typealias EntryPoint = VideoSearchPresenterToViewProtocol & UIViewController

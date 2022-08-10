@@ -12,7 +12,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
     var presenter: VideoSearchViewToPresenterProtocol?
     
     func onFetchVideosListSuccess() {
-        
+        tableView.reloadData()
     }
     
     func onFetchVideosListFail() {

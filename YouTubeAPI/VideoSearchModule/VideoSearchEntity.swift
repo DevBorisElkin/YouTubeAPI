@@ -30,7 +30,7 @@ struct Item: Decodable {
 
 struct IdInfo: Decodable {
     var kind: String
-    var channelId: String?
+    var videoId: String?
 }
 
 struct SnippetInfo: Decodable {
@@ -56,6 +56,6 @@ struct ThumbnailInfo: Decodable {
 
 struct ThumbnailSizeInfo: Decodable {
     var url: String
-    var width: Int
-    var height: Int
+    var width: Int?
+    var height: Int?
 }

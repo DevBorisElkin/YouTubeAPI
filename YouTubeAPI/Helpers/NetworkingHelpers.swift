@@ -61,7 +61,9 @@ public class NetworkingHelpers{
     
     public static func loadDataFromURLWithResult(from url: String, printJSON: Bool, completion: @escaping (Result<Data, Error>) -> ()){
         
-        let task = URLSession.shared.dataTask(with: URL(string: url)!) { data, response, error in
+        guard let requestUrl = URL(string: url) else {print("Something is wrong with url for string: \(url)"); return }
+        
+        let task = URLSession.shared.dataTask(with: requestUrl) { data, response, error in
             guard let data = data, error == nil else {
                 print("\(#function) Couldn't load data from URL")
                 if let error = error {
