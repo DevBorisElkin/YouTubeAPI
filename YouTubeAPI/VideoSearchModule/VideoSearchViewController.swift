@@ -29,10 +29,21 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
     
     // MARK: UI Elements
     
+    private var gradientView: GradientView = {
+       let gradientView = GradientView()
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        //var startColor = #colorLiteral(red: 1, green: 0.5301587371, blue: 0.7200260892, alpha: 1)
+        //var endColor = #colorLiteral(red: 1, green: 0.6452286316, blue: 0.4446379992, alpha: 1)
+        var startColor = #colorLiteral(red: 1, green: 0.8069414411, blue: 0.8849582529, alpha: 1)
+        var endColor = #colorLiteral(red: 1, green: 0.9033621306, blue: 0.8487222892, alpha: 1)
+        gradientView.setColors(startColor: startColor, endColor: endColor)
+        return gradientView
+    }()
+    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .purple
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -56,22 +67,26 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
+        view.backgroundColor = #colorLiteral(red: 0.2330949306, green: 0.2231936157, blue: 0.2745918632, alpha: 1)
         setUpUI()
         presenter?.viewDidLoad()
     }
     
     private func setUpUI(){
-        view.addSubview(searchTextField)
-        searchTextField.anchor(top: view.layoutMarginsGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: VideoSearchConstants.searchFieldInsets, size: CGSize(width: view.frame.width * VideoSearchConstants.searchFieldSize.width, height: VideoSearchConstants.searchFieldSize.height))
+        view.addSubview(gradientView)
+        gradientView.fillSuperview()
         
-        view.addSubview(searchButton)
-        searchButton.anchor(top: view.layoutMarginsGuide.topAnchor, leading: searchTextField.trailingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: VideoSearchConstants.searchButonInsets)
+        gradientView.addSubview(searchTextField)
+        
+        searchTextField.anchor(top: gradientView.layoutMarginsGuide.topAnchor, leading: gradientView.leadingAnchor, bottom: nil, trailing: nil, padding: VideoSearchConstants.searchFieldInsets, size: CGSize(width: view.frame.width * VideoSearchConstants.searchFieldSize.width, height: VideoSearchConstants.searchFieldSize.height))
+        
+        gradientView.addSubview(searchButton)
+        searchButton.anchor(top: gradientView.layoutMarginsGuide.topAnchor, leading: searchTextField.trailingAnchor, bottom: nil, trailing: gradientView.trailingAnchor, padding: VideoSearchConstants.searchButonInsets)
         
         searchButton.addTarget(self, action: #selector(searchButtonPressed(_:)), for: .touchUpInside)
         
-        view.addSubview(tableView)
-        tableView.anchor(top: searchTextField.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: VideoSearchConstants.tableViewInsets)
+        gradientView.addSubview(tableView)
+        tableView.anchor(top: searchTextField.bottomAnchor, leading: gradientView.leadingAnchor, bottom: gradientView.bottomAnchor, trailing: gradientView.trailingAnchor, padding: VideoSearchConstants.tableViewInsets)
         
         tableView.delegate = self
         tableView.dataSource = self

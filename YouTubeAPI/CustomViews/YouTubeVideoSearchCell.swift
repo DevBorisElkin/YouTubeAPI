@@ -20,7 +20,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         //view.layer.cornerRadius = 20
-        view.backgroundColor = #colorLiteral(red: 0.800581634, green: 0.589300096, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         // shadow setup
         view.layer.shadowColor = #colorLiteral(red: 0.09200996906, green: 0.08846413344, blue: 0.1079702899, alpha: 1)
@@ -46,7 +46,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
     
     lazy var channelIconImage: WebImageView = {
         let imageView = WebImageView()
-        imageView.backgroundColor = .blue
+        imageView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         imageView.layer.cornerRadius = VideoCellConstants.channelIconSize / 2
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -57,7 +57,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
         let label = UILabel()
         //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.backgroundColor = .brown
+        label.backgroundColor = .clear
         label.textColor = VideoCellConstants.videoNameFontColor
         label.font = VideoCellConstants.videoNameFont
         return label
@@ -67,7 +67,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
         let label = UILabel()
         //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.backgroundColor = .brown
+        label.backgroundColor = .clear
         label.textColor = VideoCellConstants.videoDetailsFontColor
         label.font = VideoCellConstants.videoDetailsFont
         return label
@@ -84,11 +84,17 @@ class YouTubeVideoSearchCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        backgroundColor = .clear
         setUpConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        videoThumbnailImageView.set(imageURL: nil)
+        channelIconImage.set(imageURL: nil)
     }
     
     func setUpConstraints(){
@@ -119,12 +125,10 @@ class YouTubeVideoSearchCell: UITableViewCell {
         channelIconImage.frame.size = CGSize(width: VideoCellConstants.channelIconSize, height: VideoCellConstants.channelIconSize)
         channelIconImage.frame.origin = CGPoint(x: VideoCellConstants.channelIconInsets.left, y: videoThumbnailImageView.frame.maxY + VideoCellConstants.channelIconInsets.top)
         
-        //channelIconImage.set(imageURL: viewModel.channelImageUrl)
-        channelIconImage.downloadFromUrlString(from: viewModel.channelImageUrl, contentMode: .scaleAspectFit)
+        channelIconImage.set(imageURL: viewModel.channelImageUrl)
         
         videoNamelLabel.text = viewModel.videoNameString
         videoNamelLabel.frame = viewModel.videoNameFrame
-        print("videoNamelLabel.frame: \(videoNamelLabel.frame), viewModel.videoNameFrame: \(viewModel.videoNameFrame)")
         
         videoDetailsLabel.text = viewModel.detailsString
         videoDetailsLabel.frame = viewModel.videoDetailsFrame

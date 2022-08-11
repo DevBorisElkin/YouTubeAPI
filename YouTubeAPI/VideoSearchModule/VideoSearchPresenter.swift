@@ -87,7 +87,7 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 let imageYPos: CGFloat = VideoCellConstants.videoImageInsets.top
                 
-                let channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url.replacingOccurrences(of: "https", with: "http")
+                let channelImageUrl = pair.channelInfo.snippet.thumbnails.def.url.replacingOccurrences(of: "https", with: "http")
                 
                 // MARK: Calculate videoName frame
                 
@@ -119,7 +119,7 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 var videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
                 
-                var detailsString = "details string bla bla fix me!"
+                var detailsString = "\(pair.videoItem.snippet.channelTitle)"
                 
                 if !detailsString.isEmpty {
                     var height = detailsString.height(width: videoDetailsWidth, font: VideoCellConstants.videoDetailsFont)

@@ -5,67 +5,46 @@ class WebImageView: UIImageView {
     
     private var currentUrlString: String?
     
-    func set(imageURL: String?){
+    func set(imageURL: String?, cacheAndRetrieveImage: Bool = true){
         
         currentUrlString = imageURL
         
         guard let imageURL = imageURL, let url = URL(string: imageURL) else {
             self.image = nil
-            //print("couldn't convert url string to URL")
+            print("couldn't convert url string to URL \(imageURL)")
             return }
         
-        if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)){
+        if cacheAndRetrieveImage, let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)){
             self.image = UIImage(data: cachedResponse.data)
-            //print("load image from cache")
+            print("load image from cache \(imageURL)")
             return
         }
         
-        //print("load image from internet")
+        print("load image from internet: \(imageURL)")
         
         let dataTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             
             DispatchQueue.main.async {
-                if let data = data, let response = response {
-                    self?.handleLoadedImage(data: data, response: response)
+                if let data = data, let response = response, error == nil {
+                    self?.handleLoadedImage(data: data, response: response, cacheAndRetrieveImage: cacheAndRetrieveImage )
+                }else if let error = error {
+                    print(error)
                 }
             }
         }
         dataTask.resume()
     }
     
-    private func handleLoadedImage(data: Data, response: URLResponse){
+    private func handleLoadedImage(data: Data, response: URLResponse, cacheAndRetrieveImage: Bool = true){
         guard let responseUrl = response.url else{ return }
         
-        let cachedResponse = CachedURLResponse(response: response, data: data)
-        URLCache.shared.storeCachedResponse(cachedResponse, for: URLRequest(url: responseUrl))
+        if(cacheAndRetrieveImage){
+            let cachedResponse = CachedURLResponse(response: response, data: data)
+            URLCache.shared.storeCachedResponse(cachedResponse, for: URLRequest(url: responseUrl))
+        }
         
         if responseUrl.absoluteString == currentUrlString {
             self.image = UIImage(data: data)
         }
     }
-    
-    // for undentified image
-    func download(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
-        //contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else {
-                if let error = error {
-                    print("error: \(error)")
-                }
-                return
-            }
-            DispatchQueue.main.async() { [weak self] in
-                self?.image = image
-            }
-        }.resume()
-       }
-     func downloadFromUrlString(from link: String?, contentMode mode: ContentMode = .scaleAspectFit) {
-        guard let link = link, let url = URL(string: link) else { return }
-        download(from: url, contentMode: mode)
-     }
 }
