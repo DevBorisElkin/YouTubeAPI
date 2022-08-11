@@ -53,7 +53,12 @@ class WebImageView: UIImageView {
                 let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
                 let data = data, error == nil,
                 let image = UIImage(data: data)
-                else { return }
+                else {
+                if let error = error {
+                    print("error: \(error)")
+                }
+                return
+            }
             DispatchQueue.main.async() { [weak self] in
                 self?.image = image
             }

@@ -87,7 +87,7 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 let imageYPos: CGFloat = VideoCellConstants.videoImageInsets.top
                 
-                let channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url
+                let channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url.replacingOccurrences(of: "https", with: "http")
                 
                 // MARK: Calculate videoName frame
                 
