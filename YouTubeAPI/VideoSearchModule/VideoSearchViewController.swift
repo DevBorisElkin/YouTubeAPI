@@ -58,6 +58,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         
         view.backgroundColor = .red
         setUpUI()
+        presenter?.viewDidLoad()
     }
     
     private func setUpUI(){

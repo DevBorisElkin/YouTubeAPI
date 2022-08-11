@@ -44,21 +44,32 @@ class YouTubeVideoSearchCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var videoNamelLbel: UILabel = {
+    lazy var channelIconImage: WebImageView = {
+        let imageView = WebImageView()
+        imageView.backgroundColor = .blue
+        imageView.layer.cornerRadius = VideoCellConstants.channelIconSize / 2
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    lazy var videoNamelLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .brown
-        label.textColor = .black
+        label.textColor = VideoCellConstants.videoNameFontColor
+        label.font = VideoCellConstants.videoNameFont
         return label
     }()
     
     lazy var videoDetailsLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .brown
-        label.textColor = .black
+        label.textColor = VideoCellConstants.videoDetailsFontColor
+        label.font = VideoCellConstants.videoDetailsFont
         return label
     }()
     
@@ -88,6 +99,12 @@ class YouTubeVideoSearchCell: UITableViewCell {
         // MARK: imageHolderView
         cardView.addSubview(videoThumbnailImageView)
         
+        // MARK: channel icon
+        cardView.addSubview(channelIconImage)
+        
+        cardView.addSubview(videoNamelLabel)
+        cardView.addSubview(videoDetailsLabel)
+        
         // MARK: playerView TODO load only when needed
 //        contentView.addSubview(playerView)
 //        playerView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
@@ -98,5 +115,17 @@ class YouTubeVideoSearchCell: UITableViewCell {
         
         videoThumbnailImageView.frame = viewModel.imageFrame
         videoThumbnailImageView.set(imageURL: viewModel.thumbnailUrl)
+        
+        channelIconImage.frame.size = CGSize(width: VideoCellConstants.channelIconSize, height: VideoCellConstants.channelIconSize)
+        channelIconImage.frame.origin = CGPoint(x: VideoCellConstants.channelIconInsets.left, y: videoThumbnailImageView.frame.maxY + VideoCellConstants.channelIconInsets.top)
+        channelIconImage.set(imageURL: viewModel.channelImageUrl)
+        
+        videoNamelLabel.text = viewModel.videoNameString
+        videoNamelLabel.frame = viewModel.videoNameFrame
+        print("videoNamelLabel.frame: \(videoNamelLabel.frame), viewModel.videoNameFrame: \(viewModel.videoNameFrame)")
+        
+        videoDetailsLabel.text = viewModel.detailsString
+        videoDetailsLabel.frame = viewModel.videoDetailsFrame
+        
     }
 }

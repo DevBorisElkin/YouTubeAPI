@@ -17,7 +17,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     var searchResults: [VideoViewModel] = []
     
     func viewDidLoad() {
-        
+        performSearch(for: "Gg")
     }
     
     func refresh() {
@@ -87,12 +87,58 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 let imageYPos: CGFloat = VideoCellConstants.videoImageInsets.top
                 
-                let tableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoImageInsets.bottom
+                let channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url
                 
-                var detailsString = "details string"
-                var channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url
+                // MARK: Calculate videoName frame
                 
-                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString, imageFrame: CGRect(x: VideoCellConstants.videoImageInsets.left, y: imageYPos, width: imageWidth, height: imageHeight), tableViewCellHeight: tableViewCellHeight)
+                var videoNameRect = CGRect(origin: CGPoint(
+                    x: VideoCellConstants.channelIconInsets.left + VideoCellConstants.channelIconSize + VideoCellConstants.videoNameInsets.left,
+                    y: VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoNameInsets.top), size: CGSize.zero)
+                
+                var videoNameWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
+                
+                var videoNameText = pair.videoItem.snippet.description
+                
+                if !videoNameText.isEmpty {
+                    var height = videoNameText.height(width: videoNameWidth, font: VideoCellConstants.videoNameFont)
+                    
+                    // check limit height for name label
+                    let limitHeight = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
+                    
+                    if height > limitHeight {
+                        height = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
+                    }
+                    
+                    videoNameRect.size = CGSize(width: videoNameWidth, height: height)
+                }
+                
+                // MARK: Calculate videoDetails frame
+                var videoDetailsRect = CGRect(origin: CGPoint(
+                    x: VideoCellConstants.channelIconInsets.left + VideoCellConstants.channelIconSize + VideoCellConstants.videoDetailsInsets.left,
+                    y: videoNameRect.maxY + VideoCellConstants.videoDetailsInsets.top), size: CGSize.zero)
+                
+                var videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
+                
+                var detailsString = "details string bla bla fix me!"
+                
+                if !detailsString.isEmpty {
+                    var height = detailsString.height(width: videoDetailsWidth, font: VideoCellConstants.videoDetailsFont)
+                    
+                    // check limit height for details label
+                    let limitHeight = VideoCellConstants.videoDetailsFont.lineHeight * VideoCellConstants.videoDetailsFontMaxLines
+                    
+                    if height > limitHeight {
+                        height = VideoCellConstants.videoDetailsFont.lineHeight * VideoCellConstants.videoDetailsFontMaxLines
+                    }
+                    
+                    videoDetailsRect.size = CGSize(width: videoNameWidth, height: height)
+                }
+                
+                // MARK: TableView cell height
+//                let tableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize + VideoCellConstants.channelIconInsets.top + VideoCellConstants.channelIconInsets.bottom
+                let tableViewCellHeight: CGFloat = videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom
+                
+                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString, imageFrame: CGRect(x: VideoCellConstants.videoImageInsets.left, y: imageYPos, width: imageWidth, height: imageHeight), tableViewCellHeight: tableViewCellHeight, videoNameFrame: videoNameRect, videoDetailsFrame: videoDetailsRect)
                 
                 searchResults.append(videoModel)
             }

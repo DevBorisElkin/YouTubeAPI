@@ -25,4 +25,7 @@ struct VideoViewModel {
     
     var imageFrame: CGRect
     var tableViewCellHeight: CGFloat
+    
+    var videoNameFrame: CGRect
+    var videoDetailsFrame: CGRect
 }
