@@ -82,6 +82,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         
         guard let text = searchTextField.text, !text.isEmpty else { print("empty search or something else"); return }
         
+        searchTextField.resignFirstResponder()
         presenter?.performSearch(for: text)
     }
 }
@@ -96,6 +97,6 @@ extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return presenter?.tableViewCellHeight() ?? 100
+        return presenter?.tableViewCellHeight(at: indexPath) ?? 100
     }
 }

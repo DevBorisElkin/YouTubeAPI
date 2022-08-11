@@ -6,8 +6,23 @@
 //
 
 import Foundation
+import UIKit
+
+typealias VideoChannelPair = (videoItem: VideoItem, channelInfo: ChannelInfo)
+
+struct VideoIntermediateViewModel {
+    var videoChannelPairs: [VideoChannelPair]
+}
 
 struct VideoViewModel {
-    var videoId: String?
-    var videoName: String
+    var videoId: String? // just in case still keep it here
+    
+    var thumbnailUrl: String
+    var channelImageUrl: String?
+    
+    var videoNameString: String
+    var detailsString: String
+    
+    var imageFrame: CGRect
+    var tableViewCellHeight: CGFloat
 }

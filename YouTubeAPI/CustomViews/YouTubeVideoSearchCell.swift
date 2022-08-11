@@ -16,10 +16,10 @@ class YouTubeVideoSearchCell: UITableViewCell {
     
     // TODO add some UI
     
-    let cardView: UIView = {
+    lazy var cardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 20
+        //view.layer.cornerRadius = 20
         view.backgroundColor = #colorLiteral(red: 0.800581634, green: 0.589300096, blue: 1, alpha: 1)
         
         // shadow setup
@@ -31,12 +31,44 @@ class YouTubeVideoSearchCell: UITableViewCell {
         return view
     }()
     
-    lazy var playerView: YTPlayerView = {
-        var playerView = YTPlayerView()
-        playerView.backgroundColor = .black
-        playerView.translatesAutoresizingMaskIntoConstraints = false
-        return playerView
+    lazy var videoThumbnailImageView: WebImageView = {
+        let imageView = WebImageView()
+        imageView.backgroundColor = .blue
+        
+        //imageView.layer.cornerRadius = 20
+        
+        imageView.layer.masksToBounds = true
+        //imageView.layer.cornerRadius = Constants.repoOwnerAvatarSize / 2
+        
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
+    
+    lazy var videoNamelLbel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.backgroundColor = .brown
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var videoDetailsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.backgroundColor = .brown
+        label.textColor = .black
+        return label
+    }()
+    
+    
+//    lazy var playerView: YTPlayerView = {
+//        var playerView = YTPlayerView()
+//        playerView.backgroundColor = .black
+//        playerView.translatesAutoresizingMaskIntoConstraints = false
+//        return playerView
+//    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -53,18 +85,18 @@ class YouTubeVideoSearchCell: UITableViewCell {
         addSubview(cardView)
         cardView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
         
-        // MARK: playerView
-        contentView.addSubview(playerView)
-        playerView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
+        // MARK: imageHolderView
+        cardView.addSubview(videoThumbnailImageView)
+        
+        // MARK: playerView TODO load only when needed
+//        contentView.addSubview(playerView)
+//        playerView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
     }
     
     func setUp(viewModel: VideoViewModel){
         self.viewModel = viewModel
         
-        if let videoId = viewModel.videoId{
-            playerView.load(withVideoId: videoId)
-        }
+        videoThumbnailImageView.frame = viewModel.imageFrame
+        videoThumbnailImageView.set(imageURL: viewModel.thumbnailUrl)
     }
-    
-    
 }

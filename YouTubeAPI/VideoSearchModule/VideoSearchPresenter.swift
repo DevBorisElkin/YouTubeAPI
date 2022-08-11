@@ -39,8 +39,8 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         // do nothing for now
     }
     
-    func tableViewCellHeight() -> CGFloat {
-        return VideoSearchConstants.tableViewCellHeight
+    func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
+        return searchResults[indexPath.row].tableViewCellHeight
     }
     
     // MARK: Logic related
@@ -59,15 +59,43 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
 }
 
 extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
-    func receivedData(result: Result<SearchResultWrapped, Error>) {
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>) {
         
         switch result {
         case .success(let data):
             print("Successfully received data")
             
-            searchResults = data.items.map({ item in
-                VideoViewModel(videoId: item.id.videoId, videoName: item.snippet.description)
-            })
+            searchResults = []
+            data.videoChannelPairs.forEach { pair in
+                guard pair.videoItem.id.videoId != nil else { return } // filter out everything except videos
+                
+                var aspectRatio: CGFloat = 1
+                let sizeInfo = pair.videoItem.snippet.thumbnails.medium // use medium probably
+                
+                // MARK: calculate image aspect ratio
+                if let width = sizeInfo.width, let height = sizeInfo.height  {
+                    let widthF = CGFloat(width)
+                    let heightF = CGFloat(height)
+                    
+                    aspectRatio = heightF / widthF
+                }
+                
+                // MARK: Calculate image width, height
+                let imageWidth = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.videoImageInsets.left - VideoCellConstants.videoImageInsets.right
+                
+                let imageHeight = imageWidth * aspectRatio
+                
+                let imageYPos: CGFloat = VideoCellConstants.videoImageInsets.top
+                
+                let tableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoImageInsets.bottom
+                
+                var detailsString = "details string"
+                var channelImageUrl = pair.channelInfo.snippet.thumbnails.medium.url
+                
+                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString, imageFrame: CGRect(x: VideoCellConstants.videoImageInsets.left, y: imageYPos, width: imageWidth, height: imageHeight), tableViewCellHeight: tableViewCellHeight)
+                
+                searchResults.append(videoModel)
+            }
             
             DispatchQueue.main.async { [weak self] in
                 self?.view?.onFetchVideosListSuccess()

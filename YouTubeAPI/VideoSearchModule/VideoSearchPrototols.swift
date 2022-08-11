@@ -16,7 +16,7 @@ protocol VideoSearchViewToPresenterProtocol {
     func numberOfRowsInSection() -> Int
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
     func didSelectRowAt(index: Int) // ?
-    func tableViewCellHeight() -> CGFloat
+    func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
     func performSearch(for search: String)
 }
@@ -36,7 +36,7 @@ protocol VideoSearchPresenterToInteractorProtocol {
 }
 
 protocol VideoSearchInteractorToPresenterProtocol {
-    func receivedData(result: Result<SearchResultWrapped, Error>)
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>)
 }
 
 typealias EntryPoint = VideoSearchPresenterToViewProtocol & UIViewController
