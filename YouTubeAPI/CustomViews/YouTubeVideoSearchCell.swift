@@ -118,7 +118,9 @@ class YouTubeVideoSearchCell: UITableViewCell {
         
         channelIconImage.frame.size = CGSize(width: VideoCellConstants.channelIconSize, height: VideoCellConstants.channelIconSize)
         channelIconImage.frame.origin = CGPoint(x: VideoCellConstants.channelIconInsets.left, y: videoThumbnailImageView.frame.maxY + VideoCellConstants.channelIconInsets.top)
-        channelIconImage.set(imageURL: viewModel.channelImageUrl)
+        
+        //channelIconImage.set(imageURL: viewModel.channelImageUrl)
+        channelIconImage.downloadFromUrlString(from: viewModel.channelImageUrl, contentMode: .scaleAspectFit)
         
         videoNamelLabel.text = viewModel.videoNameString
         videoNamelLabel.frame = viewModel.videoNameFrame
