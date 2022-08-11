@@ -32,6 +32,7 @@
 		5236A03928A464B900F9A699 /* TestStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5236A03828A464B900F9A699 /* TestStoryboard.storyboard */; };
 		5236A03B28A5287D00F9A699 /* TextHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A03A28A5287D00F9A699 /* TextHeight.swift */; };
 		5236A05F28A55B4D00F9A699 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A05E28A55B4D00F9A699 /* GradientView.swift */; };
+		5236A06128A58F9700F9A699 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A06028A58F9700F9A699 /* DateHelpers.swift */; };
 		52627B3D28A2C4670041ECEA /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52627B3C28A2C4670041ECEA /* Constraints.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		5236A03828A464B900F9A699 /* TestStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestStoryboard.storyboard; sourceTree = "<group>"; };
 		5236A03A28A5287D00F9A699 /* TextHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHeight.swift; sourceTree = "<group>"; };
 		5236A05E28A55B4D00F9A699 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		5236A06028A58F9700F9A699 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		52627B3C28A2C4670041ECEA /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		7CF8BCA687348D053898C9A3 /* Pods_YouTubeAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouTubeAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF5464F5C55FFFC175C0C6B7 /* Pods-YouTubeAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.release.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				52369FDD28A3130E00F9A699 /* YouTubeHelper.swift */,
 				52369FE028A313E300F9A699 /* NetworkingHelpers.swift */,
 				5236A03A28A5287D00F9A699 /* TextHeight.swift */,
+				5236A06028A58F9700F9A699 /* DateHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				5236A02028A418B700F9A699 /* VideoSearchPresenter.swift in Sources */,
 				5236A02428A418C900F9A699 /* VideoSearchEntity.swift in Sources */,
 				5236A02F28A43FF200F9A699 /* VideoViewModel.swift in Sources */,
+				5236A06128A58F9700F9A699 /* DateHelpers.swift in Sources */,
 				52627B3D28A2C4670041ECEA /* Constraints.swift in Sources */,
 				5236A01E28A4189E00F9A699 /* VideoSearchViewController.swift in Sources */,
 				5236A01C28A4187600F9A699 /* VideoSearchPrototols.swift in Sources */,

@@ -119,7 +119,12 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 var videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
                 
-                var detailsString = "\(pair.videoItem.snippet.channelTitle)"
+                var dateString = DateHelpers.getTimeSincePublication(from: pair.videoItem.snippet.publishTime)
+                print("DateString: \(pair.videoItem.snippet.publishTime)")
+                print("Converted to result: \(dateString)")
+                
+                var detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(dateString)"
+                
                 
                 if !detailsString.isEmpty {
                     var height = detailsString.height(width: videoDetailsWidth, font: VideoCellConstants.videoDetailsFont)
