@@ -80,4 +80,11 @@ public class NetworkingHelpers{
         }
         task.resume()
     }
+    
+    /// Call it from Task{} or Task.detached{}
+    public static func loadDataFromURL<T : Decodable>(from url: URL) async throws -> T {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let decoder = JSONDecoder()
+            return try decoder.decode(T.self, from: data)
+    }
 }
