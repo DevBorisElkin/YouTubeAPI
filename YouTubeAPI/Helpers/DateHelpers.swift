@@ -67,7 +67,7 @@ extension Date {
         if let daysDiff = difference.day, daysDiff > 0 {
             
             if daysDiff.isMultiple(of: 7){
-                let weeksDiff = daysDiff % 7
+                let weeksDiff = daysDiff / 7
                 let result: String = "\(weeksDiff)" + (weeksDiff > 1 ? " weeks ago" : " week ago")
                 return result
             }
