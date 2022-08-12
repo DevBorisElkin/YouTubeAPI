@@ -86,3 +86,26 @@ struct Thumbnails: Decodable {
         case def = "default", medium, high
     }
 }
+
+// MARK: For additional request to get video statistics (views count)
+
+struct StatisticsWrapped: Decodable {
+    var kind: String
+    var etag: String
+    var items: [VideoStatistics]
+    var pageInfo: [String : Int]
+}
+
+struct VideoStatistics: Decodable {
+    var kind: String
+    var etag: String
+    var id: String
+    var statistics: StatisticsMetrics
+}
+
+struct StatisticsMetrics: Decodable {
+    var viewCount: Int?
+    var likeCount: Int?
+    var favoriteCount: Int?
+    var commentCount: Int?
+}

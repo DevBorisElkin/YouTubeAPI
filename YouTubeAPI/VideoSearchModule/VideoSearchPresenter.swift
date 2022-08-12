@@ -123,7 +123,11 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 print("DateString: \(pair.videoItem.snippet.publishTime)")
                 print("Converted to result: \(dateString)")
                 
-                var detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(dateString)"
+                //let viewCount: Int = pair.videoStatistics.statistics.viewCount ?? 0
+                
+                //var viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
+                var viewsCountString: String = "0 views"
+                var detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
                 
                 
                 if !detailsString.isEmpty {

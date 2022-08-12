@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-typealias VideoChannelPair = (videoItem: VideoItem, channelInfo: ChannelInfo)
+typealias VideoChannelPairIncomplete = (videoItem: VideoItem, channelInfo: ChannelInfo)
+typealias VideoChannelPair = (videoItem: VideoItem, channelInfo: ChannelInfo, videoStatistics: VideoStatistics)
 
 struct VideoIntermediateViewModel {
     var videoChannelPairs: [VideoChannelPair]
