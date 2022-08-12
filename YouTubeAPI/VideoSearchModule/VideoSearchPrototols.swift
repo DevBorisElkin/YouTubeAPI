@@ -32,7 +32,7 @@ protocol VideoSearchPresenterToViewProtocol {
 protocol VideoSearchPresenterToInteractorProtocol {
     var presenter: VideoSearchInteractorToPresenterProtocol? { get set }
     
-    func performSearch(for search: String)
+    func performVideoSearch(for search: String)
 }
 
 protocol VideoSearchInteractorToPresenterProtocol {

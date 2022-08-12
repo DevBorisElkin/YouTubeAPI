@@ -54,7 +54,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
             finalSearchString = searchWithSpaces
         }
         var preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
-        interactor?.performSearch(for: preparedSearch)
+        interactor?.performVideoSearch(for: preparedSearch)
     }
 }
 

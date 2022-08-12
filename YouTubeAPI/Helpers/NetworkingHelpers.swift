@@ -81,10 +81,25 @@ public class NetworkingHelpers{
         task.resume()
     }
     
+    // MARK: Better content loading with async await
+    
+    enum NetworkRequestError: Error {
+        case badUrlString
+        case networkRequestFailed
+        case cannotDecodeType
+    }
+    
     /// Call it from Task{} or Task.detached{}
     public static func loadDataFromURL<T : Decodable>(from url: URL) async throws -> T {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decoder = JSONDecoder()
-            return try decoder.decode(T.self, from: data)
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
+    }
+    
+    public static func loadDataFromUrlString<T : Decodable>(from urlString: String) async throws -> T {
+        guard let url = URL(string: urlString) else { throw NetworkRequestError.badUrlString }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
     }
 }
