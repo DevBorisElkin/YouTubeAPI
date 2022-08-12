@@ -104,8 +104,8 @@ struct VideoStatistics: Decodable {
 }
 
 struct StatisticsMetrics: Decodable {
-    var viewCount: Int?
-    var likeCount: Int?
-    var favoriteCount: Int?
-    var commentCount: Int?
+    var viewCount: String?
+    var likeCount: String?
+    var favoriteCount: String?
+    var commentCount: String?
 }

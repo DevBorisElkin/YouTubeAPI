@@ -123,10 +123,9 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 print("DateString: \(pair.videoItem.snippet.publishTime)")
                 print("Converted to result: \(dateString)")
                 
-                //let viewCount: Int = pair.videoStatistics.statistics.viewCount ?? 0
+                let viewCount: Int = Int((pair.videoStatistics.statistics.viewCount ?? "0")) ?? 0
+                var viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
                 
-                //var viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
-                var viewsCountString: String = "0 views"
                 var detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
                 
                 
@@ -144,8 +143,10 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 }
                 
                 // MARK: TableView cell height
-//                let tableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize + VideoCellConstants.channelIconInsets.top + VideoCellConstants.channelIconInsets.bottom
-                let tableViewCellHeight: CGFloat = videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom
+                // in case video name is in one line
+                let minTableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + imageHeight + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize
+                let tableViewCellHeight: CGFloat = max(minTableViewCellHeight,
+                                                       videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom)
                 
                 let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString, imageFrame: CGRect(x: VideoCellConstants.videoImageInsets.left, y: imageYPos, width: imageWidth, height: imageHeight), tableViewCellHeight: tableViewCellHeight, videoNameFrame: videoNameRect, videoDetailsFrame: videoDetailsRect)
                 
