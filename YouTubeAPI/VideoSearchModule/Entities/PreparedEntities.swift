@@ -24,9 +24,12 @@ struct VideoViewModel {
     var videoNameString: String
     var detailsString: String
     
-    var imageFrame: CGRect
-    var tableViewCellHeight: CGFloat
+    var sizes: Sizes
     
-    var videoNameFrame: CGRect
-    var videoDetailsFrame: CGRect
+    struct Sizes {
+        var imageFrame: CGRect
+        var tableViewCellHeight: CGFloat
+        var videoNameFrame: CGRect
+        var videoDetailsFrame: CGRect
+    }
 }

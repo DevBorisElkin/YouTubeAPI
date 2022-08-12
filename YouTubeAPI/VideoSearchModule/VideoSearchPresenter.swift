@@ -40,7 +40,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     }
     
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
-        return searchResults[indexPath.row].tableViewCellHeight
+        return searchResults[indexPath.row].sizes.tableViewCellHeight
     }
     
     // MARK: Logic related
@@ -53,7 +53,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
             }
             finalSearchString = searchWithSpaces
         }
-        var preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
+        let preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
         interactor?.performVideoSearch(for: preparedSearch)
     }
 }
@@ -66,97 +66,35 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
             print("Successfully received data")
             
             searchResults = []
-            data.videoChannelPairs.forEach { pair in
-                guard pair.videoItem.id.videoId != nil else { return } // filter out everything except videos
+            
+            for pair in data.videoChannelPairs {
+                guard pair.videoItem.id.videoId != nil else { continue } // filter out everything except videos
                 
-                var aspectRatio: CGFloat = 1
+                // MARK: for aspect ratio calculation
                 let sizeInfo = pair.videoItem.snippet.thumbnails.medium // use medium probably
+                guard let width = sizeInfo.width, let height = sizeInfo.height else { print("Error calculating sizes"); continue }
                 
-                // MARK: calculate image aspect ratio
-                if let width = sizeInfo.width, let height = sizeInfo.height  {
-                    let widthF = CGFloat(width)
-                    let heightF = CGFloat(height)
-                    
-                    aspectRatio = heightF / widthF
-                }
-                
-                // MARK: Calculate image width, height
-                let imageWidth = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.videoImageInsets.left - VideoCellConstants.videoImageInsets.right
-                
-                let imageHeight = imageWidth * aspectRatio
-                
-                let imageYPos: CGFloat = VideoCellConstants.videoImageInsets.top
-                
+                // MARK: other small data
                 let channelImageUrl = pair.channelInfo.snippet.thumbnails.def.url.replacingOccurrences(of: "https", with: "http")
+                let videoNameText = pair.videoItem.snippet.description
                 
-                // MARK: Calculate videoName frame
-                
-                var videoNameRect = CGRect(origin: CGPoint(
-                    x: VideoCellConstants.channelIconInsets.left + VideoCellConstants.channelIconSize + VideoCellConstants.videoNameInsets.left,
-                    y: VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoNameInsets.top), size: CGSize.zero)
-                
-                var videoNameWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
-                
-                var videoNameText = pair.videoItem.snippet.description
-                
-                if !videoNameText.isEmpty {
-                    var height = videoNameText.height(width: videoNameWidth, font: VideoCellConstants.videoNameFont)
-                    
-                    // check limit height for name label
-                    let limitHeight = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
-                    
-                    if height > limitHeight {
-                        height = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
-                    }
-                    
-                    videoNameRect.size = CGSize(width: videoNameWidth, height: height)
-                }
-                
-                // MARK: Calculate videoDetails frame
-                var videoDetailsRect = CGRect(origin: CGPoint(
-                    x: VideoCellConstants.channelIconInsets.left + VideoCellConstants.channelIconSize + VideoCellConstants.videoDetailsInsets.left,
-                    y: videoNameRect.maxY + VideoCellConstants.videoDetailsInsets.top), size: CGSize.zero)
-                
-                var videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
-                
-                var dateString = DateHelpers.getTimeSincePublication(from: pair.videoItem.snippet.publishTime)
-                print("DateString: \(pair.videoItem.snippet.publishTime)")
-                print("Converted to result: \(dateString)")
-                
+                // MARK: Details String
+                let dateString = DateHelpers.getTimeSincePublication(from: pair.videoItem.snippet.publishTime)
                 let viewCount: Int = Int((pair.videoStatistics.statistics.viewCount ?? "0")) ?? 0
-                var viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
+                let viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
+                let detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
                 
-                var detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
+                // MARK: Calculate Sizes with data provided
+                let cellSizes = YouTubeVideoSearchCellLayoutCalculator.calculateYTCellSizes(imageWidth: CGFloat(width), imageHeight: CGFloat(height), videoNameText: videoNameText, detailsString: detailsString)
                 
-                
-                if !detailsString.isEmpty {
-                    var height = detailsString.height(width: videoDetailsWidth, font: VideoCellConstants.videoDetailsFont)
-                    
-                    // check limit height for details label
-                    let limitHeight = VideoCellConstants.videoDetailsFont.lineHeight * VideoCellConstants.videoDetailsFontMaxLines
-                    
-                    if height > limitHeight {
-                        height = VideoCellConstants.videoDetailsFont.lineHeight * VideoCellConstants.videoDetailsFontMaxLines
-                    }
-                    
-                    videoDetailsRect.size = CGSize(width: videoNameWidth, height: height)
-                }
-                
-                // MARK: TableView cell height
-                // in case video name is in one line
-                let minTableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + imageHeight + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize
-                let tableViewCellHeight: CGFloat = max(minTableViewCellHeight,
-                                                       videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom)
-                
-                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString, imageFrame: CGRect(x: VideoCellConstants.videoImageInsets.left, y: imageYPos, width: imageWidth, height: imageHeight), tableViewCellHeight: tableViewCellHeight, videoNameFrame: videoNameRect, videoDetailsFrame: videoDetailsRect)
-                
+                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString,
+                                               sizes: cellSizes)
                 searchResults.append(videoModel)
             }
             
             DispatchQueue.main.async { [weak self] in
                 self?.view?.onFetchVideosListSuccess()
             }
-            
             
         case .failure(let error):
             print("Error receiving data: \(error)")

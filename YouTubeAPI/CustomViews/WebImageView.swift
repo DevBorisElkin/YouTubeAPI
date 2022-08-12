@@ -11,16 +11,16 @@ class WebImageView: UIImageView {
         
         guard let imageURL = imageURL, let url = URL(string: imageURL) else {
             self.image = nil
-            print("couldn't convert url string to URL \(imageURL)")
+            //print("couldn't convert url string to URL \(imageURL)")
             return }
         
         if cacheAndRetrieveImage, let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)){
             self.image = UIImage(data: cachedResponse.data)
-            print("load image from cache \(imageURL)")
+            //print("load image from cache \(imageURL)")
             return
         }
         
-        print("load image from internet: \(imageURL)")
+        //print("load image from internet: \(imageURL)")
         
         let dataTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             

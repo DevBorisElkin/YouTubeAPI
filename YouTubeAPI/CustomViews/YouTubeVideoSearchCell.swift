@@ -119,7 +119,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
     func setUp(viewModel: VideoViewModel){
         self.viewModel = viewModel
         
-        videoThumbnailImageView.frame = viewModel.imageFrame
+        videoThumbnailImageView.frame = viewModel.sizes.imageFrame
         videoThumbnailImageView.set(imageURL: viewModel.thumbnailUrl)
         
         channelIconImage.frame.size = CGSize(width: VideoCellConstants.channelIconSize, height: VideoCellConstants.channelIconSize)
@@ -128,10 +128,10 @@ class YouTubeVideoSearchCell: UITableViewCell {
         channelIconImage.set(imageURL: viewModel.channelImageUrl)
         
         videoNamelLabel.text = viewModel.videoNameString
-        videoNamelLabel.frame = viewModel.videoNameFrame
+        videoNamelLabel.frame = viewModel.sizes.videoNameFrame
         
         videoDetailsLabel.text = viewModel.detailsString
-        videoDetailsLabel.frame = viewModel.videoDetailsFrame
+        videoDetailsLabel.frame = viewModel.sizes.videoDetailsFrame
         
     }
 }

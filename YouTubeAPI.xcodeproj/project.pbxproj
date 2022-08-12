@@ -21,11 +21,11 @@
 		5236A01E28A4189E00F9A699 /* VideoSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A01D28A4189E00F9A699 /* VideoSearchViewController.swift */; };
 		5236A02028A418B700F9A699 /* VideoSearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A01F28A418B700F9A699 /* VideoSearchPresenter.swift */; };
 		5236A02228A418BF00F9A699 /* VideoSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02128A418BF00F9A699 /* VideoSearchInteractor.swift */; };
-		5236A02428A418C900F9A699 /* VideoSearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02328A418C900F9A699 /* VideoSearchEntity.swift */; };
+		5236A02428A418C900F9A699 /* NetworkEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02328A418C900F9A699 /* NetworkEntities.swift */; };
 		5236A02628A418D800F9A699 /* VideoSearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02528A418D800F9A699 /* VideoSearchRouter.swift */; };
 		5236A02828A42A6C00F9A699 /* VideoSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02728A42A6C00F9A699 /* VideoSearchConstants.swift */; };
 		5236A02B28A4313400F9A699 /* YouTubeVideoSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02A28A4313400F9A699 /* YouTubeVideoSearchCell.swift */; };
-		5236A02F28A43FF200F9A699 /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02E28A43FF200F9A699 /* VideoViewModel.swift */; };
+		5236A02F28A43FF200F9A699 /* PreparedEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A02E28A43FF200F9A699 /* PreparedEntities.swift */; };
 		5236A03228A4462E00F9A699 /* VideoCellConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A03128A4462E00F9A699 /* VideoCellConstants.swift */; };
 		5236A03428A44DE500F9A699 /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A03328A44DE500F9A699 /* WebImageView.swift */; };
 		5236A03628A455A300F9A699 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A03528A455A300F9A699 /* AppConstants.swift */; };
@@ -34,6 +34,7 @@
 		5236A05F28A55B4D00F9A699 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A05E28A55B4D00F9A699 /* GradientView.swift */; };
 		5236A06128A58F9700F9A699 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A06028A58F9700F9A699 /* DateHelpers.swift */; };
 		5236A06328A5CC4200F9A699 /* RoundedInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A06228A5CC4200F9A699 /* RoundedInt.swift */; };
+		5236A06528A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */; };
 		52627B3D28A2C4670041ECEA /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52627B3C28A2C4670041ECEA /* Constraints.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,11 +54,11 @@
 		5236A01D28A4189E00F9A699 /* VideoSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchViewController.swift; sourceTree = "<group>"; };
 		5236A01F28A418B700F9A699 /* VideoSearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchPresenter.swift; sourceTree = "<group>"; };
 		5236A02128A418BF00F9A699 /* VideoSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchInteractor.swift; sourceTree = "<group>"; };
-		5236A02328A418C900F9A699 /* VideoSearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchEntity.swift; sourceTree = "<group>"; };
+		5236A02328A418C900F9A699 /* NetworkEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEntities.swift; sourceTree = "<group>"; };
 		5236A02528A418D800F9A699 /* VideoSearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchRouter.swift; sourceTree = "<group>"; };
 		5236A02728A42A6C00F9A699 /* VideoSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchConstants.swift; sourceTree = "<group>"; };
 		5236A02A28A4313400F9A699 /* YouTubeVideoSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeVideoSearchCell.swift; sourceTree = "<group>"; };
-		5236A02E28A43FF200F9A699 /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
+		5236A02E28A43FF200F9A699 /* PreparedEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparedEntities.swift; sourceTree = "<group>"; };
 		5236A03128A4462E00F9A699 /* VideoCellConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCellConstants.swift; sourceTree = "<group>"; };
 		5236A03328A44DE500F9A699 /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		5236A03528A455A300F9A699 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 		5236A05E28A55B4D00F9A699 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		5236A06028A58F9700F9A699 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		5236A06228A5CC4200F9A699 /* RoundedInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedInt.swift; sourceTree = "<group>"; };
+		5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeVideoSearchCellLayoutCalculator.swift; sourceTree = "<group>"; };
 		52627B3C28A2C4670041ECEA /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		7CF8BCA687348D053898C9A3 /* Pods_YouTubeAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouTubeAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF5464F5C55FFFC175C0C6B7 /* Pods-YouTubeAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.release.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,9 +147,8 @@
 				5236A01D28A4189E00F9A699 /* VideoSearchViewController.swift */,
 				5236A01F28A418B700F9A699 /* VideoSearchPresenter.swift */,
 				5236A02128A418BF00F9A699 /* VideoSearchInteractor.swift */,
-				5236A02328A418C900F9A699 /* VideoSearchEntity.swift */,
 				5236A02528A418D800F9A699 /* VideoSearchRouter.swift */,
-				5236A02D28A43FD600F9A699 /* ViewModels */,
+				5236A02D28A43FD600F9A699 /* Entities */,
 			);
 			path = VideoSearchModule;
 			sourceTree = "<group>";
@@ -162,12 +163,13 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
-		5236A02D28A43FD600F9A699 /* ViewModels */ = {
+		5236A02D28A43FD600F9A699 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				5236A02E28A43FF200F9A699 /* VideoViewModel.swift */,
+				5236A02328A418C900F9A699 /* NetworkEntities.swift */,
+				5236A02E28A43FF200F9A699 /* PreparedEntities.swift */,
 			);
-			path = ViewModels;
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		5236A03028A4461400F9A699 /* Constants */ = {
@@ -197,6 +199,7 @@
 				5236A03A28A5287D00F9A699 /* TextHeight.swift */,
 				5236A06028A58F9700F9A699 /* DateHelpers.swift */,
 				5236A06228A5CC4200F9A699 /* RoundedInt.swift */,
+				5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -337,9 +340,10 @@
 				5236A02B28A4313400F9A699 /* YouTubeVideoSearchCell.swift in Sources */,
 				5236A05F28A55B4D00F9A699 /* GradientView.swift in Sources */,
 				52369FDC28A312E500F9A699 /* SearchViewController.swift in Sources */,
+				5236A06528A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift in Sources */,
 				5236A02028A418B700F9A699 /* VideoSearchPresenter.swift in Sources */,
-				5236A02428A418C900F9A699 /* VideoSearchEntity.swift in Sources */,
-				5236A02F28A43FF200F9A699 /* VideoViewModel.swift in Sources */,
+				5236A02428A418C900F9A699 /* NetworkEntities.swift in Sources */,
+				5236A02F28A43FF200F9A699 /* PreparedEntities.swift in Sources */,
 				5236A06128A58F9700F9A699 /* DateHelpers.swift in Sources */,
 				52627B3D28A2C4670041ECEA /* Constraints.swift in Sources */,
 				5236A01E28A4189E00F9A699 /* VideoSearchViewController.swift in Sources */,
