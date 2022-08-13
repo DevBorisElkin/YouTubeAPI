@@ -23,10 +23,10 @@ class YouTubeVideoSearchCell: UITableViewCell {
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         // shadow setup
-        view.layer.shadowColor = #colorLiteral(red: 0.09200996906, green: 0.08846413344, blue: 0.1079702899, alpha: 1)
-        view.layer.shadowRadius = 3
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowOffset = CGSize(width: 5, height: 10)
+        //view.layer.shadowColor = #colorLiteral(red: 0.09200996906, green: 0.08846413344, blue: 0.1079702899, alpha: 1)
+        //view.layer.shadowRadius = 3
+        //view.layer.shadowOpacity = 0.2
+        //view.layer.shadowOffset = CGSize(width: 5, height: 10)
         
         return view
     }()

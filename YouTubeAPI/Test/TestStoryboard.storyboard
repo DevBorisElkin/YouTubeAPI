@@ -17,17 +17,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="horse" translatesAutoresizingMaskIntoConstraints="NO" id="OaL-pj-7SM">
-                                <rect key="frame" x="31" y="296" width="326" height="293"/>
+                                <rect key="frame" x="31" y="323" width="273" height="266"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAM-M7-lEJ">
+                                <rect key="frame" x="93" y="144" width="226" height="51"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dAM-M7-lEJ" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" constant="-1" id="0Xt-T2-H4d"/>
+                            <constraint firstItem="dAM-M7-lEJ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="M4k-2q-ycg"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50.724637681159422" y="51.5625"/>
+            <point key="canvasLocation" x="-133.33333333333334" y="42.857142857142854"/>
         </scene>
     </scenes>
     <resources>

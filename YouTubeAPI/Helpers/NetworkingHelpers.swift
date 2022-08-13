@@ -102,4 +102,18 @@ public class NetworkingHelpers{
         let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
     }
+    
+//    public static func loadDataFromUrlString<T : Decodable>(from urlString: String) async throws -> Result<T, Error> {
+//        guard let url = URL(string: urlString) else { throw NetworkRequestError.badUrlString }
+//
+//        do {
+//
+//        } catch {
+//            return .failure(error)
+//        }
+//
+//        let (data, _) = try await URLSession.shared.data(from: url)
+//        let decoder = JSONDecoder()
+//        return try decoder.decode(T.self, from: data)
+//    }
 }
