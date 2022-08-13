@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
-    var view: VideoSearchPresenterToViewProtocol?
+    weak var view: VideoSearchPresenterToViewProtocol?
     var interactor: VideoSearchPresenterToInteractorProtocol?
     var router: VideoSearchPresenterToRouterProtocol?
     
@@ -31,6 +31,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: YouTubeVideoSearchCell.reuseId, for: indexPath) as! YouTubeVideoSearchCell
+        cell.presenter = self
         cell.setUp(viewModel: searchResults[indexPath.row])
         return cell
     }
@@ -55,6 +56,15 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         }
         let preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
         interactor?.performVideoSearch(for: preparedSearch)
+    }
+}
+
+extension VideoSearchPresenter: VideoSearchVideoCellToPresenterProtocol {
+    func requestedToOpenVideo(with viewModel: VideoViewModel) {
+        print("presenter: requested to open video")
+        
+        // here I could go to interactor and request more data, but for now would be enough just to move to new VC with existing data
+        router?.pushToVideoPlayer(on: view, with: viewModel)
     }
 }
 
@@ -101,6 +111,4 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
         }
         
     }
-    
-    
 }

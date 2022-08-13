@@ -9,7 +9,7 @@ import Foundation
 
 class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
     
-    var presenter: VideoSearchInteractorToPresenterProtocol?
+    weak var presenter: VideoSearchInteractorToPresenterProtocol?
     
     func performVideoSearch(for search: String) {
         

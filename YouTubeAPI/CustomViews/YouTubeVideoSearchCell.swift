@@ -12,6 +12,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
 
     static let reuseId = "YouTubeVideoSearchCell"
     
+    var presenter: VideoSearchVideoCellToPresenterProtocol?
     var viewModel: VideoViewModel?
     
     // TODO add some UI
@@ -73,13 +74,12 @@ class YouTubeVideoSearchCell: UITableViewCell {
         return label
     }()
     
-    
-//    lazy var playerView: YTPlayerView = {
-//        var playerView = YTPlayerView()
-//        playerView.backgroundColor = .black
-//        playerView.translatesAutoresizingMaskIntoConstraints = false
-//        return playerView
-//    }()
+    lazy var openVideoButton: UIButton = {
+        let button = UIButton()
+        //button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .clear
+        return button
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -114,6 +114,11 @@ class YouTubeVideoSearchCell: UITableViewCell {
         // MARK: playerView TODO load only when needed
 //        contentView.addSubview(playerView)
 //        playerView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
+        
+        contentView.addSubview(openVideoButton)
+        openVideoButton.addTarget(self, action: #selector(openVideoButtonPressed(_:)), for: .touchUpInside)
+        
+        // todo videoButtonConstraints
     }
     
     func setUp(viewModel: VideoViewModel){
@@ -133,5 +138,16 @@ class YouTubeVideoSearchCell: UITableViewCell {
         videoDetailsLabel.text = viewModel.detailsString
         videoDetailsLabel.frame = viewModel.sizes.videoDetailsFrame
         
+        // video button position
+        openVideoButton.frame = viewModel.sizes.imageFrame
+    }
+    
+    @objc private func openVideoButtonPressed(_ sender: Any){
+        print("Open video button pressed")
+        guard let viewModel = viewModel, let presenter = presenter else {
+            print("Button doesn't have presenter or data")
+            return
+        }
+        presenter.requestedToOpenVideo(with: viewModel)
     }
 }

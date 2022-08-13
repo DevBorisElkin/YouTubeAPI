@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-protocol VideoSearchViewToPresenterProtocol {
+protocol VideoSearchViewToPresenterProtocol: AnyObject {
     var view: VideoSearchPresenterToViewProtocol? { get set }
     var interactor: VideoSearchPresenterToInteractorProtocol? { get set }
     var router: VideoSearchPresenterToRouterProtocol? { get set }
@@ -21,7 +21,11 @@ protocol VideoSearchViewToPresenterProtocol {
     func performSearch(for search: String)
 }
 
-protocol VideoSearchPresenterToViewProtocol {
+protocol VideoSearchVideoCellToPresenterProtocol: AnyObject {
+    func requestedToOpenVideo(with viewModel: VideoViewModel)
+}
+
+protocol VideoSearchPresenterToViewProtocol: AnyObject  {
     var presenter: VideoSearchViewToPresenterProtocol? { get set }
     func onFetchVideosListSuccess()
     func onFetchVideosListFail()
@@ -29,20 +33,22 @@ protocol VideoSearchPresenterToViewProtocol {
     func hideActivity() // ?
 }
 
-protocol VideoSearchPresenterToInteractorProtocol {
+protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
     var presenter: VideoSearchInteractorToPresenterProtocol? { get set }
     
     func performVideoSearch(for search: String)
 }
 
-protocol VideoSearchInteractorToPresenterProtocol {
+protocol VideoSearchInteractorToPresenterProtocol: AnyObject  {
     func receivedData(result: Result<VideoIntermediateViewModel, Error>)
 }
 
 typealias EntryPoint = VideoSearchPresenterToViewProtocol & UIViewController
 
-protocol VideoSearchPresenterToRouterProtocol {
+protocol VideoSearchPresenterToRouterProtocol: AnyObject  {
     var entry: EntryPoint? { get }
     
     static func start() -> VideoSearchPresenterToRouterProtocol
+    
+    func pushToVideoPlayer(on view: VideoSearchPresenterToViewProtocol?, with videoModel: VideoViewModel)
 }

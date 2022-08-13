@@ -31,4 +31,10 @@ class VideoSearchRouter: VideoSearchPresenterToRouterProtocol {
         
         return router
     }
+    
+    func pushToVideoPlayer(on view: VideoSearchPresenterToViewProtocol?, with videoModel: VideoViewModel) {
+        if let videoPlayerViewController = VideoPlayerRouter.createModule(with: videoModel), let viewController = view as? VideoSearchViewController {
+            viewController.navigationController?.pushViewController(videoPlayerViewController, animated: true)
+        }
+    }
 }
