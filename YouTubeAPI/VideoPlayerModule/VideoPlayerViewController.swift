@@ -23,38 +23,20 @@ class VideoPlayerViewController: UIViewController, VideoPlayerPresenterToViewPro
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        view.addSubview(playerView)
-        
-        playerView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
-        
-        
-        
         presenter?.viewDidLoad()
     }
     
     func videoToShowDataReceived(videoToShow: VideoToShow) {
-        print("playerView.load")
+        preparePlayer(playerHeight: videoToShow.playerFrame.height, videoId: videoToShow.videoId)
+    }
+    
+    private func preparePlayer(playerHeight: CGFloat, videoId: String){
+        view.addSubview(playerView)
+        playerView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        playerView.heightAnchor.constraint(equalToConstant: playerHeight).isActive = true
         
-        
-        //playerView.frame = videoToShow.playerFrame
-        
-        //playerView.frame.size = videoToShow.playerFrame.size
-        //playerView.frame.origin = CGPoint(x: videoToShow.playerFrame.minX,
-        //                                  y: safeAreaTopView.frame.maxY + videoToShow.playerFrame.height)
-        
-//        playerView.frame.size = videoToShow.playerFrame.size
-//        playerView.frame.origin = CGPoint(x: videoToShow.playerFrame.minX,
-//                                          y: view.layoutMarginsGuide.layoutFrame.minY)
-        
-//        playerView.frame.size = videoToShow.playerFrame.size
-//        playerView.frame.origin = CGPoint(x: videoToShow.playerFrame.minX,
-//                                          y: view.layoutMarginsGuide.layoutFrame.origin.y)
-//        print("view.layoutMarginsGuide.layoutFrame.minY: \(view.layoutMarginsGuide.layoutFrame.minY)")
-//        print("view.layoutMarginsGuide.layoutFrame.origin.y: \(view.layoutMarginsGuide.layoutFrame.origin.y)")
-        
-        playerView.frame.size = videoToShow.playerFrame.size
-        playerView.frame.origin = CGPoint(x: videoToShow.playerFrame.origin.x, y: playerView.frame.origin.y)
-        playerView.load(withVideoId: videoToShow.videoId)
+        playerView.load(withVideoId: videoId)
     }
 }
