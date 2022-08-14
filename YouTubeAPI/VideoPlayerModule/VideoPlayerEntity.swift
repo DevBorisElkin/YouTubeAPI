@@ -10,5 +10,5 @@ import UIKit
 
 struct VideoToShow {
     var videoId: String
-    var playerFrame: CGRect
+    var playerHeight: CGFloat
 }

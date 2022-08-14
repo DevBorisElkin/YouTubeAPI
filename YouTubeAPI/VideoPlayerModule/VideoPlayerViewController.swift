@@ -12,7 +12,7 @@ import youtube_ios_player_helper
 class VideoPlayerViewController: UIViewController, VideoPlayerPresenterToViewProtocol {
     var presenter: VideoPlayerViewIntoPresenterProtocol?
     
-    lazy var playerView: YTPlayerView = {
+    var playerView: YTPlayerView = {
         var playerView = YTPlayerView()
         playerView.backgroundColor = .black
         playerView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +27,7 @@ class VideoPlayerViewController: UIViewController, VideoPlayerPresenterToViewPro
     }
     
     func videoToShowDataReceived(videoToShow: VideoToShow) {
-        preparePlayer(playerHeight: videoToShow.playerFrame.height, videoId: videoToShow.videoId)
+        preparePlayer(playerHeight: videoToShow.playerHeight, videoId: videoToShow.videoId)
     }
     
     private func preparePlayer(playerHeight: CGFloat, videoId: String){

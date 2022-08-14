@@ -73,10 +73,11 @@ class YouTubeVideoSearchCellLayoutCalculator {
                                     videoDetailsFrame: videoDetailsRect)
     }
     
-    static func calculateVideoPlayerFrame(thumbnailSize: CGSize) -> CGRect {
+    // TODO: rename and return only height
+    static func calculateVideoPlayerHeight(thumbnailSize: CGSize) -> CGFloat {
         let aspectRatio: CGFloat = thumbnailSize.height / thumbnailSize.width
         let imageWidth = AppConstants.screenWidth
         let imageHeight = imageWidth * aspectRatio
-        return CGRect(origin: .zero, size: CGSize(width: imageWidth, height: imageHeight))
+        return imageHeight
     }
 }
