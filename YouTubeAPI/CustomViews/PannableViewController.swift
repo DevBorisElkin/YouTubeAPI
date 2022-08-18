@@ -4,6 +4,7 @@ class PannableViewController: UIViewController {
     private var viewsOriginalTransform: CGAffineTransform!
     private var originalPosition: CGPoint?
     private var viewHeight: CGFloat!
+    private var initialCornerRadius: CGFloat!
     private var panGestureRecognizer: UIPanGestureRecognizer?
     private let initialScale: CGFloat = 1
     
@@ -17,10 +18,14 @@ class PannableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("PannableViewController.viewDidLoad()")
+        
+        // Don't forget to set correct presentation style
+        //referenceToThisVC.modalPresentationStyle = .overCurrentContext
+        
         viewsOriginalTransform = view.transform
         originalPosition = view.center
         viewHeight = view.bounds.size.height
+        initialCornerRadius = view.layer.cornerRadius
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         view.addGestureRecognizer(panGestureRecognizer!)
     }
@@ -55,9 +60,9 @@ class PannableViewController: UIViewController {
     /// example how to set up
     func configureWithOptimalValues(){
         configureAnimationValues(panPercentageToDismiss: 0.2,
-                                  minVelocityToDismiss: nil,
-                                  scaleSetting: ScaleSetting(scaleStrength: CGPoint(x: 0.5, y: 0.5), targetPanPercentageForMaxResult: CGPoint(x: 0.15, y: 0.15)),
-                                  cornerRadiusSetting: CornerRadiusSetting(maxCornerRadius: 15, panPercentageForMaxResult: 0.15))
+                                  minVelocityToDismiss: 1500,
+                                  scaleSetting: ScaleSetting(scaleStrength: CGPoint(x: 0.6, y: 0.6), targetPanPercentageForMaxResult: CGPoint(x: 0.07, y: 0.07)),
+                                  cornerRadiusSetting: CornerRadiusSetting(maxCornerRadius: 15, panPercentageForMaxResult: 0.07))
     }
     
     @objc private func panGestureAction(_ panGesture: UIPanGestureRecognizer) {
@@ -110,6 +115,7 @@ class PannableViewController: UIViewController {
         UIView.animate(withDuration: closeAnimationTime, animations: {
             self.view.center = self.originalPosition!
             self.view.transform = self.viewsOriginalTransform
+            self.view.layer.cornerRadius = self.initialCornerRadius
         })
     }
     

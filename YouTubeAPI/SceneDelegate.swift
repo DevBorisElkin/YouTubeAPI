@@ -20,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         var window = UIWindow(windowScene: windowScene)
         self.window = window
+        AppConstants.initializePaddings(window: window)
         
         let userRouter = VideoSearchRouter.start()
         let initialVC = userRouter.entry!

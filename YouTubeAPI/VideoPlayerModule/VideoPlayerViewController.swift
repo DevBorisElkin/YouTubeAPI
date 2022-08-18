@@ -15,7 +15,7 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     var holderView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .purple
+        view.backgroundColor = .white
         return view
     }()
     
@@ -28,7 +28,6 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     
     lazy var videoNamelLabel: UILabel = {
         let label = UILabel()
-        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .clear
         label.textColor = VideoPlayerConstants.videoNameFontColor
@@ -38,12 +37,18 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     
     lazy var videoDetailsLabel: UILabel = {
         let label = UILabel()
-        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .clear
         label.textColor = VideoPlayerConstants.videoDetailsFontColor
         label.font = VideoPlayerConstants.videoDetailsFont
         return label
+    }()
+    
+    lazy var channelInfoView: ChannelInfoView = {
+        let view = ChannelInfoView()
+        view.backgroundColor = .white
+        //view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -63,8 +68,12 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     
     private func preparePlayer(videoToShow: VideoToShow){
         
+        // holder view
         view.addSubview(holderView)
-        holderView.anchor(top: view.layoutMarginsGuide.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        holderView.topAnchor.constraint(equalTo: view.topAnchor, constant: AppConstants.safeAreaPadding.top).isActive = true
+        holderView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        holderView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        holderView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         // Player view
         holderView.addSubview(playerView)
@@ -84,5 +93,10 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
         holderView.addSubview(videoDetailsLabel)
         videoDetailsLabel.frame = videoToShow.sizes.videoDetailsFrame
         videoDetailsLabel.text = videoToShow.videoDetails.videoDetailsViewsDatePrepared
+        
+        // Channel info view
+        holderView.addSubview(channelInfoView)
+        channelInfoView.frame = videoToShow.sizes.channelInfoFrame
+        channelInfoView.setUp(viewModel: videoToShow.channelInfoViewModel)
     }
 }

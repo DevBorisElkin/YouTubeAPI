@@ -59,6 +59,12 @@ class YouTubeVideoCellLayoutCalculator {
             videoDetailsRect.size = CGSize(width: videoNameWidth, height: height)
         }
         
-        return VideoToShow.Sizes(playerHeight: playerHeight, videoNameFrame: videoNameRect, videoDetailsFrame: videoDetailsRect)
+        // MARK: channel info frame
+        let channelInfoFrame = CGRect(x: VideoPlayerConstants.channelInfoPanelInsets.left,
+                                      y: VideoPlayerConstants.channelInfoPanelInsets.top + videoDetailsRect.maxY,
+                                      width: AppConstants.screenWidth - VideoPlayerConstants.channelInfoPanelInsets.left - VideoPlayerConstants.channelInfoPanelInsets.right,
+                                      height: VideoPlayerConstants.channelIconSize + VideoPlayerConstants.channelIconInsets.top + VideoPlayerConstants.channelIconInsets.bottom)
+        
+        return VideoToShow.Sizes(playerHeight: playerHeight, videoNameFrame: videoNameRect, videoDetailsFrame: videoDetailsRect, channelInfoFrame: channelInfoFrame)
     }
 }

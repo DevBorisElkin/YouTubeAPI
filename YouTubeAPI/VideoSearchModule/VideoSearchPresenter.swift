@@ -101,7 +101,7 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 
                 let channelSubsCount: Int = Int(pair.channelInfo.statistics.subscriberCount) ?? 0
                 
-                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: channelSubsCount.roundedWithAbbreviations, videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0")
+                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0")
                 
                 // MARK: Final ViewModel:
                 let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString,

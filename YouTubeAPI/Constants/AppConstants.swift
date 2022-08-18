@@ -10,4 +10,10 @@ import UIKit
 
 class AppConstants {
     static var screenWidth: CGFloat = UIScreen.main.bounds.width
+    
+    static var safeAreaPadding: UIEdgeInsets = UIEdgeInsets.zero
+    
+    static func initializePaddings(window: UIWindow){
+        safeAreaPadding = window.safeAreaInsets
+    }
 }

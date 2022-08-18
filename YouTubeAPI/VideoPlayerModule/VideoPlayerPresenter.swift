@@ -29,6 +29,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         
         let videoToShow = VideoToShow(videoId: videoModel.videoId!,
                                       videoDetails: videoModel.videoDetails,
+                                      channelInfoViewModel: ChannelInfoViewModel(channelName: videoModel.videoDetails.channelName, subscribersCount: videoModel.videoDetails.channelSubscribersCount, channelIconUrlString: videoModel.channelImageUrl!),
                                       sizes: sizes)
         
         view?.videoToShowDataReceived(videoToShow: videoToShow)
