@@ -16,7 +16,16 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
         Task.detached(priority: .medium) {
             
             // MARK: LOAD VIDEOS
-            let videosData: SearchResultWrapped? = try? await NetworkingHelpers.loadDataFromUrlString(from: search)
+            let videosData: SearchResultWrapped?
+            let resultVideosData: Result<SearchResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: search, printJSON: true)
+            
+            switch resultVideosData {
+            case .success(let data):
+                videosData = data
+            case .failure(let error):
+                print(error)
+                return
+            }
             guard let videosData = videosData else { print("search failed"); return }
             
             // MARK: PREPARE CHANNEL IDS STRING
@@ -27,7 +36,17 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             }
             
             // MARK: LOAD CHANNELS DATA
-            let channelsData: ChannelResultWrapped? = try? await NetworkingHelpers.loadDataFromURL(from: channelsRequestUrl)
+            let channelsData: ChannelResultWrapped?
+            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJSON: true)
+            
+            switch resultChannelData {
+            case .success(let data):
+                channelsData = data
+            case .failure(let error):
+                print(error)
+                return
+            }
+            
             guard let channelsData = channelsData else { print("channel request failed"); return }
 
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL
@@ -48,7 +67,17 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             }
             
             // MARK: LOAD VIDEOS STATS
-            let statisticsData: StatisticsWrapped? = try? await NetworkingHelpers.loadDataFromURL(from: statisticsUrl)
+            let statisticsData: StatisticsWrapped?
+            let resultStatisticsData: Result<StatisticsWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: statisticsUrl, printJSON: true)
+            
+            switch resultStatisticsData {
+            case .success(let data):
+                statisticsData = data
+            case .failure(let error):
+                print(error)
+                return
+            }
+            
             guard let statisticsData = statisticsData else { print("failed getting video statistics"); return }
             
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL-VIDEO_DETAILS

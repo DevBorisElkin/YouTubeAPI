@@ -87,10 +87,11 @@ public class NetworkingHelpers{
         case badUrlString
         case networkRequestFailed
         case cannotDecodeType
+        case timedOut
     }
     
     /// Call it from Task{} or Task.detached{}
-    public static func loadDataFromURL<T : Decodable>(from url: URL) async throws -> T {
+    public static func loadDataFromUrl<T : Decodable>(from url: URL) async throws -> T {
         let (data, _) = try await URLSession.shared.data(from: url)
         let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
@@ -103,17 +104,36 @@ public class NetworkingHelpers{
         return try decoder.decode(T.self, from: data)
     }
     
-//    public static func loadDataFromUrlString<T : Decodable>(from urlString: String) async throws -> Result<T, Error> {
-//        guard let url = URL(string: urlString) else { throw NetworkRequestError.badUrlString }
-//
-//        do {
-//
-//        } catch {
-//            return .failure(error)
-//        }
-//
-//        let (data, _) = try await URLSession.shared.data(from: url)
-//        let decoder = JSONDecoder()
-//        return try decoder.decode(T.self, from: data)
-//    }
+    public static func loadDataFromUrl<T : Decodable>(from url: URL, printJSON: Bool = false) async -> Result<T, Error> {
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            if printJSON, let json = try? JSONSerialization.jsonObject(with: data, options: []){
+                print("-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            }
+            
+            let result = try JSONDecoder().decode(T.self, from: data)
+            return .success(result)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    public static func loadDataFromUrlString<T : Decodable>(from urlString: String, printJSON: Bool = false) async -> Result<T, Error> {
+        guard let url = URL(string: urlString) else { return .failure(NetworkRequestError.badUrlString) }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            if printJSON, let json = try? JSONSerialization.jsonObject(with: data, options: []){
+                print("-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            }
+            
+            let result = try JSONDecoder().decode(T.self, from: data)
+            return .success(result)
+        } catch {
+            return .failure(error)
+        }
+    }
 }

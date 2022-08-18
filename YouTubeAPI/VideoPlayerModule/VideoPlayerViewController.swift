@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import youtube_ios_player_helper
 
-class VideoPlayerViewController: UIViewController, VideoPlayerPresenterToViewProtocol {
+class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToViewProtocol {
     var presenter: VideoPlayerViewIntoPresenterProtocol?
     
     var playerView: YTPlayerView = {
@@ -22,6 +22,10 @@ class VideoPlayerViewController: UIViewController, VideoPlayerPresenterToViewPro
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureAnimationValues(panPercentageToDismiss: 0.2,
+                                  minVelocityToDismiss: nil,
+                                  scaleSetting: ScaleSetting(scaleStrength: CGPoint(x: 0.2, y: 0.2), targetPanPercentageForMaxResult: CGPoint(x: 0.15, y: 0.15)),
+                                  cornerRadiusSetting: CornerRadiusSetting(maxCornerRadius: 15, panPercentageForMaxResult: 0.15))
         view.backgroundColor = .white
         presenter?.viewDidLoad()
     }
