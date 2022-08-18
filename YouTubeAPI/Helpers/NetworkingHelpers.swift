@@ -116,6 +116,7 @@ public class NetworkingHelpers{
             let result = try JSONDecoder().decode(T.self, from: data)
             return .success(result)
         } catch {
+            print("failure for request:\n\(url.absoluteString)")
             return .failure(error)
         }
     }
@@ -133,6 +134,7 @@ public class NetworkingHelpers{
             let result = try JSONDecoder().decode(T.self, from: data)
             return .success(result)
         } catch {
+            print("failure for request:\n\(url.absoluteString)")
             return .failure(error)
         }
     }

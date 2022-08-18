@@ -17,7 +17,7 @@ class YouTubeHelper {
     }
     
     static func getChannelsInfoRequestString(for channelIds: String) -> String {
-        return "https://www.googleapis.com/youtube/v3/channels?part=snippet&id=\(channelIds)&fields=items(id%2Csnippet%2Fthumbnails)&key=\(apiKey)"
+        return "https://www.googleapis.com/youtube/v3/channels?part=statistics&part=snippet&id=\(channelIds)&fields=items(statistics%2Cid%2Csnippet%2Fthumbnails)&key=\(apiKey)"
     }
     
     static func getVideosStatisticsRequestString(for channelIds: String) -> String {

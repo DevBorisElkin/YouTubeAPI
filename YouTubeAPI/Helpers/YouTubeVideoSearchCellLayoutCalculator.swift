@@ -11,7 +11,7 @@ import UIKit
 class YouTubeVideoSearchCellLayoutCalculator {
     static func calculateYTCellSizes(imageWidth: CGFloat, imageHeight: CGFloat, videoNameText: String, detailsString: String) -> VideoViewModel.Sizes {
         
-        var aspectRatio: CGFloat = imageHeight / imageWidth
+        let aspectRatio: CGFloat = imageHeight / imageWidth
         
         // MARK: Calculate image frame -> width, height, x, y pos.
         let imageWidth = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.videoImageInsets.left - VideoCellConstants.videoImageInsets.right
@@ -26,7 +26,7 @@ class YouTubeVideoSearchCellLayoutCalculator {
                 y: VideoCellConstants.videoImageInsets.top + imageHeight + VideoCellConstants.videoNameInsets.top),
             size: CGSize.zero)
         
-        var videoNameWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
+        let videoNameWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
         
         if !videoNameText.isEmpty {
             var height = videoNameText.height(width: videoNameWidth, font: VideoCellConstants.videoNameFont)
@@ -46,7 +46,7 @@ class YouTubeVideoSearchCellLayoutCalculator {
             x: VideoCellConstants.channelIconInsets.left + VideoCellConstants.channelIconSize + VideoCellConstants.videoDetailsInsets.left,
             y: videoNameRect.maxY + VideoCellConstants.videoDetailsInsets.top), size: CGSize.zero)
         
-        var videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
+        let videoDetailsWidth: CGFloat = AppConstants.screenWidth - VideoCellConstants.cardViewOffset.left - VideoCellConstants.cardViewOffset.right - VideoCellConstants.channelIconInsets.left - VideoCellConstants.channelIconSize - VideoCellConstants.videoNameInsets.left - VideoCellConstants.videoNameInsets.right
         
         if !detailsString.isEmpty {
             var height = detailsString.height(width: videoDetailsWidth, font: VideoCellConstants.videoDetailsFont)
@@ -71,13 +71,5 @@ class YouTubeVideoSearchCellLayoutCalculator {
                                     tableViewCellHeight: tableViewCellHeight,
                                     videoNameFrame: videoNameRect,
                                     videoDetailsFrame: videoDetailsRect)
-    }
-    
-    // TODO: rename and return only height
-    static func calculateVideoPlayerHeight(thumbnailSize: CGSize) -> CGFloat {
-        let aspectRatio: CGFloat = thumbnailSize.height / thumbnailSize.width
-        let imageWidth = AppConstants.screenWidth
-        let imageHeight = imageWidth * aspectRatio
-        return imageHeight
     }
 }

@@ -9,8 +9,13 @@ import Foundation
 import UIKit
 
 struct VideoToShow {
-    var videoId: String
-    var playerHeight: CGFloat
+    var videoId: String // needed to player to load vide
+    var videoDetails: VideoViewModel.VideoDetails
+    var sizes: Sizes
+    
+    struct Sizes {
+        var playerHeight: CGFloat
+        var videoNameFrame: CGRect
+        var videoDetailsFrame: CGRect
+    }
 }
-
-

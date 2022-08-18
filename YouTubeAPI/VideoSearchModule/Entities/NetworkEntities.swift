@@ -71,10 +71,18 @@ struct ChannelResultWrapped: Decodable {
 struct ChannelInfo: Decodable {
     var id: String
     var snippet: Snippet
+    var statistics: ChannelStatistics
 }
 
 struct Snippet: Decodable {
     var thumbnails: Thumbnails
+}
+
+struct ChannelStatistics: Decodable {
+    var viewCount: String
+    var subscriberCount: String
+    var hiddenSubscriberCount: Bool
+    var videoCount: String
 }
 
 struct Thumbnails: Decodable {

@@ -25,11 +25,21 @@ struct VideoViewModel {
     var detailsString: String
     
     var sizes: Sizes
+    var videoDetails: VideoDetails
     
     struct Sizes {
         var imageFrame: CGRect
         var tableViewCellHeight: CGFloat
         var videoNameFrame: CGRect
         var videoDetailsFrame: CGRect
+    }
+    
+    // todo maybe make a new request?
+    struct VideoDetails {
+        var videoName: String
+        var channelName: String
+        var channelSubscribersCount: String
+        var videoDetailsViewsDatePrepared: String
+        var likesCount: String
     }
 }

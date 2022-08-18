@@ -21,11 +21,16 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
 
 extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
     func videoToShowPrepared(videoModel: VideoViewModel) {
-        // calculate sizes
-        var playerHeight = YouTubeVideoSearchCellLayoutCalculator.calculateVideoPlayerHeight(thumbnailSize: videoModel.sizes.imageFrame.size)
+        
+        // MARK: calculate sizes
+        let sizes = YouTubeVideoCellLayoutCalculator.calculateVideoCellSizes(
+            thumbnailSize: videoModel.sizes.imageFrame.size,
+            videoDetails: videoModel.videoDetails)
         
         let videoToShow = VideoToShow(videoId: videoModel.videoId!,
-                                      playerHeight: playerHeight)
+                                      videoDetails: videoModel.videoDetails,
+                                      sizes: sizes)
+        
         view?.videoToShowDataReceived(videoToShow: videoToShow)
     }
 }

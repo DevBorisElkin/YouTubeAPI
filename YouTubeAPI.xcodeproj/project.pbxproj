@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		05752E6941DB4AC8296BD2F6 /* Pods_YouTubeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF8BCA687348D053898C9A3 /* Pods_YouTubeAPI.framework */; };
+		5205AFDA28AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */; };
+		5205AFDC28AE96850013C82F /* VideoPlayerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFDB28AE96850013C82F /* VideoPlayerConstants.swift */; };
 		5216F47328A2BDDB00498AEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47228A2BDDB00498AEE /* AppDelegate.swift */; };
 		5216F47528A2BDDB00498AEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47428A2BDDB00498AEE /* SceneDelegate.swift */; };
 		5216F47728A2BDDB00498AEE /* VideoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47628A2BDDB00498AEE /* VideoExampleViewController.swift */; };
@@ -46,6 +48,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeVideoCellLayoutCalculator.swift; sourceTree = "<group>"; };
+		5205AFDB28AE96850013C82F /* VideoPlayerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerConstants.swift; sourceTree = "<group>"; };
 		5216F46F28A2BDDB00498AEE /* YouTubeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216F47228A2BDDB00498AEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216F47428A2BDDB00498AEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 				5236A03528A455A300F9A699 /* AppConstants.swift */,
 				5236A02728A42A6C00F9A699 /* VideoSearchConstants.swift */,
 				5236A03128A4462E00F9A699 /* VideoCellConstants.swift */,
+				5205AFDB28AE96850013C82F /* VideoPlayerConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -229,6 +234,7 @@
 				5236A06028A58F9700F9A699 /* DateHelpers.swift */,
 				5236A06228A5CC4200F9A699 /* RoundedInt.swift */,
 				5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */,
+				5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -369,6 +375,7 @@
 				5236A02B28A4313400F9A699 /* YouTubeVideoSearchCell.swift in Sources */,
 				5236A05F28A55B4D00F9A699 /* GradientView.swift in Sources */,
 				5236A06A28A8108600F9A699 /* VideoPlayerViewController.swift in Sources */,
+				5205AFDA28AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift in Sources */,
 				52369FDC28A312E500F9A699 /* SearchViewController.swift in Sources */,
 				5236A06828A8107500F9A699 /* VideoPlayerProtocols.swift in Sources */,
 				5236A06E28A8109F00F9A699 /* VideoPlayerInteractor.swift in Sources */,
@@ -394,6 +401,7 @@
 				52369FDE28A3130E00F9A699 /* YouTubeHelper.swift in Sources */,
 				5236A02828A42A6C00F9A699 /* VideoSearchConstants.swift in Sources */,
 				5236A03B28A5287D00F9A699 /* TextHeight.swift in Sources */,
+				5205AFDC28AE96850013C82F /* VideoPlayerConstants.swift in Sources */,
 				5236A07228A810C200F9A699 /* VideoPlayerEntity.swift in Sources */,
 				5236A03628A455A300F9A699 /* AppConstants.swift in Sources */,
 				5236A06328A5CC4200F9A699 /* RoundedInt.swift in Sources */,

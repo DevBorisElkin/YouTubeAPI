@@ -97,8 +97,15 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 // MARK: Calculate Sizes with data provided
                 let cellSizes = YouTubeVideoSearchCellLayoutCalculator.calculateYTCellSizes(imageWidth: CGFloat(width), imageHeight: CGFloat(height), videoNameText: videoNameText, detailsString: detailsString)
                 
+                // MARK: Gather and preapre other YouTube statistics:
+                
+                let channelSubsCount: Int = Int(pair.channelInfo.statistics.subscriberCount) ?? 0
+                
+                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: channelSubsCount.roundedWithAbbreviations, videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0")
+                
+                // MARK: Final ViewModel:
                 let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString,
-                                               sizes: cellSizes)
+                                                sizes: cellSizes, videoDetails: videoDetails)
                 searchResults.append(videoModel)
             }
             
