@@ -6,6 +6,8 @@ import UIKit
 
 class CommentsPreviewView: UIView {
     
+    var callback: (() -> Void)?
+    
     lazy var commentsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -64,30 +66,16 @@ class CommentsPreviewView: UIView {
         expandCommentsButton.centerYAnchor.constraint(equalTo: commentsCountLabel.centerYAnchor).isActive = true
         expandCommentsButton.leadingAnchor.constraint(equalTo: commentsCountLabel.trailingAnchor, constant: VideoPlayerConstants.expandCommentsButtonInsets.left).isActive = true
         expandCommentsButton.heightAnchor.constraint(equalToConstant: VideoPlayerConstants.expandCommentsButtonSize.height).isActive = true
-//        expandCommentsButton.widthAnchor.constraint(equalToConstant: VideoPlayerConstants.expandCommentsButtonSize.width).isActive = true
     }
     
-    func setUp(commentsCount: String){
+    func setUp(commentsCount: String, callback: @escaping () -> Void){
+        self.callback = callback
         commentsCountLabel.text = commentsCount
         expandCommentsButton.addTarget(self, action: #selector(expandCommentsPressed(_:)), for: .touchUpInside)
     }
     
     @objc private func expandCommentsPressed(_ sender: Any){
         print("expandCommentsPressed")
-
-//        let topFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//        let bottomFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//        let holderSlidingSettings = HolderSlidingViewSettings(topFadeColor: topFadeColor, bottomFadeColor: bottomFadeColor, topFadeColorMaxAlpha: 0.7, bottomFadeColorMaxAlpha: 0.7)
-//        let slidingSettings = SlidingViewSettings(totalHeightWithSafeArea: view.frame.height, topAreaHeight: 250, safeAreaHeight: AppConstants.safeAreaPadding.top, slideInAnimationTime: 0.4, snapAnimationTime: 0.3)
-//
-//
-//        let holderSlidingView = HolderSlidingView()
-//        holderSlidingView.setUpWithMainSettings(parentView: view, holderSettings: holderSlidingSettings, slidingSettings: slidingSettings)
-//
-//        // view with data
-//
-//        let customViewWithTable = CustomViewWithTable()
-//        customViewWithTable.translatesAutoresizingMaskIntoConstraints = false
-//        holderSlidingView.setUpContents(contentView: customViewWithTable)
+        callback?()
     }
 }

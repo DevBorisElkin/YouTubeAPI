@@ -27,4 +27,8 @@ class YouTubeHelper {
         }
         return "https://youtube.googleapis.com/youtube/v3/videos?part=statistics&maxResults=\(50)&id=\(ids)&key=\(apiKey)"
     }
+    
+    static func getCommentsForVideoRequestString(for videoId: String) -> String {
+        return "https://www.googleapis.com/youtube/v3/commentThreads?key=\(apiKey)&textFormat=plainText&part=snippet&videoId=\(videoId)&maxResults=\(100)"
+    }
 }

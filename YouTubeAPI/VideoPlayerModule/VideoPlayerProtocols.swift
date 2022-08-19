@@ -14,6 +14,7 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     var router: VideoPlayerPresenterToRouterProtocol? { get set }
     
     func viewDidLoad()
+    func commentsRequested
 }
 
 protocol VideoPlayerPresenterToViewProtocol: AnyObject {

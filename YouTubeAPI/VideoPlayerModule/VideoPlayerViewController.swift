@@ -106,6 +106,15 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
         
         holderView.addSubview(commentsPreview)
         commentsPreview.frame = CGRect(x: 0, y: channelInfoView.frame.maxY, width: AppConstants.screenWidth, height: VideoPlayerConstants.commentsViewHeight)
-        commentsPreview.setUp(commentsCount: videoToShow.videoDetails.commentsCount)
+        commentsPreview.setUp(commentsCount: videoToShow.videoDetails.commentsCount, callback: onCommentsButtonPressed)
+    }
+    
+    private func onCommentsButtonPressed() {
+        print("onCommentsButtonPressed in VC")
+        
+        // 1 create sliding view
+        // 2 request data
+        // 3 while data is receiving, show loading
+        // 4 present data
     }
 }
