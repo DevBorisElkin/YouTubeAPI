@@ -13,7 +13,6 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     var interactor: VideoSearchPresenterToInteractorProtocol?
     var router: VideoSearchPresenterToRouterProtocol?
     
-    // TODO fill real data
     var searchResults: [VideoViewModel] = []
     
     func viewDidLoad() {

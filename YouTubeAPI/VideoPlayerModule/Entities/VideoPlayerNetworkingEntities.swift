@@ -10,7 +10,7 @@ import Foundation
 struct CommentsResultWrapped: Decodable {
     var kind: String
     var etag: String
-    var nextPageToken: String
+    var nextPageToken: String?
     var pageInfo: PageInfo
     var items: [CommentItem]?
 }

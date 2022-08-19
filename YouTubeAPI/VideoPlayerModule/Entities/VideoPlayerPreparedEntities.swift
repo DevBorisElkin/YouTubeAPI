@@ -27,3 +27,18 @@ struct ChannelInfoViewModel {
     var subscribersCount: String
     var channelIconUrlString: String
 }
+
+// Comments related
+
+struct CommentViewModel {
+    var userDateEditedCombinedString: String
+    var commentText: String
+    var authorProfileImageUrl: String
+    var likeCount: String
+    var totalReplyCount: String
+    var sizes: CommentCellSizes
+}
+
+struct CommentCellSizes {
+    var tableViewCellHeight: CGFloat
+}

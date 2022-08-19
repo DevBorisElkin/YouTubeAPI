@@ -104,13 +104,13 @@ public class NetworkingHelpers{
         return try decoder.decode(T.self, from: data)
     }
     
-    public static func loadDataFromUrl<T : Decodable>(from url: URL, printJSON: Bool = false) async -> Result<T, Error> {
+    public static func loadDataFromUrl<T : Decodable>(from url: URL, printJsonAndRequestString: Bool = false) async -> Result<T, Error> {
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            if printJSON, let json = try? JSONSerialization.jsonObject(with: data, options: []){
-                print("-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            if printJsonAndRequestString, let json = try? JSONSerialization.jsonObject(with: data, options: []){
+                print(">>>>>Making request for url string: [\(url.absoluteString)]\n-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
             }
             
             let result = try JSONDecoder().decode(T.self, from: data)
@@ -121,14 +121,14 @@ public class NetworkingHelpers{
         }
     }
     
-    public static func loadDataFromUrlString<T : Decodable>(from urlString: String, printJSON: Bool = false) async -> Result<T, Error> {
+    public static func loadDataFromUrlString<T : Decodable>(from urlString: String, printJsonAndRequestString: Bool = false) async -> Result<T, Error> {
         guard let url = URL(string: urlString) else { return .failure(NetworkRequestError.badUrlString) }
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            if printJSON, let json = try? JSONSerialization.jsonObject(with: data, options: []){
-                print("-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            if printJsonAndRequestString, let json = try? JSONSerialization.jsonObject(with: data, options: []){
+                print(">>>>>Making request for url string: [\(urlString)]\n-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
             }
             
             let result = try JSONDecoder().decode(T.self, from: data)

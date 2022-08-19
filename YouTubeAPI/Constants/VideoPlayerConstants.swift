@@ -53,7 +53,7 @@ class VideoPlayerConstants {
     
     static let commentsCountLabelInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
     static let commentsCountLabelFont = UIFont.systemFont(ofSize: 15, weight: .medium)
-    static let commentsCountLabelFontColor = #colorLiteral(red: 0.231372549, green: 0.2235294118, blue: 0.2705882353, alpha: 1)
+    static let commentsCountLabelFontColor = #colorLiteral(red: 0.317465764, green: 0.3122247408, blue: 0.3436708802, alpha: 1)
     
     static let expandCommentsButtonInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
     static let expandCommentsButtonSize = CGSize(width: 180, height: 20)

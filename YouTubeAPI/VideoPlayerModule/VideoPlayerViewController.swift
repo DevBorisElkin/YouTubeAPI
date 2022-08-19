@@ -9,8 +9,10 @@ import Foundation
 import UIKit
 import youtube_ios_player_helper
 
-class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToViewProtocol {
+class VideoPlayerViewController: PannableViewController {
+    
     var presenter: VideoPlayerViewIntoPresenterProtocol?
+    var videoToShow: VideoToShow?
     
     var holderView: UIView = {
         let view = UIView()
@@ -67,10 +69,6 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
         presenter?.viewDidLoad()
     }
     
-    func videoToShowDataReceived(videoToShow: VideoToShow) {
-        preparePlayer(videoToShow: videoToShow)
-    }
-    
     private func preparePlayer(videoToShow: VideoToShow){
         
         // holder view
@@ -112,9 +110,26 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     private func onCommentsButtonPressed() {
         print("onCommentsButtonPressed in VC")
         
+        guard let videoToShow = videoToShow else { print("No video to display comments for"); return }
+
+        presenter?.commentsRequested(videoId: videoToShow.videoId)
         // 1 create sliding view
         // 2 request data
         // 3 while data is receiving, show loading
         // 4 present data
+        
+        // here i need to create and open new view (sliding view)
+    }
+}
+
+extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
+    
+    func videoToShowDataReceived(videoToShow: VideoToShow) {
+        self.videoToShow = videoToShow
+        preparePlayer(videoToShow: videoToShow)
+    }
+    
+    func commentsReceived(comments: [CommentViewModel]) {
+        print("Comments received to VC, here I need to notify view that holds table view to update data (it will get it from presenter)")
     }
 }

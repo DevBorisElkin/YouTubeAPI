@@ -17,7 +17,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD VIDEOS
             let videosData: SearchResultWrapped?
-            let resultVideosData: Result<SearchResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: search, printJSON: true)
+            let resultVideosData: Result<SearchResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: search, printJsonAndRequestString: true)
             
             switch resultVideosData {
             case .success(let data):
@@ -37,7 +37,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD CHANNELS DATA
             let channelsData: ChannelResultWrapped?
-            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJSON: true)
+            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJsonAndRequestString: true)
             
             switch resultChannelData {
             case .success(let data):
@@ -68,7 +68,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD VIDEOS STATS
             let statisticsData: StatisticsWrapped?
-            let resultStatisticsData: Result<StatisticsWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: statisticsUrl, printJSON: true)
+            let resultStatisticsData: Result<StatisticsWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: statisticsUrl, printJsonAndRequestString: true)
             
             switch resultStatisticsData {
             case .success(let data):

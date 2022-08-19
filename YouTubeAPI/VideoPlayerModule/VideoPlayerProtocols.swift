@@ -14,13 +14,23 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     var router: VideoPlayerPresenterToRouterProtocol? { get set }
     
     func viewDidLoad()
-    func commentsRequested
+    func commentsRequested(videoId: String)
+    
+    // MARK: For comments table view
+    func numberOfRowsInSection() -> Int
+    
+    func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
+    
+    func didSelectRowAt(index: Int)
+    
+    func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
 }
 
 protocol VideoPlayerPresenterToViewProtocol: AnyObject {
     var presenter: VideoPlayerViewIntoPresenterProtocol? { get set }
     
     func videoToShowDataReceived(videoToShow: VideoToShow)
+    func commentsReceived(comments: [CommentViewModel])
 }
 
 protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
@@ -28,10 +38,12 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
     var videoModel: VideoViewModel? { get set }
     
     func videoToShowRequested()
+    func commentsRequested(searchUrlString: String)
 }
 
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {
     func videoToShowPrepared(videoModel: VideoViewModel)
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped)
 }
 
 protocol VideoPlayerPresenterToRouterProtocol: AnyObject  {
