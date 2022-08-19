@@ -100,8 +100,10 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 // MARK: Gather and preapre other YouTube statistics:
                 
                 let channelSubsCount: Int = Int(pair.channelInfo.statistics.subscriberCount) ?? 0
+                let commentsCount: Int = Int(pair.videoStatistics.statistics.commentCount ?? "0") ?? 0
+                let commentsCountString: String = String(commentsCount.roundedWithAbbreviations)
                 
-                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0")
+                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0", commentsCount: commentsCountString)
                 
                 // MARK: Final ViewModel:
                 let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString,

@@ -42,4 +42,23 @@ class VideoPlayerConstants {
     
     static let channelNameFontColor = #colorLiteral(red: 0.1803921569, green: 0.1803921569, blue: 0.1803921569, alpha: 1)
     static let subscribersCountFontColor = #colorLiteral(red: 0.231372549, green: 0.2235294118, blue: 0.2705882353, alpha: 1)
+    
+    // MARK: Comments Info constants
+    static let commentsViewInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    static let commentsViewHeight: CGFloat = 50
+    
+    static let commentsLabelInsets = UIEdgeInsets(top: 7, left: 10, bottom: 0, right: 0)
+    static let commentsLabelFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    static let commentsLabelFontColor = #colorLiteral(red: 0.1803921569, green: 0.1803921569, blue: 0.1803921569, alpha: 1)
+    
+    static let commentsCountLabelInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
+    static let commentsCountLabelFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    static let commentsCountLabelFontColor = #colorLiteral(red: 0.231372549, green: 0.2235294118, blue: 0.2705882353, alpha: 1)
+    
+    static let expandCommentsButtonInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+    static let expandCommentsButtonSize = CGSize(width: 180, height: 20)
+    static let expandCommentsButtonFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    static let expandCommentsButtonFontColor = #colorLiteral(red: 0.231372549, green: 0.2235294118, blue: 0.2705882353, alpha: 1)
+    
+    static let expandCommentsInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
 }

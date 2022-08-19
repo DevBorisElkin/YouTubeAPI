@@ -41,5 +41,6 @@ struct VideoViewModel {
         var channelSubscribersCount: String
         var videoDetailsViewsDatePrepared: String
         var likesCount: String
+        var commentsCount: String
     }
 }

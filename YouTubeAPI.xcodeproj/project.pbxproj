@@ -11,6 +11,8 @@
 		5205AFDA28AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */; };
 		5205AFDC28AE96850013C82F /* VideoPlayerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFDB28AE96850013C82F /* VideoPlayerConstants.swift */; };
 		5205AFE328AEB3380013C82F /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFE228AEB3380013C82F /* ChannelInfoView.swift */; };
+		5205AFEE28AFFAB90013C82F /* SlidingViewAndSupportingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFED28AFFAB90013C82F /* SlidingViewAndSupportingData.swift */; };
+		5205AFF028B0036C0013C82F /* CommentsPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205AFEF28B0036C0013C82F /* CommentsPreviewView.swift */; };
 		5216F47328A2BDDB00498AEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47228A2BDDB00498AEE /* AppDelegate.swift */; };
 		5216F47528A2BDDB00498AEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47428A2BDDB00498AEE /* SceneDelegate.swift */; };
 		5216F47728A2BDDB00498AEE /* VideoExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216F47628A2BDDB00498AEE /* VideoExampleViewController.swift */; };
@@ -52,6 +54,8 @@
 		5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeVideoCellLayoutCalculator.swift; sourceTree = "<group>"; };
 		5205AFDB28AE96850013C82F /* VideoPlayerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerConstants.swift; sourceTree = "<group>"; };
 		5205AFE228AEB3380013C82F /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
+		5205AFED28AFFAB90013C82F /* SlidingViewAndSupportingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingViewAndSupportingData.swift; sourceTree = "<group>"; };
+		5205AFEF28B0036C0013C82F /* CommentsPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsPreviewView.swift; sourceTree = "<group>"; };
 		5216F46F28A2BDDB00498AEE /* YouTubeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216F47228A2BDDB00498AEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216F47428A2BDDB00498AEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 				5236A05E28A55B4D00F9A699 /* GradientView.swift */,
 				5236A0BA28A9F60F00F9A699 /* PannableViewController.swift */,
 				5205AFE228AEB3380013C82F /* ChannelInfoView.swift */,
+				5205AFED28AFFAB90013C82F /* SlidingViewAndSupportingData.swift */,
+				5205AFEF28B0036C0013C82F /* CommentsPreviewView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 				5236A02228A418BF00F9A699 /* VideoSearchInteractor.swift in Sources */,
 				5236A03428A44DE500F9A699 /* WebImageView.swift in Sources */,
 				5236A0BB28A9F60F00F9A699 /* PannableViewController.swift in Sources */,
+				5205AFF028B0036C0013C82F /* CommentsPreviewView.swift in Sources */,
 				52369FE428A317D800F9A699 /* SearchResultCell.swift in Sources */,
 				5236A02628A418D800F9A699 /* VideoSearchRouter.swift in Sources */,
 				52369FDE28A3130E00F9A699 /* YouTubeHelper.swift in Sources */,
@@ -408,6 +415,7 @@
 				5205AFDC28AE96850013C82F /* VideoPlayerConstants.swift in Sources */,
 				5236A07228A810C200F9A699 /* VideoPlayerEntity.swift in Sources */,
 				5236A03628A455A300F9A699 /* AppConstants.swift in Sources */,
+				5205AFEE28AFFAB90013C82F /* SlidingViewAndSupportingData.swift in Sources */,
 				5236A06328A5CC4200F9A699 /* RoundedInt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

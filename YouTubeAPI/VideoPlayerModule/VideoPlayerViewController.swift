@@ -47,7 +47,12 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
     lazy var channelInfoView: ChannelInfoView = {
         let view = ChannelInfoView()
         view.backgroundColor = .white
-        //view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var commentsPreview: CommentsPreviewView = {
+        let view = CommentsPreviewView()
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -98,5 +103,9 @@ class VideoPlayerViewController: PannableViewController, VideoPlayerPresenterToV
         holderView.addSubview(channelInfoView)
         channelInfoView.frame = videoToShow.sizes.channelInfoFrame
         channelInfoView.setUp(viewModel: videoToShow.channelInfoViewModel)
+        
+        holderView.addSubview(commentsPreview)
+        commentsPreview.frame = CGRect(x: 0, y: channelInfoView.frame.maxY, width: AppConstants.screenWidth, height: VideoPlayerConstants.commentsViewHeight)
+        commentsPreview.setUp(commentsCount: videoToShow.videoDetails.commentsCount)
     }
 }
