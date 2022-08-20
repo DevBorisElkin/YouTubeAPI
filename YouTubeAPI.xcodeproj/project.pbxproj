@@ -52,6 +52,7 @@
 		5236A07228A810C200F9A699 /* VideoPlayerPreparedEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A07128A810C200F9A699 /* VideoPlayerPreparedEntities.swift */; };
 		5236A0BB28A9F60F00F9A699 /* PannableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236A0BA28A9F60F00F9A699 /* PannableViewController.swift */; };
 		52627B3D28A2C4670041ECEA /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52627B3C28A2C4670041ECEA /* Constraints.swift */; };
+		52F7634228B111E90037A064 /* YouTubeCommentCellLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7634128B111E90037A064 /* YouTubeCommentCellLayoutCalculator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		5236A07128A810C200F9A699 /* VideoPlayerPreparedEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerPreparedEntities.swift; sourceTree = "<group>"; };
 		5236A0BA28A9F60F00F9A699 /* PannableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PannableViewController.swift; sourceTree = "<group>"; };
 		52627B3C28A2C4670041ECEA /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		52F7634128B111E90037A064 /* YouTubeCommentCellLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeCommentCellLayoutCalculator.swift; sourceTree = "<group>"; };
 		7CF8BCA687348D053898C9A3 /* Pods_YouTubeAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouTubeAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF5464F5C55FFFC175C0C6B7 /* Pods-YouTubeAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.release.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.release.xcconfig"; sourceTree = "<group>"; };
 		D88453935EA827CCAE3CCF84 /* Pods-YouTubeAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.debug.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				5236A02128A418BF00F9A699 /* VideoSearchInteractor.swift */,
 				5236A02528A418D800F9A699 /* VideoSearchRouter.swift */,
 				5236A02D28A43FD600F9A699 /* Entities */,
+				52F7634028B110CA0037A064 /* Views */,
 			);
 			path = VideoSearchModule;
 			sourceTree = "<group>";
@@ -209,7 +212,6 @@
 		5236A02928A4311000F9A699 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				5236A02A28A4313400F9A699 /* YouTubeVideoSearchCell.swift */,
 				5236A03328A44DE500F9A699 /* WebImageView.swift */,
 				5236A05E28A55B4D00F9A699 /* GradientView.swift */,
 				5236A0BA28A9F60F00F9A699 /* PannableViewController.swift */,
@@ -270,10 +272,27 @@
 				5236A03A28A5287D00F9A699 /* TextHeight.swift */,
 				5236A06028A58F9700F9A699 /* DateHelpers.swift */,
 				5236A06228A5CC4200F9A699 /* RoundedInt.swift */,
-				5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */,
-				5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */,
+				52F7634328B111F40037A064 /* LayoutCalculators */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		52F7634028B110CA0037A064 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5236A02A28A4313400F9A699 /* YouTubeVideoSearchCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52F7634328B111F40037A064 /* LayoutCalculators */ = {
+			isa = PBXGroup;
+			children = (
+				5236A06428A6E06100F9A699 /* YouTubeVideoSearchCellLayoutCalculator.swift */,
+				5205AFD928AE92BD0013C82F /* YouTubeVideoCellLayoutCalculator.swift */,
+				52F7634128B111E90037A064 /* YouTubeCommentCellLayoutCalculator.swift */,
+			);
+			path = LayoutCalculators;
 			sourceTree = "<group>";
 		};
 		55D675E267F86D9D4B5FAC95 /* Frameworks */ = {
@@ -449,6 +468,7 @@
 				5236A03628A455A300F9A699 /* AppConstants.swift in Sources */,
 				5205AFEE28AFFAB90013C82F /* SlidingViewAndSupportingData.swift in Sources */,
 				5236A06328A5CC4200F9A699 /* RoundedInt.swift in Sources */,
+				52F7634228B111E90037A064 /* YouTubeCommentCellLayoutCalculator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

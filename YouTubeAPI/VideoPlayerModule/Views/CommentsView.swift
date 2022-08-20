@@ -54,4 +54,8 @@ extension CommentsView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return presenter?.setCell(tableView: tableView, forRowAt: indexPath) ?? UITableViewCell()
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return presenter?.tableViewCellHeight(at: indexPath) ?? 100
+    }
 }

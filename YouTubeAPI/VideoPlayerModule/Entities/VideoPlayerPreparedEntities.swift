@@ -37,8 +37,18 @@ struct CommentViewModel {
     var likeCount: String
     var totalReplyCount: String
     var sizes: CommentCellSizes
+    
+    struct CommentCellSizes {
+        var commentAuthorIconFrame: CGRect
+        var topTextFrame: CGRect
+        var commentTextSmallSizeFrame: CGRect
+        var commentTextFullSizeFrame: CGRect
+        var expandCommentTextButtonFrame: CGRect
+        var repliesCountLabelFrame: CGRect
+        
+        var tableViewCellCappedHeight: CGFloat
+        var tableViewCellFullHeight: CGFloat
+    }
 }
 
-struct CommentCellSizes {
-    var tableViewCellHeight: CGFloat
-}
+

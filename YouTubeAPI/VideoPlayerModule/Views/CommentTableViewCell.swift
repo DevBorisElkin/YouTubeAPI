@@ -15,13 +15,36 @@ class CommentTableViewCell: UITableViewCell {
     
     lazy var commentTopLineLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = CommentCellConstants.commentTopLineFontColor
         label.font = CommentCellConstants.commentTopLineFont
+        label.textColor = CommentCellConstants.commentTopLineFontColor
         label.backgroundColor = .brown
         return label
     }()
+    
+    lazy var commentTextLabel: UILabel = {
+        let label = UILabel()
+        //label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = CommentCellConstants.commentTextFont
+        label.textColor = CommentCellConstants.commentTextFontColor
+        label.backgroundColor = .brown
+        return label
+    }()
+    
+    lazy var commentAuthorIconImage: WebImageView = {
+        let imageView = WebImageView()
+        imageView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        imageView.layer.cornerRadius = CommentCellConstants.commentAuthorIconSize / 2
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    override func prepareForReuse() {
+        commentAuthorIconImage.set(imageURL: nil)
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,10 +64,17 @@ class CommentTableViewCell: UITableViewCell {
         self.viewModel = viewModel
         print("setUp -> comment cell")
         
-        addSubview(commentTopLineLabel)
-        commentTopLineLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: CommentCellConstants.commentTopLineInsets)
+        addSubview(commentAuthorIconImage)
+        commentAuthorIconImage.frame = viewModel.sizes.commentAuthorIconFrame
+        commentAuthorIconImage.set(imageURL: viewModel.authorProfileImageUrl)
         
+        addSubview(commentTopLineLabel)
+        commentTopLineLabel.frame = viewModel.sizes.topTextFrame
         commentTopLineLabel.text = viewModel.userDateEditedCombinedString
+        
+        addSubview(commentTextLabel)
+        commentTextLabel.frame = viewModel.sizes.commentTextFullSizeFrame
+        commentTextLabel.text = viewModel.commentText
     }
 
 }

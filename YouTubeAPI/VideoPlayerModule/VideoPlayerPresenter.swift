@@ -47,7 +47,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     }
     
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
-        return commentSearchResults[indexPath.row].sizes.tableViewCellHeight
+        return commentSearchResults[indexPath.row].sizes.tableViewCellFullHeight
     }
 }
 
@@ -85,7 +85,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
             
             // TODO: calculate proper sizes
             // Sizes:
-            let sizes = CommentCellSizes(tableViewCellHeight: 350)
+            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay)
             
             return CommentViewModel(userDateEditedCombinedString: topString,
                              commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
