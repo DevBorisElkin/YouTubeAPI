@@ -71,8 +71,9 @@ class CommentTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setUp(viewModel: CommentViewModel){
+    func setUp(viewModel: CommentViewModel, presenter: VideoPlayerViewIntoPresenterProtocol){
         self.viewModel = viewModel
+        self.presenter = presenter
         print("setUp -> comment cell")
         
         addSubview(commentAuthorIconImage)
@@ -94,5 +95,6 @@ class CommentTableViewCell: UITableViewCell {
     
     @objc private func showFullCommentText(_ sender: Any){
         print("Show full text button pressed")
+        presenter?.expandTextForComment(commentId: viewModel.commentId)
     }
 }

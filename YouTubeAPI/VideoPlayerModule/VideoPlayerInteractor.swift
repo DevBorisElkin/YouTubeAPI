@@ -13,6 +13,8 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
     
     var videoModel: VideoViewModel?
     
+    var lastCommentsResult: CommentsResultWrapped?
+    
     func videoToShowRequested() {
         guard let videoModel = videoModel, let videoId = videoModel.videoId else { print("no video to show"); return }
         presenter?.videoToShowPrepared(videoModel: videoModel)
@@ -33,7 +35,13 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
             }
             guard let commentsData = commentsData else { print("search for comments failed"); return }
             
+            self.lastCommentsResult = commentsData
             self.presenter?.commentsReceived(commentsDataWrapped: commentsData)
         }
+    }
+    
+    func commentsRequestedForLastSearch() {
+        guard let lastCommentsResult = lastCommentsResult else { print("no stored comments in interactor"); return }
+        presenter?.commentsReceived(commentsDataWrapped: lastCommentsResult)
     }
 }

@@ -15,6 +15,8 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     
     func viewDidLoad()
     func commentsRequested(videoId: String)
+    func commentsRequestedToGetUpdated()
+    func expandTextForComment(commentId: String)
     
     // MARK: For comments table view
     func numberOfRowsInSection() -> Int
@@ -30,7 +32,7 @@ protocol VideoPlayerPresenterToViewProtocol: AnyObject {
     var presenter: VideoPlayerViewIntoPresenterProtocol? { get set }
     
     func videoToShowDataReceived(videoToShow: VideoToShow)
-    func commentsReceived(comments: [CommentViewModel])
+    func commentsUpdated()
 }
 
 protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
@@ -39,6 +41,7 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
     
     func videoToShowRequested()
     func commentsRequested(searchUrlString: String)
+    func commentsRequestedForLastSearch()
 }
 
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {

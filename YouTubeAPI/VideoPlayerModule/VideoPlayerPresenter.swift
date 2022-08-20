@@ -30,6 +30,17 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
     }
+    func commentsRequestedToGetUpdated() {
+        // todo just update comments without a network request
+    }
+    
+    func expandTextForComment(commentId: String) {
+        if !expandedCommentsIds.contains(commentId) {
+            expandedCommentsIds.append(commentId)
+            
+            interactor?.commentsRequestedForLastSearch()
+        } else { print("Can't expand comments for video which comments had already been expanded") }
+    }
     
     // MARK: For table view
     func numberOfRowsInSection() -> Int {
@@ -38,8 +49,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.reuseId, for: indexPath) as! CommentTableViewCell
-        cell.presenter = self
-        cell.setUp(viewModel: commentSearchResults[indexPath.row])
+        cell.setUp(viewModel: commentSearchResults[indexPath.row], presenter: self)
         return cell
     }
     
@@ -87,12 +97,12 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
             // TODO: calculate proper sizes
             // Sizes:
             
-            //var expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
-            var expandedComment = true
+            let expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
+            //var expandedComment = true
             
-            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, showFullCommentText: expandedComment)
+            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, isFullSizedPost: expandedComment)
             
-            return CommentViewModel(userDateEditedCombinedString: topString,
+            return CommentViewModel(commentId: commentItem.id, userDateEditedCombinedString: topString,
                              commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
                              authorProfileImageUrl: commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl,
                              likeCount: String(commentItem.snippet.topLevelComment.snippet.likeCount),
@@ -102,7 +112,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         DispatchQueue.main.async {
             self.commentSearchResults = commentsRemapped
             // maybe not to return comments to the view, only to notify it
-            self.view?.commentsReceived(comments: commentsRemapped)
+            self.view?.commentsUpdated()
         }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class YouTubeCommentCellLayoutCalculator {
-    static func calculateCommentCellSizes(topDescriptionText: String, commentText: String, showFullCommentText: Bool) -> CommentViewModel.CommentCellSizes {
+    static func calculateCommentCellSizes(topDescriptionText: String, commentText: String, isFullSizedPost: Bool) -> CommentViewModel.CommentCellSizes {
         
         // MARK: Calculate commentAuthorImageRect
         let commentAuthorImageRect = CGRect(x: CommentCellConstants.commentAuthorIconInsets.left,
@@ -43,6 +43,8 @@ class YouTubeCommentCellLayoutCalculator {
         
         let commentTextWidth: CGFloat = AppConstants.screenWidth - CommentCellConstants.commentTextInsets.left - CommentCellConstants.commentTextInsets.right - CommentCellConstants.commentAuthorIconSize - CommentCellConstants.commentAuthorIconInsets.left
         
+        var showMoreTextButton = false
+        
         if !commentText.isEmpty {
             let height = commentText.height(width: commentTextWidth, font: CommentCellConstants.commentTextFont)
             var cappedHeight = height
@@ -50,30 +52,30 @@ class YouTubeCommentCellLayoutCalculator {
             // check limit height for name label
             let limitHeight = CommentCellConstants.commentTextFont.lineHeight * CommentCellConstants.commentTextMaxLines
             
-            if height > limitHeight {
+            if height > limitHeight && !isFullSizedPost {
+                print("height(\(height))>limitHeight(\(limitHeight)")
                 cappedHeight = CommentCellConstants.commentTextFont.lineHeight * CommentCellConstants.commentTextMaxLines
+                showMoreTextButton = true
             }
             commentTextFullSizeRect.size = CGSize(width: commentTextWidth, height: height)
             commentTextCappedSizeRect.size = CGSize(width: commentTextWidth, height: cappedHeight)
             
-            selectedCommentTextSizeRect = showFullCommentText ? commentTextFullSizeRect : commentTextCappedSizeRect
+            selectedCommentTextSizeRect = isFullSizedPost ? commentTextFullSizeRect : commentTextCappedSizeRect
         }
         
         // MARK: expandCommentText frame
-        let expandCommentTextButtonFrame = showFullCommentText ? CGRect(
-            x: CommentCellConstants.expandTextButtonInsets.left,
+        let expandCommentTextButtonFrame = showMoreTextButton == false ? CGRect.zero : CGRect(
+            x: CommentCellConstants.expandTextButtonInsets.left + CommentCellConstants.commentAuthorIconSize + CommentCellConstants.expandTextButtonInsets.left,
             y: selectedCommentTextSizeRect.maxY + CommentCellConstants.expandTextButtonInsets.top,
             width: AppConstants.screenWidth - CommentCellConstants.expandTextButtonInsets.left - CommentCellConstants.expandTextButtonInsets.right,
-            height: CommentCellConstants.expandTextButtonHeight) : CGRect.zero
+            height: CommentCellConstants.expandTextButtonHeight)
         
         // MARK: repliesCount frame
         let repliesCountFrame = CGRect.zero
         
         // MARK: commentCell height
-        let commentCellCappedHeight: CGFloat = expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset
-        let commentCellFullHeight: CGFloat = commentTextFullSizeRect.maxY + CommentCellConstants.commentCellBottomInset
         
-        let selectedCellHeight: CGFloat = showFullCommentText ? commentCellFullHeight : commentCellCappedHeight
+        let selectedCellHeight: CGFloat = showMoreTextButton ? expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset : selectedCommentTextSizeRect.maxY + CommentCellConstants.commentCellBottomInset
         
         let sizes = CommentViewModel.CommentCellSizes(commentAuthorIconFrame: commentAuthorImageRect,
                                                       topTextFrame: topTextRect,

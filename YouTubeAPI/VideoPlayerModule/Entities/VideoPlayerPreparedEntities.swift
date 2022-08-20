@@ -31,6 +31,7 @@ struct ChannelInfoViewModel {
 // Comments related
 
 struct CommentViewModel {
+    var commentId: String
     var userDateEditedCombinedString: String
     var commentText: String
     var authorProfileImageUrl: String
