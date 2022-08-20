@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class YouTubeCommentCellLayoutCalculator {
-    static func calculateCommentCellSizes(topDescriptionText: String, commentText: String) -> CommentViewModel.CommentCellSizes {
+    static func calculateCommentCellSizes(topDescriptionText: String, commentText: String, showFullCommentText: Bool) -> CommentViewModel.CommentCellSizes {
         
         // MARK: Calculate commentAuthorImageRect
         let commentAuthorImageRect = CGRect(x: CommentCellConstants.commentAuthorIconInsets.left,
@@ -32,12 +32,14 @@ class YouTubeCommentCellLayoutCalculator {
         }
         
         // MARK: Calculate commentText frame
+        // 2 frames, one is full sized, the other is capped sized
         var commentTextFullSizeRect = CGRect(
             origin: CGPoint(
                 x: commentAuthorImageRect.maxX + CommentCellConstants.commentTextInsets.left,
                 y: topTextRect.maxY + CommentCellConstants.commentTextInsets.top),
             size: CGSize.zero)
         var commentTextCappedSizeRect = commentTextFullSizeRect
+        var selectedCommentTextSizeRect = CGRect.zero
         
         let commentTextWidth: CGFloat = AppConstants.screenWidth - CommentCellConstants.commentTextInsets.left - CommentCellConstants.commentTextInsets.right - CommentCellConstants.commentAuthorIconSize - CommentCellConstants.commentAuthorIconInsets.left
         
@@ -53,26 +55,32 @@ class YouTubeCommentCellLayoutCalculator {
             }
             commentTextFullSizeRect.size = CGSize(width: commentTextWidth, height: height)
             commentTextCappedSizeRect.size = CGSize(width: commentTextWidth, height: cappedHeight)
+            
+            selectedCommentTextSizeRect = showFullCommentText ? commentTextFullSizeRect : commentTextCappedSizeRect
         }
         
         // MARK: expandCommentText frame
-        let expandCommentTextButtonFrame = CGRect.zero
+        let expandCommentTextButtonFrame = showFullCommentText ? CGRect(
+            x: CommentCellConstants.expandTextButtonInsets.left,
+            y: selectedCommentTextSizeRect.maxY + CommentCellConstants.expandTextButtonInsets.top,
+            width: AppConstants.screenWidth - CommentCellConstants.expandTextButtonInsets.left - CommentCellConstants.expandTextButtonInsets.right,
+            height: CommentCellConstants.expandTextButtonHeight) : CGRect.zero
         
         // MARK: repliesCount frame
         let repliesCountFrame = CGRect.zero
         
         // MARK: commentCell height
-        let commentCellCappedHeight: CGFloat = commentTextCappedSizeRect.maxY + CommentCellConstants.commentCellBottomInset
+        let commentCellCappedHeight: CGFloat = expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset
         let commentCellFullHeight: CGFloat = commentTextFullSizeRect.maxY + CommentCellConstants.commentCellBottomInset
+        
+        let selectedCellHeight: CGFloat = showFullCommentText ? commentCellFullHeight : commentCellCappedHeight
         
         let sizes = CommentViewModel.CommentCellSizes(commentAuthorIconFrame: commentAuthorImageRect,
                                                       topTextFrame: topTextRect,
-                                                      commentTextSmallSizeFrame: commentTextCappedSizeRect,
-                                                      commentTextFullSizeFrame: commentTextFullSizeRect,
+                                                      commentTextFrame: selectedCommentTextSizeRect,
                                                       expandCommentTextButtonFrame: expandCommentTextButtonFrame,
                                                       repliesCountLabelFrame: repliesCountFrame,
-                                                      tableViewCellCappedHeight: commentCellCappedHeight,
-                                                      tableViewCellFullHeight: commentCellFullHeight)
+                                                      tableViewCellHeight: selectedCellHeight)
         
         return sizes
     }

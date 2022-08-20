@@ -42,6 +42,17 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    lazy var moreTextButton: UIButton = {
+        let button = UIButton()
+        var textColor = #colorLiteral(red: 0.2439888418, green: 0.4641402364, blue: 0.655207932, alpha: 1)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        button.setTitleColor(textColor, for: .normal)
+        button.contentHorizontalAlignment = .left
+        button.contentVerticalAlignment = .center
+        button.setTitle("Show full text", for: .normal)
+        return button
+    }()
+    
     override func prepareForReuse() {
         commentAuthorIconImage.set(imageURL: nil)
     }
@@ -73,8 +84,15 @@ class CommentTableViewCell: UITableViewCell {
         commentTopLineLabel.text = viewModel.userDateEditedCombinedString
         
         addSubview(commentTextLabel)
-        commentTextLabel.frame = viewModel.sizes.commentTextFullSizeFrame
+        commentTextLabel.frame = viewModel.sizes.commentTextFrame
         commentTextLabel.text = viewModel.commentText
+        
+        addSubview(moreTextButton)
+        moreTextButton.frame = viewModel.sizes.expandCommentTextButtonFrame
+        moreTextButton.addTarget(self, action: #selector(showFullCommentText), for: .touchUpInside)
     }
-
+    
+    @objc private func showFullCommentText(_ sender: Any){
+        print("Show full text button pressed")
+    }
 }

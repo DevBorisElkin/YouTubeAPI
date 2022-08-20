@@ -15,6 +15,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     var router: VideoPlayerPresenterToRouterProtocol?
     
     var commentSearchResults: [CommentViewModel] = []
+    var expandedCommentsIds: [String] = []
     
     func viewDidLoad() {
         interactor?.videoToShowRequested()
@@ -47,7 +48,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     }
     
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
-        return commentSearchResults[indexPath.row].sizes.tableViewCellFullHeight
+        return commentSearchResults[indexPath.row].sizes.tableViewCellHeight
     }
 }
 
@@ -85,7 +86,11 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
             
             // TODO: calculate proper sizes
             // Sizes:
-            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay)
+            
+            //var expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
+            var expandedComment = true
+            
+            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, showFullCommentText: expandedComment)
             
             return CommentViewModel(userDateEditedCombinedString: topString,
                              commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,

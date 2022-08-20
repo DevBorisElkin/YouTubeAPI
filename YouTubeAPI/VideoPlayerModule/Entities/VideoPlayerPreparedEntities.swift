@@ -41,13 +41,10 @@ struct CommentViewModel {
     struct CommentCellSizes {
         var commentAuthorIconFrame: CGRect
         var topTextFrame: CGRect
-        var commentTextSmallSizeFrame: CGRect
-        var commentTextFullSizeFrame: CGRect
+        var commentTextFrame: CGRect
         var expandCommentTextButtonFrame: CGRect
         var repliesCountLabelFrame: CGRect
-        
-        var tableViewCellCappedHeight: CGFloat
-        var tableViewCellFullHeight: CGFloat
+        var tableViewCellHeight: CGFloat
     }
 }
 

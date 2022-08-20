@@ -28,6 +28,7 @@ class CommentCellConstants {
     
     static let expandTextButtonFont = UIFont.systemFont(ofSize: 15, weight: .regular)
     static let expandTextButtonHeight: CGFloat = 20
+    static let expandTextButtonInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     
     static let commentCellBottomInset: CGFloat = 10
 }
