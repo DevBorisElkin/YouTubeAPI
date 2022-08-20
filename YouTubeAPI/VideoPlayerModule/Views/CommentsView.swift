@@ -40,6 +40,10 @@ class CommentsView: UIView {
         table.delegate = self
         table.dataSource = self
     }
+    
+    func refreshData(){
+        table.reloadData()
+    }
 }
 
 extension CommentsView: UITableViewDelegate, UITableViewDataSource {

@@ -142,7 +142,6 @@ class SlidingView: UIView {
                 }else{
                     self.frame.origin = finalRect.origin
                 }
-                print("self.frame.height: \(self.frame.height)")
                 self.percentsOfTopArea = fadeResultOfTopArea
                 self.percentsOfBottomArea = fadeResultOfBottomArea
             }, completion: { (isCompleted) in

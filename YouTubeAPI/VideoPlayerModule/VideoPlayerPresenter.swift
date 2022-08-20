@@ -85,7 +85,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
             
             // TODO: calculate proper sizes
             // Sizes:
-            let sizes = CommentCellSizes(tableViewCellHeight: 150)
+            let sizes = CommentCellSizes(tableViewCellHeight: 350)
             
             return CommentViewModel(userDateEditedCombinedString: topString,
                              commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
@@ -94,6 +94,10 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
                              totalReplyCount: String(commentItem.snippet.totalReplyCount),
                              sizes: sizes)
         }
-        view?.commentsReceived(comments: commentsRemapped)
+        DispatchQueue.main.async {
+            self.commentSearchResults = commentsRemapped
+            // maybe not to return comments to the view, only to notify it
+            self.view?.commentsReceived(comments: commentsRemapped)
+        }
     }
 }

@@ -10,8 +10,18 @@ import UIKit
 class CommentTableViewCell: UITableViewCell {
 
     weak var presenter: VideoPlayerViewIntoPresenterProtocol?
-    
     static let reuseId = "CommentTableViewCell"
+    private var viewModel: CommentViewModel!
+    
+    lazy var commentTopLineLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textColor = CommentCellConstants.commentTopLineFontColor
+        label.font = CommentCellConstants.commentTopLineFont
+        label.backgroundColor = .brown
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,7 +38,13 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     func setUp(viewModel: CommentViewModel){
+        self.viewModel = viewModel
+        print("setUp -> comment cell")
         
+        addSubview(commentTopLineLabel)
+        commentTopLineLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: CommentCellConstants.commentTopLineInsets)
+        
+        commentTopLineLabel.text = viewModel.userDateEditedCombinedString
     }
 
 }

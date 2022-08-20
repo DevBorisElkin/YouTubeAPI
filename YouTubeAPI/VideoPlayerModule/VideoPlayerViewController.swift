@@ -14,6 +14,8 @@ class VideoPlayerViewController: PannableViewController {
     var presenter: VideoPlayerViewIntoPresenterProtocol?
     var videoToShow: VideoToShow?
     
+    private var commentsView: CommentsView?
+    
     var holderView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -110,15 +112,24 @@ class VideoPlayerViewController: PannableViewController {
     private func onCommentsButtonPressed() {
         print("onCommentsButtonPressed in VC")
         
-        guard let videoToShow = videoToShow else { print("No video to display comments for"); return }
+        guard let videoToShow = videoToShow, let presenter = presenter else { print("No video to display comments for or no presenter"); return }
 
-        presenter?.commentsRequested(videoId: videoToShow.videoId)
-        // 1 create sliding view
-        // 2 request data
-        // 3 while data is receiving, show loading
-        // 4 present data
+        // TODO test area
+        let topFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        let bottomFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        let holderSlidingSettings = HolderSlidingViewSettings(topFadeColor: topFadeColor, bottomFadeColor: bottomFadeColor, topFadeColorMaxAlpha: 0.7, bottomFadeColorMaxAlpha: 0.7)
+        let slidingSettings = SlidingViewSettings(totalHeightWithSafeArea: view.frame.height, topAreaHeight: playerView.frame.height, safeAreaHeight: AppConstants.safeAreaPadding.top, slideInAnimationTime: 0.4, snapAnimationTime: 0.3)
         
-        // here i need to create and open new view (sliding view)
+        let holderSlidingView = HolderSlidingView()
+        holderSlidingView.setUpWithMainSettings(parentView: view, holderSettings: holderSlidingSettings, slidingSettings: slidingSettings)
+        
+        let commentsView = CommentsView()
+        commentsView.initialSetUp(presenter: presenter)
+        commentsView.translatesAutoresizingMaskIntoConstraints = false
+        holderSlidingView.setUpContents(contentView: commentsView)
+        self.commentsView = commentsView
+        
+        presenter.commentsRequested(videoId: videoToShow.videoId)
     }
 }
 
@@ -131,5 +142,7 @@ extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
     
     func commentsReceived(comments: [CommentViewModel]) {
         print("Comments received to VC, here I need to notify view that holds table view to update data (it will get it from presenter)")
+        
+        commentsView?.refreshData()
     }
 }

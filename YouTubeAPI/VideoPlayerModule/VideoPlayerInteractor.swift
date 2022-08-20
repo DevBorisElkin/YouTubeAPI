@@ -32,6 +32,8 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
                 return
             }
             guard let commentsData = commentsData else { print("search for comments failed"); return }
+            
+            self.presenter?.commentsReceived(commentsDataWrapped: commentsData)
         }
     }
 }
