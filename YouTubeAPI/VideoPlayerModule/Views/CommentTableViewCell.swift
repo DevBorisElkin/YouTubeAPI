@@ -19,7 +19,8 @@ class CommentTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = CommentCellConstants.commentTopLineFont
         label.textColor = CommentCellConstants.commentTopLineFontColor
-        label.backgroundColor = .brown
+        //label.backgroundColor = .brown
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -29,7 +30,8 @@ class CommentTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = CommentCellConstants.commentTextFont
         label.textColor = CommentCellConstants.commentTextFontColor
-        label.backgroundColor = .brown
+        //label.backgroundColor = .brown
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -44,12 +46,13 @@ class CommentTableViewCell: UITableViewCell {
     
     lazy var moreTextButton: UIButton = {
         let button = UIButton()
-        var textColor = #colorLiteral(red: 0.2439888418, green: 0.4641402364, blue: 0.655207932, alpha: 1)
+        var textColor = #colorLiteral(red: 0.2330949306, green: 0.2231936157, blue: 0.2745918632, alpha: 1)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(textColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.contentVerticalAlignment = .center
-        button.setTitle("Show full text", for: .normal)
+        button.setTitle("Read more", for: .normal)
+        button.backgroundColor = .brown
         return button
     }()
     

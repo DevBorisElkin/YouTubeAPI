@@ -33,40 +33,34 @@ class YouTubeCommentCellLayoutCalculator {
         
         // MARK: Calculate commentText frame
         // 2 frames, one is full sized, the other is capped sized
-        var commentTextFullSizeRect = CGRect(
+        var commentTextSizeRect = CGRect(
             origin: CGPoint(
                 x: commentAuthorImageRect.maxX + CommentCellConstants.commentTextInsets.left,
                 y: topTextRect.maxY + CommentCellConstants.commentTextInsets.top),
             size: CGSize.zero)
-        var commentTextCappedSizeRect = commentTextFullSizeRect
-        var selectedCommentTextSizeRect = CGRect.zero
         
         let commentTextWidth: CGFloat = AppConstants.screenWidth - CommentCellConstants.commentTextInsets.left - CommentCellConstants.commentTextInsets.right - CommentCellConstants.commentAuthorIconSize - CommentCellConstants.commentAuthorIconInsets.left
         
         var showMoreTextButton = false
         
         if !commentText.isEmpty {
-            let height = commentText.height(width: commentTextWidth, font: CommentCellConstants.commentTextFont)
-            var cappedHeight = height
+            var height = commentText.height(width: commentTextWidth, font: CommentCellConstants.commentTextFont)
             
             // check limit height for name label
             let limitHeight = CommentCellConstants.commentTextFont.lineHeight * CommentCellConstants.commentTextMaxLines
             
-            if height > limitHeight && !isFullSizedPost {
+            if height > (limitHeight + 1) && !isFullSizedPost {
                 print("height(\(height))>limitHeight(\(limitHeight)")
-                cappedHeight = CommentCellConstants.commentTextFont.lineHeight * CommentCellConstants.commentTextMaxLines
+                height = limitHeight
                 showMoreTextButton = true
             }
-            commentTextFullSizeRect.size = CGSize(width: commentTextWidth, height: height)
-            commentTextCappedSizeRect.size = CGSize(width: commentTextWidth, height: cappedHeight)
-            
-            selectedCommentTextSizeRect = isFullSizedPost ? commentTextFullSizeRect : commentTextCappedSizeRect
+            commentTextSizeRect.size = CGSize(width: commentTextWidth, height: height)
         }
         
         // MARK: expandCommentText frame
         let expandCommentTextButtonFrame = showMoreTextButton == false ? CGRect.zero : CGRect(
             x: CommentCellConstants.expandTextButtonInsets.left + CommentCellConstants.commentAuthorIconSize + CommentCellConstants.expandTextButtonInsets.left,
-            y: selectedCommentTextSizeRect.maxY + CommentCellConstants.expandTextButtonInsets.top,
+            y: commentTextSizeRect.maxY + CommentCellConstants.expandTextButtonInsets.top,
             width: AppConstants.screenWidth - CommentCellConstants.expandTextButtonInsets.left - CommentCellConstants.expandTextButtonInsets.right,
             height: CommentCellConstants.expandTextButtonHeight)
         
@@ -75,11 +69,11 @@ class YouTubeCommentCellLayoutCalculator {
         
         // MARK: commentCell height
         
-        let selectedCellHeight: CGFloat = showMoreTextButton ? expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset : selectedCommentTextSizeRect.maxY + CommentCellConstants.commentCellBottomInset
+        let selectedCellHeight: CGFloat = showMoreTextButton ? expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset : commentTextSizeRect.maxY + CommentCellConstants.commentCellBottomInset
         
         let sizes = CommentViewModel.CommentCellSizes(commentAuthorIconFrame: commentAuthorImageRect,
                                                       topTextFrame: topTextRect,
-                                                      commentTextFrame: selectedCommentTextSizeRect,
+                                                      commentTextFrame: commentTextSizeRect,
                                                       expandCommentTextButtonFrame: expandCommentTextButtonFrame,
                                                       repliesCountLabelFrame: repliesCountFrame,
                                                       tableViewCellHeight: selectedCellHeight)
