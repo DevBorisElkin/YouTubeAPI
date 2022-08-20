@@ -50,7 +50,6 @@ class YouTubeCommentCellLayoutCalculator {
             let limitHeight = CommentCellConstants.commentTextFont.lineHeight * CommentCellConstants.commentTextMaxLines
             
             if height > (limitHeight + 1) && !isFullSizedPost {
-                print("height(\(height))>limitHeight(\(limitHeight)")
                 height = limitHeight
                 showMoreTextButton = true
             }

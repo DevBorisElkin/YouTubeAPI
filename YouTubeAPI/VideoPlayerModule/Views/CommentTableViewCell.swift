@@ -77,11 +77,13 @@ class CommentTableViewCell: UITableViewCell {
     func setUp(viewModel: CommentViewModel, presenter: VideoPlayerViewIntoPresenterProtocol){
         self.viewModel = viewModel
         self.presenter = presenter
-        print("setUp -> comment cell")
         
         addSubview(commentAuthorIconImage)
         commentAuthorIconImage.frame = viewModel.sizes.commentAuthorIconFrame
-        commentAuthorIconImage.set(imageURL: viewModel.authorProfileImageUrl)
+        // TODO something is wrong with loading these resources
+        print("I would have loaded resource if i could [\(viewModel.authorProfileImageUrl)]")
+        //commentAuthorIconImage.set(imageURL: viewModel.authorProfileImageUrl)
+        commentAuthorIconImage.downloadFromUrlString(from: viewModel.authorProfileImageUrl, contentMode: .scaleAspectFit)
         
         addSubview(commentTopLineLabel)
         commentTopLineLabel.frame = viewModel.sizes.topTextFrame
