@@ -61,6 +61,7 @@ class CommentsView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.reuseId)
+        tableView.contentInset.top = CommentCellConstants.commentsTableViewTopInset
         return tableView
     }()
     
@@ -100,6 +101,7 @@ class CommentsView: UIView {
         
         table.delegate = self
         table.dataSource = self
+        table.refreshControl = createRefreshControl()
     }
     
     @objc private func closeCommentsButtonPressed(_ sender: Any?){
@@ -109,6 +111,22 @@ class CommentsView: UIView {
     
     func refreshData(){
         table.reloadData()
+    }
+}
+
+// MARK: pull to refresh
+extension CommentsView {
+    
+    private func createRefreshControl() -> UIRefreshControl{
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onCalledToRefresh(sender:)), for: .valueChanged)
+        
+        return refreshControl
+    }
+    
+    @objc private func onCalledToRefresh(sender: UIRefreshControl){
+        print("onCalledToRefresh")
+        presenter?.commentsRequestedToGetUpdated()
     }
 }
 
@@ -141,5 +159,9 @@ extension CommentsView: UITableViewDelegate, UITableViewDataSource, UIScrollView
     
     func loadingDataEnded(){
         self.table.tableFooterView = nil
+        
+        if let refreshControl = table.refreshControl, refreshControl.isRefreshing{
+            refreshControl.endRefreshing()
+        }
     }
 }

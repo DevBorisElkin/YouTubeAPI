@@ -20,7 +20,7 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
         presenter?.videoToShowPrepared(videoModel: videoModel)
     }
     
-    func commentsRequested(searchUrlString: String, delay: Double) {
+    func commentsRequested(searchUrlString: String, appendComments: Bool, delay: Double) {
         Task.detached(priority: .medium) {
             // MARK: Artificial delay
             if delay > 0 {
@@ -41,7 +41,7 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
             guard let commentsData = commentsData else { print("search for comments failed"); return }
             
             self.lastCommentsResult = commentsData
-            self.presenter?.commentsReceived(commentsDataWrapped: commentsData)
+            self.presenter?.commentsReceived(commentsDataWrapped: commentsData, appendComments: appendComments)
         }
     }
     

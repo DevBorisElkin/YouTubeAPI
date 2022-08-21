@@ -54,6 +54,7 @@ class CommentCellConstants {
     
     static let commentCellBottomInset: CGFloat = 10
     
-    // MARK: Inset to load more comments
-    static let commentInsetToLoadMoreComments: CGFloat = 20
+    // MARK: Comments table view related
+    static let commentInsetToLoadMoreComments: CGFloat = 20 // Inset to load more comments
+    static let commentsTableViewTopInset: CGFloat = 8
 }

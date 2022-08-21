@@ -46,12 +46,12 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
     var videoModel: VideoViewModel? { get set }
     
     func videoToShowRequested()
-    func commentsRequested(searchUrlString: String, delay: Double)
+    func commentsRequested(searchUrlString: String, appendComments: Bool, delay: Double)
 }
 
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {
     func videoToShowPrepared(videoModel: VideoViewModel)
-    func commentsReceived(commentsDataWrapped: CommentsResultWrapped)
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool)
 }
 
 protocol VideoPlayerPresenterToRouterProtocol: AnyObject  {

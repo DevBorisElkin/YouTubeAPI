@@ -153,8 +153,6 @@ extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
     }
     
     func commentsUpdated() {
-        print("Comments received, singnal reached VC, here I need to notify view that holds table view to update data (it will get it from presenter)")
-        
         commentsView?.loadingDataEnded()
         commentsView?.refreshData()
     }

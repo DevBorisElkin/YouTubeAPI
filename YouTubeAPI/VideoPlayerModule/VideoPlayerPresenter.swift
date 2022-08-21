@@ -30,13 +30,19 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
             view?.videoLoadingStarted()
-            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), delay: AppConstants.commentRequestArtificialDelay)
+            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), appendComments: true, delay: AppConstants.commentRequestArtificialDelay)
         }else{
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
     }
+    
+    // make a request, but before check if id of video is available
     func commentsRequestedToGetUpdated() {
-        // todo just update comments without a network request
+        guard let videoId = videoIdForComments else {
+            print("No video to load comments for"); return
+        }
+        // show loading
+        interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), appendComments: false, delay: AppConstants.commentRequestArtificialDelay)
     }
     
     func expandTextForComment(commentId: String) {
@@ -63,7 +69,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         }
         view?.videoLoadingStarted()
         let requestString = YouTubeHelper.getCommentsForVideoRequestString(forVideoId: lastVideoIdRequested, forPageToken: nextPageToken)
-        interactor?.commentsRequested(searchUrlString: requestString, delay: AppConstants.commentRequestArtificialDelay)
+        interactor?.commentsRequested(searchUrlString: requestString, appendComments: true, delay: AppConstants.commentRequestArtificialDelay)
     }
     
     // MARK: For table view
@@ -109,7 +115,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
     }
     
     // TODO: you need to store nextPage string to make further requests for more data
-    func commentsReceived(commentsDataWrapped: CommentsResultWrapped) {
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool) {
         // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
         
         let commentItems: [CommentItem] = commentsDataWrapped.items ?? []
@@ -118,7 +124,12 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         
         DispatchQueue.main.async {
             self.nextPageToken = commentsDataWrapped.nextPageToken
-            self.commentSearchResults.append(contentsOf: commentsRemapped)
+            
+            if(appendComments){
+                self.commentSearchResults.append(contentsOf: commentsRemapped)
+            }else{
+                self.commentSearchResults = commentsRemapped
+            }
             
             self.view?.commentsUpdated()
         }
