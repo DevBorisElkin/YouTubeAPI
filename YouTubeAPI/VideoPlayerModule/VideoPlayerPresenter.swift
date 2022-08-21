@@ -16,16 +16,18 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     
     var commentSearchResults: [CommentViewModel] = []
     var expandedCommentsIds: [String] = []
+    var nextPageToken: String?
     
     func viewDidLoad() {
         interactor?.videoToShowRequested()
     }
     
+    // MARK: Methods to request comments
     func commentsRequested(videoId: String) {
         // request comments if they haven't been loaded for this video
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
-            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId))
+            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), appendToPreviousComments: true)
         }else{
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
@@ -38,8 +40,12 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         if !expandedCommentsIds.contains(commentId) {
             expandedCommentsIds.append(commentId)
             
-            interactor?.commentsRequestedForLastSearch()
+            interactor?.commentsRequestedForLastSearch() // won't append comments
         } else { print("Can't expand comments for video which comments had already been expanded") }
+    }
+    
+    func moreCommentsRequestedForLastCommentsResult() {
+        // todo
     }
     
     // MARK: For table view
@@ -80,7 +86,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
     }
     
     // TODO: you need to store nextPage string to make further requests for more data
-    func commentsReceived(commentsDataWrapped: CommentsResultWrapped) {
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendToPreviousComments: Bool) {
         // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
         
         guard let commentItems = commentsDataWrapped.items else {
@@ -112,7 +118,15 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
                              sizes: sizes)
         }
         DispatchQueue.main.async {
-            self.commentSearchResults = commentsRemapped
+            if !appendToPreviousComments {
+                // we don't append comments only for expanding comment cells
+                self.commentSearchResults = commentsRemapped
+            }else{
+                // recorn token, we use append when we make first request or other appending requests
+                self.nextPageToken = commentsDataWrapped.nextPageToken
+                self.commentSearchResults.append(contentsOf: commentsRemapped)
+            }
+            
             // maybe not to return comments to the view, only to notify it
             self.view?.commentsUpdated()
         }
