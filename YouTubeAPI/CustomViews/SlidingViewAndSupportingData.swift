@@ -229,13 +229,13 @@ class HolderSlidingView: UIView {
     private var slidingSettings: SlidingViewSettings!
     weak var slidingView: SlidingView?
     
-    private lazy var topFade: UIView = {
-        var view = UIView()
+    private lazy var topFade: ClickDelegatingView = {
+        var view = ClickDelegatingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private lazy var bottomFade: UIView = {
-        var view = UIView()
+    private lazy var bottomFade: ClickDelegatingView = {
+        var view = ClickDelegatingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -258,6 +258,13 @@ class HolderSlidingView: UIView {
         slidingView.delegate = self
         slidingView.setUpWithMainSettings(parentView: self, settings: slidingSettings)
         self.slidingView = slidingView
+    }
+    
+    func setTopFadeViewDelegateClicks(to view: UIView){
+        topFade.delegateClicksTo = view
+    }
+    func setBottomFadeViewDelegateClicks(to view: UIView){
+        bottomFade.delegateClicksTo = view
     }
     
     func setUpContents(contentView: UIView){
@@ -293,5 +300,28 @@ struct HolderSlidingViewSettings {
     var bottomFadeColor: UIColor
     var topFadeColorMaxAlpha: CGFloat = 1
     var bottomFadeColorMaxAlpha: CGFloat = 1
+}
+
+class UnclickableView: UIView {
+    var isClickable = false
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if !isClickable{
+            return false
+        } else {
+            return super.point(inside: point, with: event)
+        }
+    }
+}
+
+class ClickDelegatingView: UIView {
+    var delegateClicksTo: UIView?
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let delegateClicksTo = delegateClicksTo {
+            return delegateClicksTo.hitTest(point, with: event)
+        }else{
+            return super.hitTest(point, with: event)
+        }
+    }
 }
 

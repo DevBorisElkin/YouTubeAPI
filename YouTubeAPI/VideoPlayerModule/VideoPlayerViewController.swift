@@ -133,6 +133,7 @@ class VideoPlayerViewController: PannableViewController {
         
         let holderSlidingView = HolderSlidingView()
         holderSlidingView.setUpWithMainSettings(parentView: view, holderSettings: holderSlidingSettings, slidingSettings: slidingSettings)
+        holderSlidingView.setTopFadeViewDelegateClicks(to: playerView)
         
         let commentsView = CommentsView()
         commentsView.initialSetUp(presenter: presenter)
