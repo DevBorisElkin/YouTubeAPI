@@ -260,11 +260,11 @@ class HolderSlidingView: UIView {
         self.slidingView = slidingView
     }
     
-    func setTopFadeViewDelegateClicks(to view: UIView){
-        topFade.delegateClicksTo = view
+    func setTopFadeViewDelegateClicks(to view: UIView, hitTestOffset: CGPoint){
+        topFade.setUpClickDelegatingView(delegateClicksTo: view, hitTestFix: hitTestOffset)
     }
-    func setBottomFadeViewDelegateClicks(to view: UIView){
-        bottomFade.delegateClicksTo = view
+    func setBottomFadeViewDelegateClicks(to view: UIView, hitTestOffset: CGPoint){
+        bottomFade.setUpClickDelegatingView(delegateClicksTo: view, hitTestFix: hitTestOffset)
     }
     
     func setUpContents(contentView: UIView){
@@ -314,11 +314,18 @@ class UnclickableView: UIView {
 }
 
 class ClickDelegatingView: UIView {
-    var delegateClicksTo: UIView?
+    private var delegateClicksTo: UIView?
+    private var hitTestFix: CGPoint = CGPoint.zero
+    
+    func setUpClickDelegatingView(delegateClicksTo: UIView?, hitTestFix: CGPoint = CGPoint.zero) {
+        self.delegateClicksTo = delegateClicksTo
+        self.hitTestFix = hitTestFix
+    }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let delegateClicksTo = delegateClicksTo {
-            return delegateClicksTo.hitTest(point, with: event)
+            let fixedPoint = CGPoint(x: point.x + hitTestFix.x, y: point.y + hitTestFix.y)
+            return delegateClicksTo.hitTest(fixedPoint, with: event)
         }else{
             return super.hitTest(point, with: event)
         }
