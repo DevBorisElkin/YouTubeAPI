@@ -24,7 +24,7 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
         Task.detached(priority: .medium) {
             // MARK: LOAD COMMENTS
             let commentsData: CommentsResultWrapped?
-            let resultCommentsData: Result<CommentsResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: searchUrlString, printJsonAndRequestString: true)
+            let resultCommentsData: Result<CommentsResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: searchUrlString, printJsonAndRequestString: false)
             
             switch resultCommentsData {
             case .success(let data):

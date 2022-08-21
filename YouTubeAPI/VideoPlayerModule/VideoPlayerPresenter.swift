@@ -102,9 +102,11 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
             
             let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, isFullSizedPost: expandedComment)
             
+            let userIconUrlString = AppConstants.preferHttpForStaticContent ? commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl.replacingOccurrences(of: "https", with: "http") : commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl
+            
             return CommentViewModel(commentId: commentItem.id, userDateEditedCombinedString: topString,
                              commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
-                             authorProfileImageUrl: commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl,
+                                    authorProfileImageUrl: userIconUrlString,
                              likeCount: String(commentItem.snippet.topLevelComment.snippet.likeCount),
                              totalReplyCount: String(commentItem.snippet.totalReplyCount),
                              sizes: sizes)

@@ -84,7 +84,7 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
                 guard let width = sizeInfo.width, let height = sizeInfo.height else { print("Error calculating sizes"); continue }
                 
                 // MARK: other small data
-                let channelImageUrl = pair.channelInfo.snippet.thumbnails.def.url.replacingOccurrences(of: "https", with: "http")
+                let channelImageUrl = AppConstants.preferHttpForStaticContent ? pair.channelInfo.snippet.thumbnails.def.url.replacingOccurrences(of: "https", with: "http") : pair.channelInfo.snippet.thumbnails.def.url
                 let videoNameText = pair.videoItem.snippet.description
                 
                 // MARK: Details String

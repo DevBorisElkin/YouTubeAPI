@@ -80,10 +80,7 @@ class CommentTableViewCell: UITableViewCell {
         
         addSubview(commentAuthorIconImage)
         commentAuthorIconImage.frame = viewModel.sizes.commentAuthorIconFrame
-        // TODO something is wrong with loading these resources
-        print("I would have loaded resource if i could [\(viewModel.authorProfileImageUrl)]")
-        //commentAuthorIconImage.set(imageURL: viewModel.authorProfileImageUrl)
-        commentAuthorIconImage.downloadFromUrlString(from: viewModel.authorProfileImageUrl, contentMode: .scaleAspectFit)
+        commentAuthorIconImage.set(imageURL: viewModel.authorProfileImageUrl, cacheAndRetrieveImage: false)
         
         addSubview(commentTopLineLabel)
         commentTopLineLabel.frame = viewModel.sizes.topTextFrame
