@@ -18,7 +18,7 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     // MARK: Methods to request comments
     func commentsRequested(videoId: String) // fresh request for comments
     func commentsRequestedToGetUpdated()
-    func moreCommentsRequestedForLastCommentsResult()
+    func commentsPaginationRequest()
     func expandTextForComment(commentId: String) // add comment id to expanded comments and returns last request recorded data (no need to request data again)
     
     // MARK: For comments table view
@@ -40,13 +40,12 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
     var videoModel: VideoViewModel? { get set }
     
     func videoToShowRequested()
-    func commentsRequested(searchUrlString: String, appendToPreviousComments: Bool)
-    func commentsRequestedForLastSearch()
+    func commentsRequested(searchUrlString: String)
 }
 
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {
     func videoToShowPrepared(videoModel: VideoViewModel)
-    func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendToPreviousComments: Bool)
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped)
 }
 
 protocol VideoPlayerPresenterToRouterProtocol: AnyObject  {

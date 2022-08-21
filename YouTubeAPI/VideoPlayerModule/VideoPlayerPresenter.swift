@@ -27,7 +27,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         // request comments if they haven't been loaded for this video
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
-            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), appendToPreviousComments: true)
+            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId))
         }else{
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
@@ -40,11 +40,20 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         if !expandedCommentsIds.contains(commentId) {
             expandedCommentsIds.append(commentId)
             
-            interactor?.commentsRequestedForLastSearch() // won't append comments
+            let commentIndex: Int? = commentSearchResults.firstIndex { $0.commentId == commentId }
+            guard let commentIndex = commentIndex else { print("Didn't find comment by id \(commentId)"); return }
+            
+            var commentItem = commentSearchResults[commentIndex]
+            
+            commentItem.sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: commentItem.userDateEditedCombinedString, commentText: commentItem.commentText, isFullSizedPost: true)
+            
+            commentSearchResults[commentIndex] = commentItem
+            
+            self.view?.commentsUpdated()
         } else { print("Can't expand comments for video which comments had already been expanded") }
     }
     
-    func moreCommentsRequestedForLastCommentsResult() {
+    func commentsPaginationRequest() {
         // todo
     }
     
@@ -86,49 +95,44 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
     }
     
     // TODO: you need to store nextPage string to make further requests for more data
-    func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendToPreviousComments: Bool) {
+    func commentsReceived(commentsDataWrapped: CommentsResultWrapped) {
         // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
         
         guard let commentItems = commentsDataWrapped.items else {
             print("Presenter received no comments for request, returning")
             return
         }
-        let commentsRemapped: [CommentViewModel] = commentItems.map { commentItem in
-            
-            let dateString = DateHelpers.getTimeSincePublication(from: commentItem.snippet.topLevelComment.snippet.publishedAt)
-            let isTextEditedString = commentItem.snippet.topLevelComment.snippet.textOriginal != commentItem.snippet.topLevelComment.snippet.textDisplay ? " (edited)" : ""
-            
-            let topString = "\(commentItem.snippet.topLevelComment.snippet.authorDisplayName) ◦ \(dateString) \(isTextEditedString)"
-            
-            // TODO: calculate proper sizes
-            // Sizes:
-            
-            let expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
-            //var expandedComment = true
-            
-            let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, isFullSizedPost: expandedComment)
-            
-            let userIconUrlString = AppConstants.preferHttpForStaticContent ? commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl.replacingOccurrences(of: "https", with: "http") : commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl
-            
-            return CommentViewModel(commentId: commentItem.id, userDateEditedCombinedString: topString,
-                             commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
-                                    authorProfileImageUrl: userIconUrlString,
-                             likeCount: String(commentItem.snippet.topLevelComment.snippet.likeCount),
-                             totalReplyCount: String(commentItem.snippet.totalReplyCount),
-                             sizes: sizes)
-        }
+        let commentsRemapped: [CommentViewModel] = commentItems.map { self.prepareComment(commentItem: $0) }
+        
         DispatchQueue.main.async {
-            if !appendToPreviousComments {
-                // we don't append comments only for expanding comment cells
-                self.commentSearchResults = commentsRemapped
-            }else{
-                // recorn token, we use append when we make first request or other appending requests
-                self.nextPageToken = commentsDataWrapped.nextPageToken
-                self.commentSearchResults.append(contentsOf: commentsRemapped)
-            }
+            self.nextPageToken = commentsDataWrapped.nextPageToken
+            self.commentSearchResults.append(contentsOf: commentsRemapped)
             
-            // maybe not to return comments to the view, only to notify it
             self.view?.commentsUpdated()
         }
+    }
+    
+    private func prepareComment(commentItem: CommentItem) -> CommentViewModel {
+        let dateString = DateHelpers.getTimeSincePublication(from: commentItem.snippet.topLevelComment.snippet.publishedAt)
+        let isTextEditedString = commentItem.snippet.topLevelComment.snippet.textOriginal != commentItem.snippet.topLevelComment.snippet.textDisplay ? " (edited)" : ""
+        
+        let topString = "\(commentItem.snippet.topLevelComment.snippet.authorDisplayName) ◦ \(dateString) \(isTextEditedString)"
+        
+        // TODO: calculate proper sizes
+        // Sizes:
+        
+        let expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
+        //var expandedComment = true
+        
+        let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, isFullSizedPost: expandedComment)
+        
+        let userIconUrlString = AppConstants.preferHttpForStaticContent ? commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl.replacingOccurrences(of: "https", with: "http") : commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl
+        
+        return CommentViewModel(commentId: commentItem.id, userDateEditedCombinedString: topString,
+                         commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
+                                authorProfileImageUrl: userIconUrlString,
+                         likeCount: String(commentItem.snippet.topLevelComment.snippet.likeCount),
+                         totalReplyCount: String(commentItem.snippet.totalReplyCount),
+                         sizes: sizes)
     }
 }

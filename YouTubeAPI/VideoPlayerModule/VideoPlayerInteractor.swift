@@ -20,7 +20,7 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
         presenter?.videoToShowPrepared(videoModel: videoModel)
     }
     
-    func commentsRequested(searchUrlString: String, appendToPreviousComments: Bool) {
+    func commentsRequested(searchUrlString: String) {
         Task.detached(priority: .medium) {
             // MARK: LOAD COMMENTS
             let commentsData: CommentsResultWrapped?
@@ -36,12 +36,12 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
             guard let commentsData = commentsData else { print("search for comments failed"); return }
             
             self.lastCommentsResult = commentsData
-            self.presenter?.commentsReceived(commentsDataWrapped: commentsData, appendToPreviousComments: appendToPreviousComments)
+            self.presenter?.commentsReceived(commentsDataWrapped: commentsData)
         }
     }
     
-    func commentsRequestedForLastSearch() {
-        guard let lastCommentsResult = lastCommentsResult else { print("no stored comments in interactor"); return }
-        presenter?.commentsReceived(commentsDataWrapped: lastCommentsResult, appendToPreviousComments: false)
-    }
+    //func commentsRequestedForLastSearch() {
+    //    guard let lastCommentsResult = lastCommentsResult else { print("no stored comments in interactor"); return }
+    //    presenter?.commentsReceived(commentsDataWrapped: lastCommentsResult, appendToPreviousComments: false)
+    //}
 }
