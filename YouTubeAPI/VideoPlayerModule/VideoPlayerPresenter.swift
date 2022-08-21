@@ -29,7 +29,8 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         // request comments if they haven't been loaded for this video
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
-            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId))
+            view?.videoLoadingStarted()
+            //interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId))
         }else{
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
@@ -60,6 +61,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
             print("No next page token, or lastVideoIdRequested, nothing to load, returning")
             return
         }
+        view?.videoLoadingStarted()
         let requestString = YouTubeHelper.getCommentsForVideoRequestString(forVideoId: lastVideoIdRequested, forPageToken: nextPageToken)
         interactor?.commentsRequested(searchUrlString: requestString)
     }
@@ -105,10 +107,8 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
     func commentsReceived(commentsDataWrapped: CommentsResultWrapped) {
         // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
         
-        guard let commentItems = commentsDataWrapped.items else {
-            print("Presenter received no comments for request, returning")
-            return
-        }
+        let commentItems: [CommentItem] = commentsDataWrapped.items ?? []
+            
         let commentsRemapped: [CommentViewModel] = commentItems.map { self.prepareComment(commentItem: $0) }
         
         DispatchQueue.main.async {

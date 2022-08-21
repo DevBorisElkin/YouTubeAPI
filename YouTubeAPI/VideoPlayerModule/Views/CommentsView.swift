@@ -46,7 +46,7 @@ class CommentsView: UIView {
     }
 }
 
-extension CommentsView: UITableViewDelegate, UITableViewDataSource {
+extension CommentsView: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.numberOfRowsInSection() ?? 0
     }
@@ -59,21 +59,21 @@ extension CommentsView: UITableViewDelegate, UITableViewDataSource {
         return presenter?.tableViewCellHeight(at: indexPath) ?? 100
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let bottomPoint: CGFloat = scrollView.contentOffset.y + scrollView.bounds.size.height
         let scrollPointToLoadMoreContent: CGFloat = scrollView.contentSize.height + CommentCellConstants.commentInsetToLoadMoreComments
-        let loadMoreContent: Bool = bottomPoint > scrollPointToLoadMoreContent
         
-        print("_____")
-        print("bottomPoint: \(bottomPoint)")
-        print("scrollPointToLoadMoreContent: \(scrollPointToLoadMoreContent)")
-        print("loadMoreContent: \(loadMoreContent)")
-        //print("scrollView.bounds.size.height: \(scrollView.bounds.size.height)")
-        
-        //print("scrollViewDidEndDragging(\(scrollView.contentOffset.y) > \(scrollView.contentSize.height / 1.05))")
-        //if scrollView.contentOffset.y > scrollView.contentSize.height / 1.05 {
-        //    print("CommentsView.nextPageRequest")
-        //    presenter?.commentsPaginationRequest()
-        //}
+        if(bottomPoint > scrollPointToLoadMoreContent && table.tableFooterView == nil){
+            print("fetch more data")
+            presenter?.commentsPaginationRequest()
+        }
+    }
+    
+    func loadingDataStarted(){
+        self.table.tableFooterView = UIHelpers.createSpinnerFooter(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 100))
+    }
+    
+    func loadingDataEnded(){
+        self.table.tableFooterView = nil
     }
 }

@@ -14,7 +14,7 @@ class VideoPlayerViewController: PannableViewController {
     var presenter: VideoPlayerViewIntoPresenterProtocol?
     var videoToShow: VideoToShow?
     
-    private var commentsView: CommentsView?
+    private weak var commentsView: CommentsView?
     
     var holderView: UIView = {
         let view = UIView()
@@ -114,7 +114,11 @@ class VideoPlayerViewController: PannableViewController {
         
         guard let videoToShow = videoToShow, let presenter = presenter else { print("No video to display comments for or no presenter"); return }
 
-        // TODO test area
+        createAndSetUpHolderSlidingView(videoToShow: videoToShow, presenter: presenter)
+    }
+    
+    private func createAndSetUpHolderSlidingView(videoToShow: VideoToShow, presenter: VideoPlayerViewIntoPresenterProtocol){
+        
         let topFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         let bottomFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         let holderSlidingSettings = HolderSlidingViewSettings(topFadeColor: topFadeColor, bottomFadeColor: bottomFadeColor, topFadeColorMaxAlpha: 0.7, bottomFadeColorMaxAlpha: 0.7)
@@ -143,6 +147,11 @@ extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
     func commentsUpdated() {
         print("Comments received, singnal reached VC, here I need to notify view that holds table view to update data (it will get it from presenter)")
         
+        commentsView?.loadingDataEnded()
         commentsView?.refreshData()
+    }
+    
+    func videoLoadingStarted() {
+        commentsView?.loadingDataStarted()
     }
 }

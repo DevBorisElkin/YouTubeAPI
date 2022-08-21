@@ -33,6 +33,9 @@ protocol VideoPlayerPresenterToViewProtocol: AnyObject {
     
     func videoToShowDataReceived(videoToShow: VideoToShow)
     func commentsUpdated()
+    
+    // for footer view
+    func videoLoadingStarted()
 }
 
 protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
