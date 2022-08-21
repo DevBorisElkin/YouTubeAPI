@@ -31,4 +31,8 @@ class YouTubeHelper {
     static func getCommentsForVideoRequestString(forVideoId videoId: String) -> String {
         return "https://www.googleapis.com/youtube/v3/commentThreads?key=\(apiKey)&textFormat=plainText&part=snippet&videoId=\(videoId)&maxResults=\(100)"
     }
+    
+    static func getCommentsForVideoRequestString(forVideoId videoId: String, forPageToken pageToken: String) -> String {
+        return "https://www.googleapis.com/youtube/v3/commentThreads?key=\(apiKey)&textFormat=plainText&part=snippet&pageToken=\(pageToken)&videoId=\(videoId)&maxResults=\(100)"
+    }
 }

@@ -58,4 +58,22 @@ extension CommentsView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return presenter?.tableViewCellHeight(at: indexPath) ?? 100
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let bottomPoint: CGFloat = scrollView.contentOffset.y + scrollView.bounds.size.height
+        let scrollPointToLoadMoreContent: CGFloat = scrollView.contentSize.height + CommentCellConstants.commentInsetToLoadMoreComments
+        let loadMoreContent: Bool = bottomPoint > scrollPointToLoadMoreContent
+        
+        print("_____")
+        print("bottomPoint: \(bottomPoint)")
+        print("scrollPointToLoadMoreContent: \(scrollPointToLoadMoreContent)")
+        print("loadMoreContent: \(loadMoreContent)")
+        //print("scrollView.bounds.size.height: \(scrollView.bounds.size.height)")
+        
+        //print("scrollViewDidEndDragging(\(scrollView.contentOffset.y) > \(scrollView.contentSize.height / 1.05))")
+        //if scrollView.contentOffset.y > scrollView.contentSize.height / 1.05 {
+        //    print("CommentsView.nextPageRequest")
+        //    presenter?.commentsPaginationRequest()
+        //}
+    }
 }

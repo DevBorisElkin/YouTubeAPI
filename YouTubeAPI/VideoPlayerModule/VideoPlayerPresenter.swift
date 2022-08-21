@@ -16,6 +16,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     
     var commentSearchResults: [CommentViewModel] = []
     var expandedCommentsIds: [String] = []
+    var videoIdForComments: String?
     var nextPageToken: String?
     
     func viewDidLoad() {
@@ -24,6 +25,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     
     // MARK: Methods to request comments
     func commentsRequested(videoId: String) {
+        videoIdForComments = videoId
         // request comments if they haven't been loaded for this video
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
@@ -54,7 +56,12 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     }
     
     func commentsPaginationRequest() {
-        // todo
+        guard let nextPageToken = nextPageToken, let lastVideoIdRequested = videoIdForComments else {
+            print("No next page token, or lastVideoIdRequested, nothing to load, returning")
+            return
+        }
+        let requestString = YouTubeHelper.getCommentsForVideoRequestString(forVideoId: lastVideoIdRequested, forPageToken: nextPageToken)
+        interactor?.commentsRequested(searchUrlString: requestString)
     }
     
     // MARK: For table view

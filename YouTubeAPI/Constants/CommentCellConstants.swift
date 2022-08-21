@@ -31,4 +31,7 @@ class CommentCellConstants {
     static let expandTextButtonInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     
     static let commentCellBottomInset: CGFloat = 10
+    
+    // MARK: Inset to load more comments
+    static let commentInsetToLoadMoreComments: CGFloat = 20
 }
