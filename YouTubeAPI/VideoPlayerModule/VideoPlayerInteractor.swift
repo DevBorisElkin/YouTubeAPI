@@ -36,9 +36,13 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
                 commentsData = data
             case .failure(let error):
                 print(error)
+                self.presenter?.commentsLoadingFailed()
                 return
             }
-            guard let commentsData = commentsData else { print("search for comments failed"); return }
+            guard let commentsData = commentsData else {
+                print("search for comments failed");
+                self.presenter?.commentsLoadingFailed()
+                return }
             
             self.lastCommentsResult = commentsData
             self.presenter?.commentsReceived(commentsDataWrapped: commentsData, appendComments: appendComments)

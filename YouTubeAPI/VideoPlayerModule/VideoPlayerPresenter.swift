@@ -114,9 +114,16 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         view?.videoToShowDataReceived(videoToShow: videoToShow)
     }
     
+    func commentsLoadingFailed() {
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.commentsUpdated()
+        }
+    }
+    
     // TODO: you need to store nextPage string to make further requests for more data
     func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool) {
         // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
+        print("Presenter, comments received")
         
         let commentItems: [CommentItem] = commentsDataWrapped.items ?? []
             

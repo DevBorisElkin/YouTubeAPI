@@ -52,6 +52,7 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {
     func videoToShowPrepared(videoModel: VideoViewModel)
     func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool)
+    func commentsLoadingFailed()
 }
 
 protocol VideoPlayerPresenterToRouterProtocol: AnyObject  {
