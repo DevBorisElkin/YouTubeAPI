@@ -19,11 +19,17 @@ class CommentCellConstants {
     // 'Comments' label
     static let commentTopLabelColor = #colorLiteral(red: 0.1299800866, green: 0.1339292728, blue: 0.138124946, alpha: 1)
     static let commentTopLabelFont = UIFont.systemFont(ofSize: 20, weight: .medium)
-    static let commentTopLabelInsets = UIEdgeInsets(top: 8, left: 11, bottom: 10, right: 0)
+    static let commentTopLabelInsets = UIEdgeInsets(top: 8, left: 13, bottom: 10, right: 0)
     
     // close button
-    static let closeCommentsButtonInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 13)
+    static let closeCommentsButtonInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 15)
     static let closeCommentsButtonSizes = CGSize(width: 22, height: 22)
+    
+    // toggle gar
+    static let toggleBarInsets = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
+    static let toggleBarSize = CGSize(width: 49, height: 4.1)
+    static let toggleBarColor = #colorLiteral(red: 0.8088238182, green: 0.8088238182, blue: 0.8088238182, alpha: 1)
+    
     
     // MARK: Fonts
     static let commentTopLineFont = UIFont.systemFont(ofSize: 12, weight: .regular)

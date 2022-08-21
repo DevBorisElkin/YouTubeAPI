@@ -39,6 +39,14 @@ class CommentsView: UIView {
         return button
     }()
     
+    var toggleBarImage: UIView = {
+        var view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = CommentCellConstants.toggleBarColor
+        view.layer.cornerRadius = CommentCellConstants.toggleBarSize.height / 2
+        return view
+    }()
+    
     var topViewSeparator: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +86,13 @@ class CommentsView: UIView {
         closeCommentsButton.imageView?.sizeToFit()
         closeCommentsButton.heightAnchor.constraint(equalToConstant: CommentCellConstants.closeCommentsButtonSizes.height).isActive = true
         closeCommentsButton.widthAnchor.constraint(equalToConstant: CommentCellConstants.closeCommentsButtonSizes.width).isActive = true
+        
+        topView.addSubview(toggleBarImage)
+        toggleBarImage.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
+        toggleBarImage.topAnchor.constraint(equalTo: topView.topAnchor, constant: CommentCellConstants.toggleBarInsets.top).isActive = true
+        toggleBarImage.widthAnchor.constraint(equalToConstant: CommentCellConstants.toggleBarSize.width).isActive = true
+        toggleBarImage.heightAnchor.constraint(equalToConstant: CommentCellConstants.toggleBarSize.height).isActive = true
+        
         
         // MARK: Constraints and settings for table view
         addSubview(table)

@@ -16,11 +16,10 @@ class PannableViewController: UIViewController {
     private var cancelAnimationTime: TimeInterval = 0.2
     private var closeAnimationTime: TimeInterval = 0.2
     
+    // Don't forget to set correct presentation style
+    //referenceToThisVC.modalPresentationStyle = .overCurrentContext
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Don't forget to set correct presentation style
-        //referenceToThisVC.modalPresentationStyle = .overCurrentContext
         
         viewsOriginalTransform = view.transform
         originalPosition = view.center

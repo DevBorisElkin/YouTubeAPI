@@ -33,11 +33,11 @@ class VideoSearchRouter: VideoSearchPresenterToRouterProtocol {
     }
     
     func pushToVideoPlayer(on view: VideoSearchPresenterToViewProtocol?, with videoModel: VideoViewModel) {
-        if let videoPlayerViewController = VideoPlayerRouter.createModule(with: videoModel), let viewController = view as? VideoSearchViewController {
+        if let videoPlayerViewController = VideoPlayerRouter.createModule(with: videoModel) as? VideoPlayerViewController, let viewController = view as? VideoSearchViewController {
             //viewController.navigationController?.pushViewController(videoPlayerViewController, animated: true)
             
             videoPlayerViewController.modalPresentationStyle = .overCurrentContext
-            viewController.present(videoPlayerViewController, animated: true)
+            viewController.present(videoPlayerViewController, animated: true, completion: videoPlayerViewController.enableShadow)
         }
     }
 }
