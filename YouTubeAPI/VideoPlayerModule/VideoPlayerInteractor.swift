@@ -20,8 +20,13 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
         presenter?.videoToShowPrepared(videoModel: videoModel)
     }
     
-    func commentsRequested(searchUrlString: String) {
+    func commentsRequested(searchUrlString: String, delay: Double) {
         Task.detached(priority: .medium) {
+            // MARK: Artificial delay
+            if delay > 0 {
+                Thread.sleep(forTimeInterval: delay)
+            }
+            
             // MARK: LOAD COMMENTS
             let commentsData: CommentsResultWrapped?
             let resultCommentsData: Result<CommentsResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: searchUrlString, printJsonAndRequestString: false)

@@ -30,7 +30,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         if commentSearchResults.isEmpty {
             print("Comments are empty, delegating loading process to interactor")
             view?.videoLoadingStarted()
-            //interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId))
+            interactor?.commentsRequested(searchUrlString: YouTubeHelper.getCommentsForVideoRequestString(forVideoId: videoId), delay: AppConstants.commentRequestArtificialDelay)
         }else{
             print("Presenter will not delegate loading process of comments to interactor because comments are already loaded for this video")
         }
@@ -63,7 +63,7 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         }
         view?.videoLoadingStarted()
         let requestString = YouTubeHelper.getCommentsForVideoRequestString(forVideoId: lastVideoIdRequested, forPageToken: nextPageToken)
-        interactor?.commentsRequested(searchUrlString: requestString)
+        interactor?.commentsRequested(searchUrlString: requestString, delay: AppConstants.commentRequestArtificialDelay)
     }
     
     // MARK: For table view
@@ -83,6 +83,11 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
     
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
         return commentSearchResults[indexPath.row].sizes.tableViewCellHeight
+    }
+    
+    // for close button pressed
+    func closeCommentsButtonpPressed() {
+        view?.closeCommentsButtonPressed()
     }
 }
 

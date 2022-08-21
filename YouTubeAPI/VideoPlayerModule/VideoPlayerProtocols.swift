@@ -26,6 +26,8 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
     func didSelectRowAt(index: Int)
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
+    
+    func closeCommentsButtonpPressed()
 }
 
 protocol VideoPlayerPresenterToViewProtocol: AnyObject {
@@ -36,6 +38,7 @@ protocol VideoPlayerPresenterToViewProtocol: AnyObject {
     
     // for footer view
     func videoLoadingStarted()
+    func closeCommentsButtonPressed()
 }
 
 protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
@@ -43,7 +46,7 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
     var videoModel: VideoViewModel? { get set }
     
     func videoToShowRequested()
-    func commentsRequested(searchUrlString: String)
+    func commentsRequested(searchUrlString: String, delay: Double)
 }
 
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {

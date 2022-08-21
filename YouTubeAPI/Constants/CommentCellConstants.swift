@@ -9,6 +9,22 @@ import Foundation
 import UIKit
 
 class CommentCellConstants {
+    
+    // MARK: comments top view
+    
+    // separator
+    static let commentsTopViewSeparatorColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+    static let commentsTopViewSeparatorHeight: CGFloat = 0.9
+    
+    // 'Comments' label
+    static let commentTopLabelColor = #colorLiteral(red: 0.1299800866, green: 0.1339292728, blue: 0.138124946, alpha: 1)
+    static let commentTopLabelFont = UIFont.systemFont(ofSize: 20, weight: .medium)
+    static let commentTopLabelInsets = UIEdgeInsets(top: 8, left: 11, bottom: 10, right: 0)
+    
+    // close button
+    static let closeCommentsButtonInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 13)
+    static let closeCommentsButtonSizes = CGSize(width: 22, height: 22)
+    
     // MARK: Fonts
     static let commentTopLineFont = UIFont.systemFont(ofSize: 12, weight: .regular)
     static let commentTopLineFontMaxLines: CGFloat = 1 // todo not used
@@ -20,8 +36,8 @@ class CommentCellConstants {
     static let commentTextFontColor = #colorLiteral(red: 0.1803921569, green: 0.1803921569, blue: 0.1803921569, alpha: 1)
     
     // MARK: Insets and Sizes
-    static let commentAuthorIconSize: CGFloat = 45
-    static let commentAuthorIconInsets = UIEdgeInsets(top: 7, left: 3, bottom: 0, right: 0)
+    static let commentAuthorIconSize: CGFloat = 40
+    static let commentAuthorIconInsets = UIEdgeInsets(top: 7, left: 5, bottom: 0, right: 0)
     
     static let commentTopLineInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     static let commentTextInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)

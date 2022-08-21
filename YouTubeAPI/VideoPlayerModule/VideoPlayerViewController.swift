@@ -14,6 +14,7 @@ class VideoPlayerViewController: PannableViewController {
     var presenter: VideoPlayerViewIntoPresenterProtocol?
     var videoToShow: VideoToShow?
     
+    private weak var holderSlidingView: HolderSlidingView?
     private weak var commentsView: CommentsView?
     
     var holderView: UIView = {
@@ -132,6 +133,7 @@ class VideoPlayerViewController: PannableViewController {
         commentsView.translatesAutoresizingMaskIntoConstraints = false
         holderSlidingView.setUpContents(contentView: commentsView)
         self.commentsView = commentsView
+        self.holderSlidingView = holderSlidingView
         
         presenter.commentsRequested(videoId: videoToShow.videoId)
     }
@@ -153,5 +155,9 @@ extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
     
     func videoLoadingStarted() {
         commentsView?.loadingDataStarted()
+    }
+    
+    func closeCommentsButtonPressed() {
+        holderSlidingView?.close()
     }
 }

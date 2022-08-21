@@ -21,4 +21,7 @@ class AppConstants {
     // https://yt3.ggpht.com works, but most images won't load anyway
     /// if 'true' app will try to load static content (channel images) from http rather than https, however, most images with hppt won't load
     static var preferHttpForStaticContent: Bool = true
+    
+    // to see loading spinners and etc.
+    static let commentRequestArtificialDelay: Double = 0.6
 }

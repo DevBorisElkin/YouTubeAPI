@@ -46,13 +46,13 @@ class CommentTableViewCell: UITableViewCell {
     
     lazy var moreTextButton: UIButton = {
         let button = UIButton()
-        var textColor = #colorLiteral(red: 0.2330949306, green: 0.2231936157, blue: 0.2745918632, alpha: 1)
+        var textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(textColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.contentVerticalAlignment = .center
         button.setTitle("Read more", for: .normal)
-        button.backgroundColor = .brown
+        button.backgroundColor = .clear
         return button
     }()
     

@@ -21,6 +21,8 @@ class SlidingView: UIView {
     
     var delegate: SlidingViewFadeManager?
     
+    private var canBeClosed = true
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -75,6 +77,11 @@ class SlidingView: UIView {
     }
     
     func closeSlidingView(){
+        guard canBeClosed else {
+            return
+        }
+        canBeClosed = false
+        
         UIView.animate(withDuration: settings.snapAnimationTime, animations: {
             self.frame = self.frame.offsetBy(dx: 0, dy: self.frame.height)
             self.percentsOfTopArea = 0
@@ -82,6 +89,7 @@ class SlidingView: UIView {
         }, completion: { (isCompleted) in
             if isCompleted {
                 self.removeFromSuperview()
+                self.delegate?.slidingViewDestroyed()
             }
         })
     }
@@ -254,6 +262,10 @@ class HolderSlidingView: UIView {
     
     func setUpContents(contentView: UIView){
         slidingView?.setUpContents(contentView: contentView)
+    }
+    
+    func close(){
+        slidingView?.closeSlidingView()
     }
     
     deinit{
