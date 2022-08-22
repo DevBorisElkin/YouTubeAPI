@@ -9,22 +9,20 @@ import Foundation
 import UIKit
 
 class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewProtocol {
+    
     var presenter: VideoSearchViewToPresenterProtocol?
     
+    func onFetchVideosListStarted() {
+        loadingDataStarted()
+    }
+    
     func onFetchVideosListSuccess() {
+        loadingDataEnded()
         tableView.reloadData()
     }
     
     func onFetchVideosListFail() {
-        
-    }
-    
-    func showActivity() {
-        
-    }
-    
-    func hideActivity() {
-        
+        loadingDataEnded()
     }
     
     // MARK: UI Elements
@@ -56,6 +54,18 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(YouTubeVideoSearchCell.self, forCellReuseIdentifier: YouTubeVideoSearchCell.reuseId)
+    }
+    
+    private func loadingDataStarted(){
+        self.tableView.tableFooterView = UIHelpers.createSpinnerFooterWithConstraints(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+    }
+    
+    private func loadingDataEnded(){
+        self.tableView.tableFooterView = nil
+        
+        if let refreshControl = tableView.refreshControl, refreshControl.isRefreshing{
+            refreshControl.endRefreshing()
+        }
     }
 }
 

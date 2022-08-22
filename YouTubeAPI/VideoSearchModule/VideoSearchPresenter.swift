@@ -47,6 +47,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     // MARK: Logic related
     
     func getRecommendedVideos() {
+        view?.onFetchVideosListStarted()
         interactor?.getRecommendedVideos()
     }
     
@@ -60,6 +61,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
             finalSearchString = searchWithSpaces
         }
         let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString)
+        view?.onFetchVideosListStarted()
         interactor?.performVideoSearch(for: preparedSearch)
     }
 }
@@ -74,6 +76,11 @@ extension VideoSearchPresenter: VideoSearchVideoCellToPresenterProtocol {
 }
 
 extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
+    
+    func onVideosLoadingFailed() {
+        view?.onFetchVideosListFail()
+    }
+    
     func receivedData(result: Result<VideoIntermediateViewModel, Error>) {
         
         switch result {
@@ -124,6 +131,5 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
         case .failure(let error):
             print("Error receiving data: \(error)")
         }
-        
     }
 }

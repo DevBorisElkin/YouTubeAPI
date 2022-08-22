@@ -28,10 +28,9 @@ protocol VideoSearchVideoCellToPresenterProtocol: AnyObject {
 
 protocol VideoSearchPresenterToViewProtocol: AnyObject  {
     var presenter: VideoSearchViewToPresenterProtocol? { get set }
+    func onFetchVideosListStarted()
     func onFetchVideosListSuccess()
     func onFetchVideosListFail()
-    func showActivity() // ?
-    func hideActivity() // ?
 }
 
 protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
@@ -43,6 +42,7 @@ protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
 
 protocol VideoSearchInteractorToPresenterProtocol: AnyObject  {
     func receivedData(result: Result<VideoIntermediateViewModel, Error>)
+    func onVideosLoadingFailed()
 }
 
 typealias EntryPoint = VideoSearchPresenterToViewProtocol & UIViewController

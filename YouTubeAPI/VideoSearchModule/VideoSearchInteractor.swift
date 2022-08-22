@@ -12,7 +12,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
     weak var presenter: VideoSearchInteractorToPresenterProtocol?
     
     func getRecommendedVideos() {
-        Task.detached(priority: .medium) {
+        Task.detached(priority: .medium) { [weak self] in
             // MARK: LOAD VIDEOS
             let requestString = YouTubeHelper.getRecommendedVideosRequestString()
             let videosData: RecommendedVideosResultWrapped?
@@ -23,15 +23,21 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 videosData = data
             case .failure(let error):
                 print(error)
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
-            guard let videosData = videosData else { print("getting recommended videos failed"); return }
+            guard let videosData = videosData else {
+                print("getting recommended videos failed");
+                self?.presenter?.onVideosLoadingFailed()
+                return
+            }
             
             // MARK: PREPARE CHANNEL IDS STRING
-            let channelIdsString = self.convertRecommendedVideosToListOfChannelIds(with: videosData)
+            let channelIdsString = self?.convertRecommendedVideosToListOfChannelIds(with: videosData) ?? ""
             guard !channelIdsString.isEmpty, let channelsRequestUrl = URL(string: YouTubeHelper.getChannelsInfoRequestString(for: channelIdsString)) else {
                 print("Empty channel ids or bad url");
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
@@ -44,10 +50,14 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 channelsData = data
             case .failure(let error):
                 print(error)
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
-            guard let channelsData = channelsData else { print("channel request failed"); return }
+            guard let channelsData = channelsData else {
+                print("channel request failed");
+                self?.presenter?.onVideosLoadingFailed()
+                return }
 
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL
             var videoChannelPairs: [RecommendedVideoChannelPair] = []
@@ -80,13 +90,13 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
         }
     }
     
     func performVideoSearch(for search: String) {
         
-        Task.detached(priority: .medium) {
+        Task.detached(priority: .medium) { [weak self] in
             
             // MARK: LOAD VIDEOS
             let videosData: SearchResultWrapped?
@@ -97,17 +107,22 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 videosData = data
             case .failure(let error):
                 print(error)
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
             // filter out non-videos
-            guard var videosData = videosData else { print("search failed"); return }
+            guard var videosData = videosData else {
+                print("search failed");
+                self?.presenter?.onVideosLoadingFailed()
+                return }
             videosData.items = videosData.items.filter({ $0.id.videoId != nil })
             
             // MARK: PREPARE CHANNEL IDS STRING
-            let channelIdsString = self.convertVideoSearchToListOfChannelIds(with: videosData)
+            let channelIdsString = self?.convertVideoSearchToListOfChannelIds(with: videosData) ?? ""
             guard !channelIdsString.isEmpty, let channelsRequestUrl = URL(string: YouTubeHelper.getChannelsInfoRequestString(for: channelIdsString)) else {
                 print("Empty channel ids or bad url");
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
@@ -120,6 +135,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 channelsData = data
             case .failure(let error):
                 print(error)
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
@@ -135,10 +151,11 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             }
             
             // MARK: CREATE URL FOR REQUEST TO GET MULTIPLE VIDEO STATS WITH ONE NETWORK REQUEST
-            let videoIdsString: String = self.getVideoIds(from: videosData)
+            let videoIdsString: String = self?.getVideoIds(from: videosData) ?? ""
             
             guard !videoIdsString.isEmpty, let statisticsUrl = URL(string: YouTubeHelper.getVideosStatisticsRequestString(for: videoIdsString)) else {
                 print("empty videoIdsString or bad statistics url")
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
@@ -151,10 +168,14 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 statisticsData = data
             case .failure(let error):
                 print(error)
+                self?.presenter?.onVideosLoadingFailed()
                 return
             }
             
-            guard let statisticsData = statisticsData else { print("failed getting video statistics"); return }
+            guard let statisticsData = statisticsData else {
+                print("failed getting video statistics");
+                self?.presenter?.onVideosLoadingFailed()
+                return }
             
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL-VIDEO_DETAILS
             var completeVideoResultPairs: [VideoChannelPair] = []
@@ -177,7 +198,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
         }
     }
     
