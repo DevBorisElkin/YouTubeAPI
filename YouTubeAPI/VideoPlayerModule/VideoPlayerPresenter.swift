@@ -83,10 +83,6 @@ class VideoPlayerPresenter: VideoPlayerViewIntoPresenterProtocol {
         return cell
     }
     
-    func didSelectRowAt(index: Int) {
-        // do nothing for now
-    }
-    
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat {
         return commentSearchResults[indexPath.row].sizes.tableViewCellHeight
     }

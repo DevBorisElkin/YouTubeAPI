@@ -74,8 +74,8 @@ class VideoPlayerViewController: PannableViewController {
     
     func enableShadow(){
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.45
-        view.layer.shadowRadius = 30
+        view.layer.shadowOpacity = 0.25
+        view.layer.shadowRadius = 20
     }
     
     private func preparePlayer(videoToShow: VideoToShow){

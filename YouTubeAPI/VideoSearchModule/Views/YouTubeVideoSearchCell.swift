@@ -15,32 +15,17 @@ class YouTubeVideoSearchCell: UITableViewCell {
     var presenter: VideoSearchVideoCellToPresenterProtocol?
     var viewModel: VideoViewModel?
     
-    // TODO add some UI
-    
     lazy var cardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        //view.layer.cornerRadius = 20
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
-        // shadow setup
-        //view.layer.shadowColor = #colorLiteral(red: 0.09200996906, green: 0.08846413344, blue: 0.1079702899, alpha: 1)
-        //view.layer.shadowRadius = 3
-        //view.layer.shadowOpacity = 0.2
-        //view.layer.shadowOffset = CGSize(width: 5, height: 10)
-        
         return view
     }()
     
     lazy var videoThumbnailImageView: WebImageView = {
         let imageView = WebImageView()
-        imageView.backgroundColor = .blue
-        
-        //imageView.layer.cornerRadius = 20
-        
+        imageView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         imageView.layer.masksToBounds = true
-        //imageView.layer.cornerRadius = Constants.repoOwnerAvatarSize / 2
-        
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -56,7 +41,6 @@ class YouTubeVideoSearchCell: UITableViewCell {
     
     lazy var videoNamelLabel: UILabel = {
         let label = UILabel()
-        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .clear
         label.textColor = VideoCellConstants.videoNameFontColor
@@ -66,7 +50,6 @@ class YouTubeVideoSearchCell: UITableViewCell {
     
     lazy var videoDetailsLabel: UILabel = {
         let label = UILabel()
-        //label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.backgroundColor = .clear
         label.textColor = VideoCellConstants.videoDetailsFontColor
@@ -76,7 +59,6 @@ class YouTubeVideoSearchCell: UITableViewCell {
     
     lazy var openVideoButton: UIButton = {
         let button = UIButton()
-        //button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .clear
         return button
     }()
@@ -111,14 +93,8 @@ class YouTubeVideoSearchCell: UITableViewCell {
         cardView.addSubview(videoNamelLabel)
         cardView.addSubview(videoDetailsLabel)
         
-        // MARK: playerView TODO load only when needed
-//        contentView.addSubview(playerView)
-//        playerView.fillSuperview(padding: VideoCellConstants.cardViewOffset)
-        
         contentView.addSubview(openVideoButton)
         openVideoButton.addTarget(self, action: #selector(openVideoButtonPressed(_:)), for: .touchUpInside)
-        
-        // todo videoButtonConstraints
     }
     
     func setUp(viewModel: VideoViewModel){

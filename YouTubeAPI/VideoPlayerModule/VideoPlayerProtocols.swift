@@ -24,7 +24,6 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     // MARK: For comments table view
     func numberOfRowsInSection() -> Int
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
-    func didSelectRowAt(index: Int)
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
     func closeCommentsButtonpPressed()

@@ -14,7 +14,6 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     // table view related
     func numberOfRowsInSection() -> Int
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
-    func didSelectRowAt(index: Int) // ?
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
     // videos request
