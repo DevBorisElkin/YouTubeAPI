@@ -9,9 +9,18 @@ import Foundation
 
 class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
     
+    func performVideosSearch(requestType: VideosRequestType) {
+        switch requestType {
+        case .recommendedFeed(let requestPurpose):
+            getRecommendedVideos(requestPurpose: requestPurpose)
+        case .searchRequest(let requestPurpose, let request):
+            performVideoSearch(requestPurpose: requestPurpose, for: request)
+        }
+    }
+    
     weak var presenter: VideoSearchInteractorToPresenterProtocol?
     
-    func getRecommendedVideos() {
+    private func getRecommendedVideos(requestPurpose: VideosRequestType.RequestPurpose) {
         Task.detached(priority: .medium) { [weak self] in
             // MARK: LOAD VIDEOS
             let requestString = YouTubeHelper.getRecommendedVideosRequestString()
@@ -90,11 +99,11 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose)
         }
     }
     
-    func performVideoSearch(for search: String) {
+    private func performVideoSearch(requestPurpose: VideosRequestType.RequestPurpose, for search: String) {
         
         Task.detached(priority: .medium) { [weak self] in
             
@@ -198,7 +207,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel))
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose)
         }
     }
     

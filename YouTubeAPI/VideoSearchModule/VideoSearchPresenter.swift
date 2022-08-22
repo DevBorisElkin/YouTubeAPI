@@ -15,9 +15,10 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     
     var searchResults: [VideoViewModel] = []
     
+    private var lastRequestDetails: VideosRequestType?
+    
     func viewDidLoad() {
-        getRecommendedVideos()
-        //performSearch(for: "Gg")
+        getVideos(requestDetails: .recommendedFeed(requestPurpose: .append))
     }
     
     func refresh() {
@@ -46,23 +47,29 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     
     // MARK: Logic related
     
-    func getRecommendedVideos() {
-        view?.onFetchVideosListStarted()
-        interactor?.getRecommendedVideos()
-    }
-    
-    func performSearch(for search: String) {
-        var finalSearchString = search
-        if finalSearchString.contains(" "){
-            guard let searchWithSpaces = finalSearchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-                print("Couldn't replace spaces")
-                return
+    func getVideos(requestDetails: VideosRequestType) {
+        lastRequestDetails = requestDetails
+        
+        switch requestDetails {
+        case .recommendedFeed(_):
+            view?.onFetchVideosListStarted()
+            interactor?.performVideosSearch(requestType: requestDetails)
+        case .searchRequest(let requestPurpose, let request):
+            var finalSearchString = request
+            if finalSearchString.contains(" "){
+                guard let searchWithSpaces = finalSearchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                    print("Couldn't replace spaces")
+                    return
+                }
+                finalSearchString = searchWithSpaces
             }
-            finalSearchString = searchWithSpaces
+            let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString)
+            
+            let request: VideosRequestType = .searchRequest(requestPurpose: requestPurpose, request: preparedSearch)
+            
+            view?.onFetchVideosListStarted()
+            interactor?.performVideosSearch(requestType: request)
         }
-        let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString)
-        view?.onFetchVideosListStarted()
-        interactor?.performVideoSearch(for: preparedSearch)
     }
 }
 
@@ -81,13 +88,15 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
         view?.onFetchVideosListFail()
     }
     
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>) {
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose) {
         
         switch result {
         case .success(let data):
             print("Successfully received data")
             
-            searchResults = []
+            if requestPurpose == .refresh {
+                searchResults = []
+            }
             
             for rawVideoItem in data.rawVideItems {
                 

@@ -18,8 +18,8 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     func didSelectRowAt(index: Int) // ?
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
-    func getRecommendedVideos()
-    func performSearch(for search: String)
+    // videos request
+    func getVideos(requestDetails: VideosRequestType)
 }
 
 protocol VideoSearchVideoCellToPresenterProtocol: AnyObject {
@@ -36,12 +36,11 @@ protocol VideoSearchPresenterToViewProtocol: AnyObject  {
 protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
     var presenter: VideoSearchInteractorToPresenterProtocol? { get set }
     
-    func getRecommendedVideos()
-    func performVideoSearch(for search: String)
+    func performVideosSearch(requestType: VideosRequestType)
 }
 
 protocol VideoSearchInteractorToPresenterProtocol: AnyObject  {
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>)
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose)
     func onVideosLoadingFailed()
 }
 

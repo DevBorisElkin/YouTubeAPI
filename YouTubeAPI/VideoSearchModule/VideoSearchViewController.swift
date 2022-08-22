@@ -71,7 +71,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
 
 extension VideoSearchViewController: SearchTitleOnSearchExecuted {
     func onSearchExecuted(for text: String) {
-        presenter?.performSearch(for: text)
+        presenter?.getVideos(requestDetails: .searchRequest(requestPurpose: .refresh, request: text))
     }
 }
 
