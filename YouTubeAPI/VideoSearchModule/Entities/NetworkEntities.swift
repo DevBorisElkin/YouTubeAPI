@@ -11,7 +11,7 @@ import Foundation
 struct SearchResultWrapped: Decodable {
     var kind: String
     var etag: String
-    var nextPageToken: String
+    var nextPageToken: String?
     var regionCode: String
     var pageInfo: PageInfo
     var items: [VideoItem]
@@ -43,7 +43,7 @@ struct SnippetInfo: Decodable {
     var thumbnails: ThumbnailInfo
     var channelTitle: String
     var liveBroadcastContent: String
-    var publishTime: String
+    var publishTime: String?
 }
 
 struct ThumbnailInfo: Decodable {
@@ -117,3 +117,33 @@ struct StatisticsMetrics: Decodable {
     var favoriteCount: String?
     var commentCount: String?
 }
+
+// MARK: For recommended videos request
+// note that it's similar to videos search request but a bit different, so here's appropriate structs for that request
+
+struct RecommendedVideosResultWrapped: Decodable {
+    var kind: String
+    var etag: String
+    var nextPageToken: String?
+    var pageInfo: PageInfo
+    var items: [RecommendedVideoItem]
+}
+
+struct RecommendedVideoItem: Decodable {
+    var kind: String
+    var etag: String
+    var id: String
+    var snippet: SnippetInfo
+    var statistics: StatisticsMetrics
+}
+
+//struct RecommendedVideoSnippetInfo: Decodable {
+//    var publishedAt: String
+//    var channelId: String?
+//    var title: String
+//    var description: String
+//    var thumbnails: ThumbnailInfo
+//    var channelTitle: String
+//    var liveBroadcastContent: String
+//    var publishTime: String
+//}

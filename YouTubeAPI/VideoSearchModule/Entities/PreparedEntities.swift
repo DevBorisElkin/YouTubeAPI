@@ -8,11 +8,31 @@
 import Foundation
 import UIKit
 
+typealias RecommendedVideoChannelPair = (videoItem: RecommendedVideoItem, channelInfo: ChannelInfo)
+
 typealias VideoChannelPairIncomplete = (videoItem: VideoItem, channelInfo: ChannelInfo)
 typealias VideoChannelPair = (videoItem: VideoItem, channelInfo: ChannelInfo, videoStatistics: VideoStatistics)
 
 struct VideoIntermediateViewModel {
-    var videoChannelPairs: [VideoChannelPair]
+    var rawVideItems: [RawVideoItem]
+}
+
+struct RawVideoItem {
+    var videoId: String
+    // Video
+    var videoTitle: String
+    var videoPublishTime: String
+    var videoThumbnailSizeInfo: ThumbnailSizeInfo
+    
+    // Channel
+    var channelTitle: String
+    var channelImageUrl: String
+    
+    // Statistics
+    var videoViewsCount: String
+    var videoLikesCount: String
+    var videoCommentsCount: String
+    var channelSubscribersCount: String
 }
 
 struct VideoViewModel {

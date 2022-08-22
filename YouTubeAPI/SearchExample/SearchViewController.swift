@@ -17,7 +17,7 @@ class SearchViewController: UIViewController {
         
         guard let text = searchTextField.text, !text.isEmpty else { print("empty text"); return }
         
-        NetworkingHelpers.decodeDataWithResult(from: YouTubeHelper.getRequestString(for: text), type: SearchResultWrapped.self, printJSON: true) { result in
+        NetworkingHelpers.decodeDataWithResult(from: YouTubeHelper.getVideosSearchRequestString(for: text), type: SearchResultWrapped.self, printJSON: true) { result in
             switch(result){
                 
             case .success(let data):

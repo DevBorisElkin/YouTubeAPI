@@ -16,7 +16,8 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     var searchResults: [VideoViewModel] = []
     
     func viewDidLoad() {
-        performSearch(for: "Gg")
+        getRecommendedVideos()
+        //performSearch(for: "Gg")
     }
     
     func refresh() {
@@ -44,6 +45,11 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     }
     
     // MARK: Logic related
+    
+    func getRecommendedVideos() {
+        interactor?.getRecommendedVideos()
+    }
+    
     func performSearch(for search: String) {
         var finalSearchString = search
         if finalSearchString.contains(" "){
@@ -53,7 +59,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
             }
             finalSearchString = searchWithSpaces
         }
-        let preparedSearch: String = YouTubeHelper.getRequestString(for: finalSearchString)
+        let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString)
         interactor?.performVideoSearch(for: preparedSearch)
     }
 }
@@ -76,36 +82,37 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
             
             searchResults = []
             
-            for pair in data.videoChannelPairs {
-                guard pair.videoItem.id.videoId != nil else { continue } // filter out everything except videos
+            for rawVideoItem in data.rawVideItems {
                 
                 // MARK: for aspect ratio calculation
-                let sizeInfo = pair.videoItem.snippet.thumbnails.medium // use medium probably
-                guard let width = sizeInfo.width, let height = sizeInfo.height else { print("Error calculating sizes"); continue }
+                guard let width = rawVideoItem.videoThumbnailSizeInfo.width, let height = rawVideoItem.videoThumbnailSizeInfo.height else { print("Error calculating sizes"); continue }
                 
                 // MARK: other small data
-                let channelImageUrl = AppConstants.preferHttpForStaticContent ? pair.channelInfo.snippet.thumbnails.def.url.replacingOccurrences(of: "https", with: "http") : pair.channelInfo.snippet.thumbnails.def.url
-                let videoNameText = pair.videoItem.snippet.description
+                let channelImageUrl = AppConstants.preferHttpForStaticContent ? rawVideoItem.channelImageUrl.replacingOccurrences(of: "https", with: "http") : rawVideoItem.channelImageUrl
+                let videoNameText = rawVideoItem.videoTitle
                 
                 // MARK: Details String
-                let dateString = DateHelpers.getTimeSincePublication(from: pair.videoItem.snippet.publishTime)
-                let viewCount: Int = Int((pair.videoStatistics.statistics.viewCount ?? "0")) ?? 0
+                var dateString = "No Date"
+                if !rawVideoItem.videoPublishTime.isEmpty {
+                    dateString = DateHelpers.getTimeSincePublication(from: rawVideoItem.videoPublishTime)
+                }
+                let viewCount: Int = Int(rawVideoItem.videoViewsCount) ?? 0
                 let viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
-                let detailsString = "\(pair.videoItem.snippet.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
+                let detailsString = "\(rawVideoItem.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
                 
                 // MARK: Calculate Sizes with data provided
                 let cellSizes = YouTubeVideoSearchCellLayoutCalculator.calculateYTCellSizes(imageWidth: CGFloat(width), imageHeight: CGFloat(height), videoNameText: videoNameText, detailsString: detailsString)
                 
                 // MARK: Gather and preapre other YouTube statistics:
                 
-                let channelSubsCount: Int = Int(pair.channelInfo.statistics.subscriberCount) ?? 0
-                let commentsCount: Int = Int(pair.videoStatistics.statistics.commentCount ?? "0") ?? 0
+                let channelSubsCount: Int = Int(rawVideoItem.channelSubscribersCount) ?? 0
+                let commentsCount: Int = Int(rawVideoItem.videoCommentsCount) ?? 0
                 let commentsCountString: String = String(commentsCount.roundedWithAbbreviations)
                 
-                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: pair.videoItem.snippet.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: pair.videoStatistics.statistics.likeCount ?? "0", commentsCount: commentsCountString)
+                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: rawVideoItem.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: rawVideoItem.videoLikesCount, commentsCount: commentsCountString)
                 
                 // MARK: Final ViewModel:
-                let videoModel = VideoViewModel(videoId: pair.videoItem.id.videoId, thumbnailUrl: sizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: pair.videoItem.snippet.description, detailsString: detailsString,
+                let videoModel = VideoViewModel(videoId: rawVideoItem.videoId, thumbnailUrl: rawVideoItem.videoThumbnailSizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: rawVideoItem.videoTitle, detailsString: detailsString,
                                                 sizes: cellSizes, videoDetails: videoDetails)
                 searchResults.append(videoModel)
             }

@@ -12,7 +12,7 @@ class YouTubeHelper {
     
     static let maxResults = 50 // 0 to 50 inclusive
     
-    static func getRequestString(for request: String) -> String {
+    static func getVideosSearchRequestString(for request: String) -> String {
         return "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxResults)&q=\(request)&videoDuration=videoDurationUnspecified&key=\(apiKey)"
     }
     

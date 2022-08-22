@@ -18,6 +18,7 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     func didSelectRowAt(index: Int) // ?
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
+    func getRecommendedVideos()
     func performSearch(for search: String)
 }
 
@@ -36,6 +37,7 @@ protocol VideoSearchPresenterToViewProtocol: AnyObject  {
 protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
     var presenter: VideoSearchInteractorToPresenterProtocol? { get set }
     
+    func getRecommendedVideos()
     func performVideoSearch(for search: String)
 }
 
