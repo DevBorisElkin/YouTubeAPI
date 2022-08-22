@@ -87,6 +87,7 @@ extension VideoSearchViewController {
 
 extension VideoSearchViewController: SearchTitleOnSearchExecuted {
     func onSearchExecuted(for text: String) {
+        scrollToTop()
         presenter?.getVideos(requestDetails: .searchRequest(requestPurpose: .refresh, request: text, pageToken: nil))
     }
 }
@@ -112,5 +113,18 @@ extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate,
             print("fetch more data")
             presenter?.videosPaginationRequest()
         }
+    }
+    
+    // Scroll to top
+    
+    private func scrollToTop() {
+        // 1
+        let topRow = IndexPath(row: 0,
+                               section: 0)
+                               
+        // 2
+        self.tableView.scrollToRow(at: topRow,
+                                   at: .top,
+                                   animated: true)
     }
 }

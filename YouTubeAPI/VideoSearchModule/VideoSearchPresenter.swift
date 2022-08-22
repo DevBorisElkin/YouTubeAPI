@@ -19,7 +19,7 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     private var nextPageToken: String?
     
     func viewDidLoad() {
-        getVideos(requestDetails: .recommendedFeed(requestPurpose: .append, pageToken: nil))
+        getVideos(requestDetails: .recommendedFeed(requestPurpose: .refresh, pageToken: nil))
     }
     
     // MARK: For table view
@@ -48,7 +48,16 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         guard let lastRequestDetails = lastRequestDetails else {
             return
         }
-        getVideos(requestDetails: lastRequestDetails)
+        let newRequest: VideosRequestType!
+        
+        switch lastRequestDetails {
+        case .recommendedFeed(let requestPurpose, let pageToken):
+            newRequest = .recommendedFeed(requestPurpose: .refresh, pageToken: nil)
+        case .searchRequest(let requestPurpose, let request, let pageToken):
+            newRequest = .searchRequest(requestPurpose: .refresh, request: request, pageToken: nil)
+        }
+        
+        getVideos(requestDetails: newRequest)
     }
     
     func videosPaginationRequest() {
@@ -56,7 +65,17 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
             print("No previous request")
             return
         }
-        getVideos(requestDetails: lastRequestDetails)
+        
+        let newRequest: VideosRequestType!
+        
+        switch lastRequestDetails {
+        case .recommendedFeed(let requestPurpose, let pageToken):
+            newRequest = .recommendedFeed(requestPurpose: .append, pageToken: nextPageToken)
+        case .searchRequest(let requestPurpose, let request, let pageToken):
+            newRequest = .searchRequest(requestPurpose: .append, request: request, pageToken: nextPageToken)
+        }
+        
+        getVideos(requestDetails: newRequest)
     }
     
     func getVideos(requestDetails: VideosRequestType) {
@@ -108,15 +127,23 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
         
         switch result {
         case .success(let data):
+            var finalData = data
             print("Successfully received data")
             
             self.nextPageToken = nextPageToken
             
             if requestPurpose == .refresh {
                 searchResults = []
+            } else if requestPurpose == .append {
+                print("Upcoming items count: \(finalData.rawVideItems.count)")
+                finalData.rawVideItems = finalData.rawVideItems.filter({ item in
+                    let videoAlreadyInTheList = searchResults.contains {$0.videoId == item.videoId}
+                    return !videoAlreadyInTheList
+                })
+                print("Items left after filtering: \(finalData.rawVideItems.count)")
             }
             
-            for rawVideoItem in data.rawVideItems {
+            for rawVideoItem in finalData.rawVideItems {
                 
                 // MARK: for aspect ratio calculation
                 guard let width = rawVideoItem.videoThumbnailSizeInfo.width, let height = rawVideoItem.videoThumbnailSizeInfo.height else { print("Error calculating sizes"); continue }

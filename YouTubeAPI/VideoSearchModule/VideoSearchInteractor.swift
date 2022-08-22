@@ -26,7 +26,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             // MARK: LOAD VIDEOS
             let requestString = YouTubeHelper.getRecommendedVideosRequestString(forPageToken: pageToken)
             let videosData: RecommendedVideosResultWrapped?
-            let resultVideosData: Result<RecommendedVideosResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: requestString, printJsonAndRequestString: true)
+            let resultVideosData: Result<RecommendedVideosResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: requestString, printJsonAndRequestString: false)
             
             switch resultVideosData {
             case .success(let data):
@@ -53,7 +53,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD CHANNELS DATA
             let channelsData: ChannelResultWrapped?
-            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJsonAndRequestString: true)
+            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJsonAndRequestString: false)
             
             switch resultChannelData {
             case .success(let data):
@@ -110,7 +110,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD VIDEOS
             let videosData: SearchResultWrapped?
-            let resultVideosData: Result<SearchResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: search, printJsonAndRequestString: true)
+            let resultVideosData: Result<SearchResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: search, printJsonAndRequestString: false)
             
             switch resultVideosData {
             case .success(let data):
@@ -138,7 +138,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD CHANNELS DATA
             let channelsData: ChannelResultWrapped?
-            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJsonAndRequestString: true)
+            let resultChannelData: Result<ChannelResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: channelsRequestUrl, printJsonAndRequestString: false)
             
             switch resultChannelData {
             case .success(let data):
@@ -171,7 +171,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: LOAD VIDEOS STATS
             let statisticsData: StatisticsWrapped?
-            let resultStatisticsData: Result<StatisticsWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: statisticsUrl, printJsonAndRequestString: true)
+            let resultStatisticsData: Result<StatisticsWrapped, Error>  = await NetworkingHelpers.loadDataFromUrl(from: statisticsUrl, printJsonAndRequestString: false)
             
             switch resultStatisticsData {
             case .success(let data):
