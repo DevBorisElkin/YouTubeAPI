@@ -10,7 +10,6 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     
     // vc lifecycle related
     func viewDidLoad()
-    func refresh() // ?
     
     // table view related
     func numberOfRowsInSection() -> Int
@@ -19,6 +18,7 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat
     
     // videos request
+    func refresh()
     func getVideos(requestDetails: VideosRequestType)
 }
 

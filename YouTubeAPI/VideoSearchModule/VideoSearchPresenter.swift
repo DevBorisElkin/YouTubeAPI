@@ -21,10 +21,6 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         getVideos(requestDetails: .recommendedFeed(requestPurpose: .append))
     }
     
-    func refresh() {
-        
-    }
-    
     // MARK: For table view
     func numberOfRowsInSection() -> Int {
         return searchResults.count
@@ -46,6 +42,13 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     }
     
     // MARK: Logic related
+    
+    func refresh() {
+        guard let lastRequestDetails = lastRequestDetails else {
+            return
+        }
+        getVideos(requestDetails: lastRequestDetails)
+    }
     
     func getVideos(requestDetails: VideosRequestType) {
         lastRequestDetails = requestDetails

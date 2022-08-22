@@ -53,6 +53,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = createRefreshControl()
         tableView.register(YouTubeVideoSearchCell.self, forCellReuseIdentifier: YouTubeVideoSearchCell.reuseId)
     }
     
@@ -66,6 +67,21 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         if let refreshControl = tableView.refreshControl, refreshControl.isRefreshing{
             refreshControl.endRefreshing()
         }
+    }
+}
+
+// MARK: pull to refresh
+extension VideoSearchViewController {
+    
+    private func createRefreshControl() -> UIRefreshControl{
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onCalledToRefresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }
+    
+    @objc private func onCalledToRefresh(sender: UIRefreshControl){
+        print("onCalledToRefresh")
+        presenter?.refresh()
     }
 }
 
