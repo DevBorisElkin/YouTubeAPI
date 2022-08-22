@@ -44,8 +44,9 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var moreTextButton: UIButton = {
-        let button = UIButton()
+    lazy var moreTextButton: ExpandedButton = {
+        let button = ExpandedButton()
+        button.clickIncreasedArea = AppConstants.expandCustomButtonsClickArea
         var textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(textColor, for: .normal)

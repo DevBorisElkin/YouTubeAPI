@@ -51,6 +51,7 @@ class SearchTitleView: UIView {
     func makeOtherSettings(){
         searchTextField.textChangedDelegate = self
         searchButton.addTarget(self, action: #selector(onSearchButtonPressed), for: .touchUpInside)
+        searchTextField.delegate = self
     }
     
     override var intrinsicContentSize: CGSize { UIView.layoutFittingExpandedSize }
@@ -108,6 +109,14 @@ class SearchTitleView: UIView {
         print("OnSearchExecuted: \(lastSearchText)")
         searchTextField.resignFirstResponder()
         onSearchExecutedDelegate?.onSearchExecuted(for: lastSearchText)
+    }
+}
+
+// dismiss keyboard on 'return' pressed
+extension SearchTitleView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.searchTextField.endEditing(true)
+        return false
     }
 }
 

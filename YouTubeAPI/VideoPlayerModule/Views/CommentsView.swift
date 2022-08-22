@@ -30,8 +30,9 @@ class CommentsView: UIView {
         return label
     }()
     
-    var closeCommentsButton: UIButton = {
-        var button = UIButton()
+    var closeCommentsButton: ExpandedButton = {
+        var button = ExpandedButton()
+        button.clickIncreasedArea = AppConstants.expandCustomButtonsClickArea
         button.translatesAutoresizingMaskIntoConstraints = false
         var buttonImage = UIImage(named: "close_2")
         button.setImage(buttonImage, for: .normal)

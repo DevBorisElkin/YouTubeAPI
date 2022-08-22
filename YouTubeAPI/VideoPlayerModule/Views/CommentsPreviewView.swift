@@ -29,8 +29,9 @@ class CommentsPreviewView: UIView {
         return label
     }()
     
-    lazy var expandCommentsButton: UIButton = {
-        let button = UIButton()
+    lazy var expandCommentsButton: ExpandedButton = {
+        let button = ExpandedButton()
+        button.clickIncreasedArea = AppConstants.expandCustomButtonsClickArea
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("show comments", for: .normal)
         button.setTitleColor(.blue, for: .normal)

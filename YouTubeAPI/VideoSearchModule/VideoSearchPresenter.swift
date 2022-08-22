@@ -116,7 +116,9 @@ extension VideoSearchPresenter: VideoSearchVideoCellToPresenterProtocol {
 extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
     
     func onVideosLoadingFailed() {
-        view?.onFetchVideosListFail()
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.onFetchVideosListFail()
+        }
     }
     
     func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?) {
@@ -180,6 +182,9 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
             
         case .failure(let error):
             print("Error receiving data: \(error)")
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.onFetchVideosListFail()
+            }
         }
     }
 }

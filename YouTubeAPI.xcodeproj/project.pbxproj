@@ -56,6 +56,7 @@
 		52F7634528B2768A0037A064 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7634428B2768A0037A064 /* UIHelpers.swift */; };
 		52F7637B28B3E6500037A064 /* SearchTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7637A28B3E6500037A064 /* SearchTitleView.swift */; };
 		52F7637D28B41CEA0037A064 /* SupplementaryEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7637C28B41CEA0037A064 /* SupplementaryEntities.swift */; };
+		52F7637F28B44BC30037A064 /* ExpandedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7637E28B44BC30037A064 /* ExpandedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +110,7 @@
 		52F7634428B2768A0037A064 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		52F7637A28B3E6500037A064 /* SearchTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTitleView.swift; sourceTree = "<group>"; };
 		52F7637C28B41CEA0037A064 /* SupplementaryEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryEntities.swift; sourceTree = "<group>"; };
+		52F7637E28B44BC30037A064 /* ExpandedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedButton.swift; sourceTree = "<group>"; };
 		7CF8BCA687348D053898C9A3 /* Pods_YouTubeAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouTubeAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF5464F5C55FFFC175C0C6B7 /* Pods-YouTubeAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.release.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.release.xcconfig"; sourceTree = "<group>"; };
 		D88453935EA827CCAE3CCF84 /* Pods-YouTubeAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.debug.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				5236A0BA28A9F60F00F9A699 /* PannableViewController.swift */,
 				5205AFED28AFFAB90013C82F /* SlidingViewAndSupportingData.swift */,
 				52F7637A28B3E6500037A064 /* SearchTitleView.swift */,
+				52F7637E28B44BC30037A064 /* ExpandedButton.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				5205AFF628B032920013C82F /* CommentsView.swift in Sources */,
 				5216F47528A2BDDB00498AEE /* SceneDelegate.swift in Sources */,
 				5236A02228A418BF00F9A699 /* VideoSearchInteractor.swift in Sources */,
+				52F7637F28B44BC30037A064 /* ExpandedButton.swift in Sources */,
 				5236A03428A44DE500F9A699 /* WebImageView.swift in Sources */,
 				5205AFF828B0334B0013C82F /* CommentTableViewCell.swift in Sources */,
 				5236A0BB28A9F60F00F9A699 /* PannableViewController.swift in Sources */,
