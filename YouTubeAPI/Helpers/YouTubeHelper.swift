@@ -35,4 +35,12 @@ class YouTubeHelper {
     static func getCommentsForVideoRequestString(forVideoId videoId: String, forPageToken pageToken: String) -> String {
         return "https://www.googleapis.com/youtube/v3/commentThreads?key=\(apiKey)&textFormat=plainText&part=snippet&pageToken=\(pageToken)&videoId=\(videoId)&maxResults=\(100)"
     }
+    
+    // MARK: Get recommended videos (most popular)
+    
+    //
+    
+    static func getRecommendedVideosRequestString() -> String {
+        return "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=\(50)&regionCode=\("US")&key=\(apiKey)"
+    }
 }
