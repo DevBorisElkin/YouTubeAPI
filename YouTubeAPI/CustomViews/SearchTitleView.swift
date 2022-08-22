@@ -64,7 +64,6 @@ class SearchTitleView: UIView {
             searchTextField.frame = calculateSearchTextFieldFrame(textIsOn: false)
             searchButton.frame = calculateButtonFrame(textIsOn: false, textFieldFrame: searchTextField.frame)
         }
-        print("layoutSubviews")
     }
     
     required init?(coder: NSCoder) {
@@ -93,22 +92,13 @@ class SearchTitleView: UIView {
     
     
     func animateViews(textState: Bool){
-        print("animateViews, text: \(textState)")
-        
         let textFieldFrame = self.calculateSearchTextFieldFrame(textIsOn: textState)
-        
-        print("currentFrame: \(searchTextField.frame.size)")
-        print("will set to: \(textFieldFrame.size)")
-        
         let buttonFrame = self.calculateButtonFrame(textIsOn: textState, textFieldFrame: textFieldFrame)
         
         UIView.animate(withDuration: animationDuration) {
             self.searchTextField.frame = textFieldFrame
             self.searchButton.frame = buttonFrame
-        } completion: { isCompleted in
-            print("final: \(self.searchTextField.frame)")
         }
-
     }
     
     @objc private func onSearchButtonPressed(_ sender: Any?){
