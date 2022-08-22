@@ -8,8 +8,8 @@
 import Foundation
 
 enum VideosRequestType {
-    case recommendedFeed(requestPurpose: RequestPurpose)
-    case searchRequest(requestPurpose: RequestPurpose, request: String)
+    case recommendedFeed(requestPurpose: RequestPurpose, pageToken: String?)
+    case searchRequest(requestPurpose: RequestPurpose, request: String, pageToken: String?)
 
     enum RequestPurpose {
         case refresh

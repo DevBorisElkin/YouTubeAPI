@@ -11,19 +11,20 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
     
     func performVideosSearch(requestType: VideosRequestType) {
         switch requestType {
-        case .recommendedFeed(let requestPurpose):
-            getRecommendedVideos(requestPurpose: requestPurpose)
-        case .searchRequest(let requestPurpose, let request):
-            performVideoSearch(requestPurpose: requestPurpose, for: request)
+            
+        case .recommendedFeed(requestPurpose: let requestPurpose, pageToken: let pageToken):
+            getRecommendedVideos(requestPurpose: requestPurpose, pageToken: pageToken)
+        case .searchRequest(requestPurpose: let requestPurpose, request: let request, pageToken: let pageToken):
+            performVideoSearch(requestPurpose: requestPurpose, for: request, pageToken: pageToken)
         }
     }
     
     weak var presenter: VideoSearchInteractorToPresenterProtocol?
     
-    private func getRecommendedVideos(requestPurpose: VideosRequestType.RequestPurpose) {
+    private func getRecommendedVideos(requestPurpose: VideosRequestType.RequestPurpose, pageToken: String?) {
         Task.detached(priority: .medium) { [weak self] in
             // MARK: LOAD VIDEOS
-            let requestString = YouTubeHelper.getRecommendedVideosRequestString()
+            let requestString = YouTubeHelper.getRecommendedVideosRequestString(forPageToken: pageToken)
             let videosData: RecommendedVideosResultWrapped?
             let resultVideosData: Result<RecommendedVideosResultWrapped, Error>  = await NetworkingHelpers.loadDataFromUrlString(from: requestString, printJsonAndRequestString: true)
             
@@ -99,11 +100,11 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose)
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
         }
     }
     
-    private func performVideoSearch(requestPurpose: VideosRequestType.RequestPurpose, for search: String) {
+    private func performVideoSearch(requestPurpose: VideosRequestType.RequestPurpose, for search: String, pageToken: String?) {
         
         Task.detached(priority: .medium) { [weak self] in
             
@@ -207,7 +208,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose)
+            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
         }
     }
     

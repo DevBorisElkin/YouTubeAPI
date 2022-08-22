@@ -16,9 +16,10 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     var searchResults: [VideoViewModel] = []
     
     private var lastRequestDetails: VideosRequestType?
+    private var nextPageToken: String?
     
     func viewDidLoad() {
-        getVideos(requestDetails: .recommendedFeed(requestPurpose: .append))
+        getVideos(requestDetails: .recommendedFeed(requestPurpose: .append, pageToken: nil))
     }
     
     // MARK: For table view
@@ -50,14 +51,26 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
         getVideos(requestDetails: lastRequestDetails)
     }
     
+    func videosPaginationRequest() {
+        guard let lastRequestDetails = lastRequestDetails else {
+            print("No previous request")
+            return
+        }
+        getVideos(requestDetails: lastRequestDetails)
+    }
+    
     func getVideos(requestDetails: VideosRequestType) {
         lastRequestDetails = requestDetails
         
         switch requestDetails {
-        case .recommendedFeed(_):
+        case .recommendedFeed(requestPurpose: let requestPurpose, _):
+            
+            let request: VideosRequestType = .recommendedFeed(requestPurpose: requestPurpose, pageToken: nextPageToken)
+            
             view?.onFetchVideosListStarted()
-            interactor?.performVideosSearch(requestType: requestDetails)
-        case .searchRequest(let requestPurpose, let request):
+            interactor?.performVideosSearch(requestType: request)
+        
+        case .searchRequest(requestPurpose: let requestPurpose, request: let request, _):
             var finalSearchString = request
             if finalSearchString.contains(" "){
                 guard let searchWithSpaces = finalSearchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -66,9 +79,9 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
                 }
                 finalSearchString = searchWithSpaces
             }
-            let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString)
+            let preparedSearch: String = YouTubeHelper.getVideosSearchRequestString(for: finalSearchString, forPageToken: nextPageToken)
             
-            let request: VideosRequestType = .searchRequest(requestPurpose: requestPurpose, request: preparedSearch)
+            let request: VideosRequestType = .searchRequest(requestPurpose: requestPurpose, request: preparedSearch, pageToken: nextPageToken)
             
             view?.onFetchVideosListStarted()
             interactor?.performVideosSearch(requestType: request)
@@ -91,11 +104,13 @@ extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
         view?.onFetchVideosListFail()
     }
     
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose) {
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?) {
         
         switch result {
         case .success(let data):
             print("Successfully received data")
+            
+            self.nextPageToken = nextPageToken
             
             if requestPurpose == .refresh {
                 searchResults = []

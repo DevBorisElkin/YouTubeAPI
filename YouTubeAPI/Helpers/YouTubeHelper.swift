@@ -12,8 +12,12 @@ class YouTubeHelper {
     
     static let maxResults = 50 // 0 to 50 inclusive
     
-    static func getVideosSearchRequestString(for request: String) -> String {
-        return "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxResults)&q=\(request)&videoDuration=videoDurationUnspecified&key=\(apiKey)"
+    static func getVideosSearchRequestString(for request: String, forPageToken pageToken: String? = nil) -> String {
+        if let pageToken = pageToken {
+            return "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxResults)&q=\(request)&videoDuration=videoDurationUnspecified&pageToken=\(pageToken)&key=\(apiKey)"
+        }else{
+            return "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=\(maxResults)&q=\(request)&videoDuration=videoDurationUnspecified&key=\(apiKey)"
+        }
     }
     
     static func getChannelsInfoRequestString(for channelIds: String) -> String {
@@ -40,7 +44,15 @@ class YouTubeHelper {
     
     //
     
-    static func getRecommendedVideosRequestString() -> String {
-        return "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=\(50)&regionCode=\("US")&key=\(apiKey)"
+//    static func getRecommendedVideosRequestString() -> String {
+//        return "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=\(50)&regionCode=\("US")&key=\(apiKey)"
+//    }
+    
+    static func getRecommendedVideosRequestString(forPageToken pageToken: String? = nil) -> String {
+        if let pageToken = pageToken {
+            return "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&pageToken=\(pageToken)&chart=mostPopular&maxResults=\(50)&regionCode=\("US")&key=\(apiKey)"
+        }else{
+            return "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=\(50)&regionCode=\("US")&key=\(apiKey)"
+        }
     }
 }

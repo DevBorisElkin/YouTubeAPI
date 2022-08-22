@@ -20,6 +20,7 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     // videos request
     func refresh()
     func getVideos(requestDetails: VideosRequestType)
+    func videosPaginationRequest()
 }
 
 protocol VideoSearchVideoCellToPresenterProtocol: AnyObject {
@@ -40,7 +41,7 @@ protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
 }
 
 protocol VideoSearchInteractorToPresenterProtocol: AnyObject  {
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose)
+    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?)
     func onVideosLoadingFailed()
 }
 

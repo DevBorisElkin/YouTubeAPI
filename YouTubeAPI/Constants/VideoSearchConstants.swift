@@ -15,4 +15,6 @@ class VideoSearchConstants {
     static let searchButonInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
     
     static let tableViewInsets = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+    
+    static let videoInsetToLoadMoreComments: CGFloat = 20 // Inset to load more comments
 }

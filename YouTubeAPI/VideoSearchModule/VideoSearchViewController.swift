@@ -87,11 +87,11 @@ extension VideoSearchViewController {
 
 extension VideoSearchViewController: SearchTitleOnSearchExecuted {
     func onSearchExecuted(for text: String) {
-        presenter?.getVideos(requestDetails: .searchRequest(requestPurpose: .refresh, request: text))
+        presenter?.getVideos(requestDetails: .searchRequest(requestPurpose: .refresh, request: text, pageToken: nil))
     }
 }
 
-extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate {
+extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.numberOfRowsInSection() ?? 0
     }
@@ -102,5 +102,15 @@ extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return presenter?.tableViewCellHeight(at: indexPath) ?? 100
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let bottomPoint: CGFloat = scrollView.contentOffset.y + scrollView.bounds.size.height
+        let scrollPointToLoadMoreContent: CGFloat = scrollView.contentSize.height + VideoSearchConstants.videoInsetToLoadMoreComments
+        
+        if(bottomPoint > scrollPointToLoadMoreContent && tableView.tableFooterView == nil){
+            print("fetch more data")
+            presenter?.videosPaginationRequest()
+        }
     }
 }
