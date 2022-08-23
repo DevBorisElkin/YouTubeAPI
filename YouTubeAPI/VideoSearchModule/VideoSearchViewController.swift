@@ -21,8 +21,11 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
         tableView.reloadData()
     }
     
-    func onFetchVideosListFail() {
+    func onFetchVideosListFail(error: Error) {
         loadingDataEnded()
+        if let error = error as? NetworkingHelpers.NetworkRequestError, error == .youTubeQuotaExceeded {
+            present(UIHelpers.createYouTubeQuotaExceededController(), animated: true)
+        }
     }
     
     // MARK: UI Elements

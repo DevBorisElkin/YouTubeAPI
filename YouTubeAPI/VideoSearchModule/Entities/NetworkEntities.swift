@@ -136,14 +136,3 @@ struct RecommendedVideoItem: Decodable {
     var snippet: SnippetInfo
     var statistics: StatisticsMetrics
 }
-
-//struct RecommendedVideoSnippetInfo: Decodable {
-//    var publishedAt: String
-//    var channelId: String?
-//    var title: String
-//    var description: String
-//    var thumbnails: ThumbnailInfo
-//    var channelTitle: String
-//    var liveBroadcastContent: String
-//    var publishTime: String
-//}

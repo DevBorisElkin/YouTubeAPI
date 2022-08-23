@@ -33,6 +33,7 @@ protocol VideoPlayerPresenterToViewProtocol: AnyObject {
     var presenter: VideoPlayerViewIntoPresenterProtocol? { get set }
     
     func videoToShowDataReceived(videoToShow: VideoToShow)
+    func onCommentsLoadingFailed(error: Error)
     func commentsUpdated()
     
     // for footer view

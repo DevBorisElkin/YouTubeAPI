@@ -88,6 +88,8 @@ public class NetworkingHelpers{
         case networkRequestFailed
         case cannotDecodeType
         case timedOut
+        case youTubeQuotaExceeded
+        case undefined
     }
     
     /// Call it from Task{} or Task.detached{}
@@ -107,10 +109,20 @@ public class NetworkingHelpers{
     public static func loadDataFromUrl<T : Decodable>(from url: URL, printJsonAndRequestString: Bool = false) async -> Result<T, Error> {
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: url)
             
             if printJsonAndRequestString, let json = try? JSONSerialization.jsonObject(with: data, options: []){
                 print(">>>>>Making request for url string: [\(url.absoluteString)]\n-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            }
+            
+            if let httpURLResponse = response as? HTTPURLResponse, let status = httpURLResponse.status {
+                switch status.responseType {
+                    
+                case .clientError:
+                    return .failure(NetworkRequestError.youTubeQuotaExceeded)
+                default:
+                    break
+                }
             }
             
             let result = try JSONDecoder().decode(T.self, from: data)
@@ -125,10 +137,20 @@ public class NetworkingHelpers{
         guard let url = URL(string: urlString) else { return .failure(NetworkRequestError.badUrlString) }
 
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: url)
             
             if printJsonAndRequestString, let json = try? JSONSerialization.jsonObject(with: data, options: []){
                 print(">>>>>Making request for url string: [\(urlString)]\n-----JSON Retrieved-----\n\(json)\n-----JSON Ended-----")
+            }
+            
+            if let httpURLResponse = response as? HTTPURLResponse, let status = httpURLResponse.status {
+                switch status.responseType {
+                    
+                case .clientError:
+                    return .failure(NetworkRequestError.youTubeQuotaExceeded)
+                default:
+                    break
+                }
             }
             
             let result = try JSONDecoder().decode(T.self, from: data)

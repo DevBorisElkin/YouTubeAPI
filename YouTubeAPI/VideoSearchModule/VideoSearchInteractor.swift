@@ -33,13 +33,13 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 videosData = data
             case .failure(let error):
                 print(error)
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: error)
                 return
             }
             
             guard let videosData = videosData else {
                 print("getting recommended videos failed");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return
             }
             
@@ -47,7 +47,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             let channelIdsString = self?.convertRecommendedVideosToListOfChannelIds(with: videosData) ?? ""
             guard !channelIdsString.isEmpty, let channelsRequestUrl = URL(string: YouTubeHelper.getChannelsInfoRequestString(for: channelIdsString)) else {
                 print("Empty channel ids or bad url");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return
             }
             
@@ -60,13 +60,13 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 channelsData = data
             case .failure(let error):
                 print(error)
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: error)
                 return
             }
             
             guard let channelsData = channelsData else {
                 print("channel request failed");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return }
 
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL
@@ -100,7 +100,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
+            self?.presenter?.receivedData(result: videoItemIntermediateViewModel, requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
         }
     }
     
@@ -117,14 +117,14 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 videosData = data
             case .failure(let error):
                 print(error)
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: error)
                 return
             }
             
             // filter out non-videos
             guard var videosData = videosData else {
                 print("search failed");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return }
             videosData.items = videosData.items.filter({ $0.id.videoId != nil })
             
@@ -132,7 +132,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             let channelIdsString = self?.convertVideoSearchToListOfChannelIds(with: videosData) ?? ""
             guard !channelIdsString.isEmpty, let channelsRequestUrl = URL(string: YouTubeHelper.getChannelsInfoRequestString(for: channelIdsString)) else {
                 print("Empty channel ids or bad url");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return
             }
             
@@ -145,7 +145,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 channelsData = data
             case .failure(let error):
                 print(error)
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: error)
                 return
             }
             
@@ -165,7 +165,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             guard !videoIdsString.isEmpty, let statisticsUrl = URL(string: YouTubeHelper.getVideosStatisticsRequestString(for: videoIdsString)) else {
                 print("empty videoIdsString or bad statistics url")
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return
             }
             
@@ -178,13 +178,13 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 statisticsData = data
             case .failure(let error):
                 print(error)
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: error)
                 return
             }
             
             guard let statisticsData = statisticsData else {
                 print("failed getting video statistics");
-                self?.presenter?.onVideosLoadingFailed()
+                self?.presenter?.onVideosLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return }
             
             // MARK: CREATE ASOCIATED PAIRS OF VIDEO-CHANNEL-VIDEO_DETAILS
@@ -208,7 +208,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             
             // MARK: CONTINUE WITH ACQUIRED DATA
             let videoItemIntermediateViewModel = VideoIntermediateViewModel(rawVideItems: rawVideoItems)
-            self?.presenter?.receivedData(result: .success(videoItemIntermediateViewModel), requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
+            self?.presenter?.receivedData(result: videoItemIntermediateViewModel, requestPurpose: requestPurpose, nextPageToken: videosData.nextPageToken)
         }
     }
     

@@ -30,7 +30,7 @@ protocol VideoSearchPresenterToViewProtocol: AnyObject  {
     var presenter: VideoSearchViewToPresenterProtocol? { get set }
     func onFetchVideosListStarted()
     func onFetchVideosListSuccess()
-    func onFetchVideosListFail()
+    func onFetchVideosListFail(error: Error)
 }
 
 protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
@@ -40,8 +40,8 @@ protocol VideoSearchPresenterToInteractorProtocol: AnyObject  {
 }
 
 protocol VideoSearchInteractorToPresenterProtocol: AnyObject  {
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?)
-    func onVideosLoadingFailed()
+    func receivedData(result: VideoIntermediateViewModel, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?)
+    func onVideosLoadingFailed(error: Error)
 }
 
 typealias EntryPoint = VideoSearchPresenterToViewProtocol & UIViewController

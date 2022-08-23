@@ -153,6 +153,14 @@ extension VideoPlayerViewController: VideoPlayerPresenterToViewProtocol {
         preparePlayer(videoToShow: videoToShow)
     }
     
+    func onCommentsLoadingFailed(error: Error) {
+        commentsView?.loadingDataEnded()
+        commentsView?.refreshData()
+        if let error = error as? NetworkingHelpers.NetworkRequestError, error == .youTubeQuotaExceeded {
+            present(UIHelpers.createYouTubeQuotaExceededController(), animated: true)
+        }
+    }
+    
     func commentsUpdated() {
         commentsView?.loadingDataEnded()
         commentsView?.refreshData()

@@ -115,76 +115,67 @@ extension VideoSearchPresenter: VideoSearchVideoCellToPresenterProtocol {
 
 extension VideoSearchPresenter: VideoSearchInteractorToPresenterProtocol {
     
-    func onVideosLoadingFailed() {
+    func onVideosLoadingFailed(error: Error) {
         DispatchQueue.main.async { [weak self] in
-            self?.view?.onFetchVideosListFail()
+            self?.view?.onFetchVideosListFail(error: error)
         }
     }
     
-    func receivedData(result: Result<VideoIntermediateViewModel, Error>, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?) {
+    func receivedData(result: VideoIntermediateViewModel, requestPurpose: VideosRequestType.RequestPurpose, nextPageToken: String?) {
         
-        switch result {
-        case .success(let data):
-            var finalData = data
-            print("Successfully received data")
+        var finalData = result
+        print("Successfully received data")
+        
+        self.nextPageToken = nextPageToken
+        
+        if requestPurpose == .refresh {
+            searchResults = []
+        } else if requestPurpose == .append {
+            print("Upcoming items count: \(finalData.rawVideItems.count)")
+            finalData.rawVideItems = finalData.rawVideItems.filter({ item in
+                let videoAlreadyInTheList = searchResults.contains {$0.videoId == item.videoId}
+                return !videoAlreadyInTheList
+            })
+            print("Items left after filtering: \(finalData.rawVideItems.count)")
+        }
+        
+        for rawVideoItem in finalData.rawVideItems {
             
-            self.nextPageToken = nextPageToken
+            // MARK: for aspect ratio calculation
+            guard let width = rawVideoItem.videoThumbnailSizeInfo.width, let height = rawVideoItem.videoThumbnailSizeInfo.height else { print("Error calculating sizes"); continue }
             
-            if requestPurpose == .refresh {
-                searchResults = []
-            } else if requestPurpose == .append {
-                print("Upcoming items count: \(finalData.rawVideItems.count)")
-                finalData.rawVideItems = finalData.rawVideItems.filter({ item in
-                    let videoAlreadyInTheList = searchResults.contains {$0.videoId == item.videoId}
-                    return !videoAlreadyInTheList
-                })
-                print("Items left after filtering: \(finalData.rawVideItems.count)")
+            // MARK: other small data
+            let channelImageUrl = AppConstants.preferHttpForStaticContent ? rawVideoItem.channelImageUrl.replacingOccurrences(of: "https", with: "http") : rawVideoItem.channelImageUrl
+            let videoNameText = rawVideoItem.videoTitle
+            
+            // MARK: Details String
+            var dateString = "No Date"
+            if !rawVideoItem.videoPublishTime.isEmpty {
+                dateString = DateHelpers.getTimeSincePublication(from: rawVideoItem.videoPublishTime)
             }
+            let viewCount: Int = Int(rawVideoItem.videoViewsCount) ?? 0
+            let viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
+            let detailsString = "\(rawVideoItem.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
             
-            for rawVideoItem in finalData.rawVideItems {
-                
-                // MARK: for aspect ratio calculation
-                guard let width = rawVideoItem.videoThumbnailSizeInfo.width, let height = rawVideoItem.videoThumbnailSizeInfo.height else { print("Error calculating sizes"); continue }
-                
-                // MARK: other small data
-                let channelImageUrl = AppConstants.preferHttpForStaticContent ? rawVideoItem.channelImageUrl.replacingOccurrences(of: "https", with: "http") : rawVideoItem.channelImageUrl
-                let videoNameText = rawVideoItem.videoTitle
-                
-                // MARK: Details String
-                var dateString = "No Date"
-                if !rawVideoItem.videoPublishTime.isEmpty {
-                    dateString = DateHelpers.getTimeSincePublication(from: rawVideoItem.videoPublishTime)
-                }
-                let viewCount: Int = Int(rawVideoItem.videoViewsCount) ?? 0
-                let viewsCountString: String = "\(viewCount.roundedWithAbbreviations) views"
-                let detailsString = "\(rawVideoItem.channelTitle) ◦ \(viewsCountString) ◦ \(dateString)"
-                
-                // MARK: Calculate Sizes with data provided
-                let cellSizes = YouTubeVideoSearchCellLayoutCalculator.calculateYTCellSizes(imageWidth: CGFloat(width), imageHeight: CGFloat(height), videoNameText: videoNameText, detailsString: detailsString)
-                
-                // MARK: Gather and preapre other YouTube statistics:
-                
-                let channelSubsCount: Int = Int(rawVideoItem.channelSubscribersCount) ?? 0
-                let commentsCount: Int = Int(rawVideoItem.videoCommentsCount) ?? 0
-                let commentsCountString: String = String(commentsCount.roundedWithAbbreviations)
-                
-                let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: rawVideoItem.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: rawVideoItem.videoLikesCount, commentsCount: commentsCountString)
-                
-                // MARK: Final ViewModel:
-                let videoModel = VideoViewModel(videoId: rawVideoItem.videoId, thumbnailUrl: rawVideoItem.videoThumbnailSizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: rawVideoItem.videoTitle, detailsString: detailsString,
-                                                sizes: cellSizes, videoDetails: videoDetails)
-                searchResults.append(videoModel)
-            }
+            // MARK: Calculate Sizes with data provided
+            let cellSizes = YouTubeVideoSearchCellLayoutCalculator.calculateYTCellSizes(imageWidth: CGFloat(width), imageHeight: CGFloat(height), videoNameText: videoNameText, detailsString: detailsString)
             
-            DispatchQueue.main.async { [weak self] in
-                self?.view?.onFetchVideosListSuccess()
-            }
+            // MARK: Gather and preapre other YouTube statistics:
             
-        case .failure(let error):
-            print("Error receiving data: \(error)")
-            DispatchQueue.main.async { [weak self] in
-                self?.view?.onFetchVideosListFail()
-            }
+            let channelSubsCount: Int = Int(rawVideoItem.channelSubscribersCount) ?? 0
+            let commentsCount: Int = Int(rawVideoItem.videoCommentsCount) ?? 0
+            let commentsCountString: String = String(commentsCount.roundedWithAbbreviations)
+            
+            let videoDetails = VideoViewModel.VideoDetails(videoName: videoNameText, channelName: rawVideoItem.channelTitle, channelSubscribersCount: "\(channelSubsCount.roundedWithAbbreviations) subscribers", videoDetailsViewsDatePrepared: "\(viewsCountString) ◦ \(dateString)", likesCount: rawVideoItem.videoLikesCount, commentsCount: commentsCountString)
+            
+            // MARK: Final ViewModel:
+            let videoModel = VideoViewModel(videoId: rawVideoItem.videoId, thumbnailUrl: rawVideoItem.videoThumbnailSizeInfo.url, channelImageUrl: channelImageUrl, videoNameString: rawVideoItem.videoTitle, detailsString: detailsString,
+                                            sizes: cellSizes, videoDetails: videoDetails)
+            searchResults.append(videoModel)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.onFetchVideosListSuccess()
         }
     }
 }
