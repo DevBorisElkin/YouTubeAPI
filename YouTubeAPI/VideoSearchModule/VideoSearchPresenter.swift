@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
+    
     weak var view: VideoSearchPresenterToViewProtocol?
     var interactor: VideoSearchPresenterToInteractorProtocol?
     var router: VideoSearchPresenterToRouterProtocol?
@@ -23,6 +24,10 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
     }
     
     // MARK: For table view
+    func canScrollProgrammatically() -> Bool {
+        return searchResults.count > 0
+    }
+    
     func numberOfRowsInSection() -> Int {
         return searchResults.count
     }

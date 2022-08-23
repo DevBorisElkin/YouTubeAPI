@@ -12,6 +12,7 @@ protocol VideoSearchViewToPresenterProtocol: AnyObject {
     func viewDidLoad()
     
     // table view related
+    func canScrollProgrammatically() -> Bool
     func numberOfRowsInSection() -> Int
     func setCell(tableView: UITableView, forRowAt indexPath: IndexPath) -> UITableViewCell
     func tableViewCellHeight(at indexPath: IndexPath) -> CGFloat

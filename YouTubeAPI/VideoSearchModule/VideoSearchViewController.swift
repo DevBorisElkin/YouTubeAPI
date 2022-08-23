@@ -119,7 +119,9 @@ extension VideoSearchViewController: UITableViewDataSource, UITableViewDelegate,
     }
     
     private func scrollToTop() {
-        let topRow = IndexPath(row: 0, section: 0)
-        self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
+        if presenter?.canScrollProgrammatically() ?? false {
+            let topRow = IndexPath(row: 0, section: 0)
+            self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
+        }
     }
 }
