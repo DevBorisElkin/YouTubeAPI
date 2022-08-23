@@ -9,15 +9,14 @@ import Foundation
 import UIKit
 
 class VideoPlayerRouter: VideoPlayerPresenterToRouterProtocol {
-    // todo check return type
-    // todo resolve module dependencies
+    
     static func createModule(with videoModel: VideoViewModel) -> UIViewController? {
         
-        var presenter = VideoPlayerPresenter()
-        var interactor = VideoPlayerInteractor()
-        var router = VideoPlayerRouter()
+        let presenter = VideoPlayerPresenter()
+        let interactor = VideoPlayerInteractor()
+        let router = VideoPlayerRouter()
         
-        var videoPlayerViewController = VideoPlayerViewController()
+        let videoPlayerViewController = VideoPlayerViewController()
         
         videoPlayerViewController.presenter = presenter
         

@@ -36,21 +36,16 @@ class VideoPlayerInteractor: VideoPlayerPresenterToInteractorProtocol {
                 commentsData = data
             case .failure(let error):
                 print(error)
-                self.presenter?.commentsLoadingFailed()
+                self.presenter?.commentsLoadingFailed(error: error)
                 return
             }
             guard let commentsData = commentsData else {
                 print("search for comments failed");
-                self.presenter?.commentsLoadingFailed()
+                self.presenter?.commentsLoadingFailed(error: NetworkingHelpers.NetworkRequestError.undefined)
                 return }
             
             self.lastCommentsResult = commentsData
             self.presenter?.commentsReceived(commentsDataWrapped: commentsData, appendComments: appendComments)
         }
     }
-    
-    //func commentsRequestedForLastSearch() {
-    //    guard let lastCommentsResult = lastCommentsResult else { print("no stored comments in interactor"); return }
-    //    presenter?.commentsReceived(commentsDataWrapped: lastCommentsResult, appendToPreviousComments: false)
-    //}
 }

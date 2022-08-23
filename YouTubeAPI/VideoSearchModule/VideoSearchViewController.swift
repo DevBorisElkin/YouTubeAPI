@@ -24,7 +24,7 @@ class VideoSearchViewController: UIViewController, VideoSearchPresenterToViewPro
     func onFetchVideosListFail(error: Error) {
         loadingDataEnded()
         if let error = error as? NetworkingHelpers.NetworkRequestError, error == .youTubeQuotaExceeded {
-            present(UIHelpers.createYouTubeQuotaExceededController(), animated: true)
+            present(UIHelpers.createAlertController(title: AppConstants.ytQuotaExceededTitle, message: AppConstants.ytQuotaExceededMessage), animated: true)
         }
     }
     

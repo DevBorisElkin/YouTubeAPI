@@ -110,16 +110,14 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         view?.videoToShowDataReceived(videoToShow: videoToShow)
     }
     
-    func commentsLoadingFailed() {
+    func commentsLoadingFailed(error: Error) {
         DispatchQueue.main.async { [weak self] in
-            self?.view?.commentsUpdated()
+            self?.view?.onCommentsLoadingFailed(error: error)
         }
     }
     
-    // TODO: you need to store nextPage string to make further requests for more data
     func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool) {
-        // todo convert data from CommentsesultWrapped to commentSearchResults[ViewModel]
-        print("Presenter, comments received")
+        print("Presenter received comments")
         
         let commentItems: [CommentItem] = commentsDataWrapped.items ?? []
             
@@ -144,11 +142,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         
         let topString = "\(commentItem.snippet.topLevelComment.snippet.authorDisplayName) ◦ \(dateString) \(isTextEditedString)"
         
-        // TODO: calculate proper sizes
-        // Sizes:
-        
         let expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
-        //var expandedComment = true
         
         let sizes = YouTubeCommentCellLayoutCalculator.calculateCommentCellSizes(topDescriptionText: topString, commentText: commentItem.snippet.topLevelComment.snippet.textDisplay, isFullSizedPost: expandedComment)
         

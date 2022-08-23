@@ -13,12 +13,12 @@ class VideoSearchRouter: VideoSearchPresenterToRouterProtocol {
     
     static func start() -> VideoSearchPresenterToRouterProtocol {
         // create instances
-        var presenter = VideoSearchPresenter()
-        var interactor = VideoSearchInteractor()
-        var router = VideoSearchRouter()
+        let presenter = VideoSearchPresenter()
+        let interactor = VideoSearchInteractor()
+        let router = VideoSearchRouter()
         
         // create UI instances
-        var viewController = VideoSearchViewController()
+        let viewController = VideoSearchViewController()
         
         // assign appropriate values
         interactor.presenter = presenter
@@ -34,7 +34,6 @@ class VideoSearchRouter: VideoSearchPresenterToRouterProtocol {
     
     func pushToVideoPlayer(on view: VideoSearchPresenterToViewProtocol?, with videoModel: VideoViewModel) {
         if let videoPlayerViewController = VideoPlayerRouter.createModule(with: videoModel) as? VideoPlayerViewController, let viewController = view as? VideoSearchViewController {
-            //viewController.navigationController?.pushViewController(videoPlayerViewController, animated: true)
             
             videoPlayerViewController.modalPresentationStyle = .overCurrentContext
             viewController.present(videoPlayerViewController, animated: true, completion: videoPlayerViewController.enableShadow)

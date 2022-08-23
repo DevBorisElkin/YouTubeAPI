@@ -26,4 +26,7 @@ class AppConstants {
     static let commentRequestArtificialDelay: Double = 0.6
     
     static let expandCustomButtonsClickArea = CGPoint(x: 10, y: 10)
+    
+    static let ytQuotaExceededTitle = "YouTube API quota exceeded"
+    static let ytQuotaExceededMessage = "YouTube limits it's API usage by a quota, gives each 'user' 10000 so called 'points' daily. Search request costs 100 points, so, daily quota is enough for 100 search requests. Unfortunately, quota for API key, generated for this app exceeded. It will 'regenerate' eventually (quota points regenerate slowly each minute). Try again later."
 }

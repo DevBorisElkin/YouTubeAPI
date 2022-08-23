@@ -16,10 +16,10 @@ protocol VideoPlayerViewIntoPresenterProtocol: AnyObject  {
     func viewDidLoad()
     
     // MARK: Methods to request comments
-    func commentsRequested(videoId: String) // fresh request for comments
+    func commentsRequested(videoId: String)
     func commentsRequestedToGetUpdated()
     func commentsPaginationRequest()
-    func expandTextForComment(commentId: String) // add comment id to expanded comments and returns last request recorded data (no need to request data again)
+    func expandTextForComment(commentId: String)
     
     // MARK: For comments table view
     func numberOfRowsInSection() -> Int
@@ -52,7 +52,7 @@ protocol VideoPlayerPresenterToInteractorProtocol: AnyObject  {
 protocol VideoPlayerInteractorToPresenterProtocol: AnyObject  {
     func videoToShowPrepared(videoModel: VideoViewModel)
     func commentsReceived(commentsDataWrapped: CommentsResultWrapped, appendComments: Bool)
-    func commentsLoadingFailed()
+    func commentsLoadingFailed(error: Error)
 }
 
 protocol VideoPlayerPresenterToRouterProtocol: AnyObject  {

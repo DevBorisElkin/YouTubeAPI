@@ -107,8 +107,6 @@ class VideoSearchPresenter: VideoSearchViewToPresenterProtocol {
 extension VideoSearchPresenter: VideoSearchVideoCellToPresenterProtocol {
     func requestedToOpenVideo(with viewModel: VideoViewModel) {
         print("presenter: requested to open video")
-        
-        // here I could go to interactor and request more data, but for now would be enough just to move to new VC with existing data
         router?.pushToVideoPlayer(on: view, with: viewModel)
     }
 }

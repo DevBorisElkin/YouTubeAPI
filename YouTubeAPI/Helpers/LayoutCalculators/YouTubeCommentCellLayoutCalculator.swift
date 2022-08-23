@@ -32,7 +32,6 @@ class YouTubeCommentCellLayoutCalculator {
         }
         
         // MARK: Calculate commentText frame
-        // 2 frames, one is full sized, the other is capped sized
         var commentTextSizeRect = CGRect(
             origin: CGPoint(
                 x: commentAuthorImageRect.maxX + CommentCellConstants.commentTextInsets.left,
