@@ -4,8 +4,6 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>yt3.ggpht.com</key>
@@ -21,8 +19,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
