@@ -54,6 +54,10 @@ class CommentCellConstants {
     
     static let commentCellBottomInset: CGFloat = 10
     
+    static let leftCounterInsets = UIEdgeInsets(top: 7, left: 5, bottom: 5, right: 5)
+    static let rightCounterInsets = UIEdgeInsets(top: 7, left: 2, bottom: 5, right: 5)
+    static let countersSize = CGSize(width: 60, height: 30)
+    
     // MARK: Comments table view related
     static let commentInsetToLoadMoreComments: CGFloat = 20 // Inset to load more comments
     static let commentsTableViewTopInset: CGFloat = 8

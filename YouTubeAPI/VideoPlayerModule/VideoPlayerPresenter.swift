@@ -148,11 +148,15 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         
         let userIconUrlString = AppConstants.preferHttpForStaticContent ? commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl.replacingOccurrences(of: "https", with: "http") : commentItem.snippet.topLevelComment.snippet.authorProfileImageUrl
         
+        let likesCountStringCapped = commentItem.snippet.topLevelComment.snippet.likeCount.roundedWithAbbreviations
+        
+        let repliesCountStringCapped = commentItem.snippet.totalReplyCount.roundedWithAbbreviations
+        
         return CommentViewModel(commentId: commentItem.id, userDateEditedCombinedString: topString,
                          commentText: commentItem.snippet.topLevelComment.snippet.textDisplay,
                                 authorProfileImageUrl: userIconUrlString,
-                         likeCount: String(commentItem.snippet.topLevelComment.snippet.likeCount),
-                         totalReplyCount: String(commentItem.snippet.totalReplyCount),
+                         likeCount: likesCountStringCapped,
+                         totalReplyCount: repliesCountStringCapped,
                          sizes: sizes)
     }
 }

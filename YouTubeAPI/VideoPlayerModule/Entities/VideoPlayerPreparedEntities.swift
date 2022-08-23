@@ -45,6 +45,8 @@ struct CommentViewModel {
         var commentTextFrame: CGRect
         var expandCommentTextButtonFrame: CGRect
         var repliesCountLabelFrame: CGRect
+        var likesFrame: CGRect
+        var repliesFrame: CGRect
         var tableViewCellHeight: CGFloat
     }
 }

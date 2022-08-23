@@ -57,6 +57,18 @@ class CommentTableViewCell: UITableViewCell {
         return button
     }()
     
+    let likesCount: ImageCounterView = {
+        let view = ImageCounterView()
+        //view.backgroundColor = .brown
+        return view
+    }()
+    
+    let repliesCount: ImageCounterView = {
+        let view = ImageCounterView()
+        //view.backgroundColor = .blue
+        return view
+    }()
+    
     override func prepareForReuse() {
         commentAuthorIconImage.set(imageURL: nil)
     }
@@ -94,10 +106,68 @@ class CommentTableViewCell: UITableViewCell {
         addSubview(moreTextButton)
         moreTextButton.frame = viewModel.sizes.expandCommentTextButtonFrame
         moreTextButton.addTarget(self, action: #selector(showFullCommentText), for: .touchUpInside)
+        
+        addSubview(likesCount)
+        likesCount.frame = viewModel.sizes.likesFrame
+        likesCount.setUp(imageName: "like_white", text: viewModel.likeCount)
+        
+        addSubview(repliesCount)
+        repliesCount.frame = viewModel.sizes.repliesFrame
+        repliesCount.setUp(imageName: "comment_white", text: viewModel.totalReplyCount)
     }
     
     @objc private func showFullCommentText(_ sender: Any){
         print("Show full text button pressed")
         presenter?.expandTextForComment(commentId: viewModel.commentId)
+    }
+}
+
+class ImageCounterView: UIView {
+    
+    var image: UIImageView!
+    
+    var label: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 13.5, weight: .regular)
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    func setUp(imageName: String, text: String){
+        setUpImage(imageName: imageName)
+        label.text = text
+        
+        setUpConstraints()
+    }
+    
+    private func setUpImage(imageName: String){
+        let uiImage = UIImage(named: imageName)
+        let imageView = UIImageView(image: uiImage)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        image = imageView
+    }
+    
+    private func setUpConstraints(){
+        addSubview(image)
+        image.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        image.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        
+        addSubview(label)
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        label.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 5).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        //label.widthAnchor.constraint(equalToConstant: 20).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

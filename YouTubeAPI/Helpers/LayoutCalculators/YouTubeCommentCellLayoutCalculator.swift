@@ -65,15 +65,32 @@ class YouTubeCommentCellLayoutCalculator {
         // MARK: repliesCount frame
         let repliesCountFrame = CGRect.zero
         
+        // MARK: likes and replies frames
+        var likesFrame = CGRect.zero
+        likesFrame.size = CommentCellConstants.countersSize
+        var repliesFrame = CGRect.zero
+        repliesFrame.size = CommentCellConstants.countersSize
+        
+        let commentCellLeftIncet = CommentCellConstants.commentAuthorIconSize + CommentCellConstants.commentAuthorIconInsets.left + CommentCellConstants.leftCounterInsets.left
+        if !showMoreTextButton {
+            likesFrame.origin = CGPoint(x: commentCellLeftIncet, y: commentTextSizeRect.maxY + CommentCellConstants.leftCounterInsets.top)
+            repliesFrame.origin = CGPoint(x: likesFrame.maxX + CommentCellConstants.rightCounterInsets.left, y: commentTextSizeRect.maxY + CommentCellConstants.rightCounterInsets.top)
+        } else {
+            likesFrame.origin = CGPoint(x: commentCellLeftIncet, y: expandCommentTextButtonFrame.maxY + CommentCellConstants.leftCounterInsets.top)
+            repliesFrame.origin = CGPoint(x: likesFrame.maxX + CommentCellConstants.rightCounterInsets.left, y: expandCommentTextButtonFrame.maxY + CommentCellConstants.rightCounterInsets.top)
+        }
+        
         // MARK: commentCell height
         
-        let selectedCellHeight: CGFloat = showMoreTextButton ? expandCommentTextButtonFrame.maxY + CommentCellConstants.commentCellBottomInset : commentTextSizeRect.maxY + CommentCellConstants.commentCellBottomInset
+        let selectedCellHeight: CGFloat = likesFrame.maxY + CommentCellConstants.commentCellBottomInset
         
         let sizes = CommentViewModel.CommentCellSizes(commentAuthorIconFrame: commentAuthorImageRect,
                                                       topTextFrame: topTextRect,
                                                       commentTextFrame: commentTextSizeRect,
                                                       expandCommentTextButtonFrame: expandCommentTextButtonFrame,
                                                       repliesCountLabelFrame: repliesCountFrame,
+                                                      likesFrame: likesFrame,
+                                                      repliesFrame: repliesFrame,
                                                       tableViewCellHeight: selectedCellHeight)
         
         return sizes
