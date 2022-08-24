@@ -128,7 +128,7 @@ class VideoPlayerViewController: PannableViewController {
         
         let topFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         let bottomFadeColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        let holderSlidingSettings = HolderSlidingViewSettings(topFadeColor: topFadeColor, bottomFadeColor: bottomFadeColor, topFadeColorMaxAlpha: 0.7, bottomFadeColorMaxAlpha: 0.7)
+        let holderSlidingSettings = HolderSlidingViewSettings(topFadeColor: topFadeColor, bottomFadeColor: bottomFadeColor, topFadeColorMaxAlpha: 0.8, bottomFadeColorMaxAlpha: 0.8)
         let slidingSettings = SlidingViewSettings(totalHeightWithSafeArea: view.frame.height, topAreaHeight: playerView.frame.height, safeAreaHeight: AppConstants.safeAreaPadding.top, slideInAnimationTime: 0.4, snapAnimationTime: 0.3)
         
         let holderSlidingView = HolderSlidingView()
