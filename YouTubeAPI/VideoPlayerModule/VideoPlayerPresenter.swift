@@ -140,7 +140,7 @@ extension VideoPlayerPresenter : VideoPlayerInteractorToPresenterProtocol {
         let dateString = DateHelpers.getTimeSincePublication(from: commentItem.snippet.topLevelComment.snippet.publishedAt)
         let isTextEditedString = commentItem.snippet.topLevelComment.snippet.textOriginal != commentItem.snippet.topLevelComment.snippet.textDisplay ? " (edited)" : ""
         
-        let topString = "\(commentItem.snippet.topLevelComment.snippet.authorDisplayName) ◦ \(dateString) \(isTextEditedString)"
+        let topString = "\(commentItem.snippet.topLevelComment.snippet.authorDisplayName) ◦ \(dateString)\(isTextEditedString)"
         
         let expandedComment: Bool = expandedCommentsIds.contains(commentItem.id)
         

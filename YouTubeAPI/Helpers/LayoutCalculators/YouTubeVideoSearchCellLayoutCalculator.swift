@@ -33,7 +33,6 @@ class YouTubeVideoSearchCellLayoutCalculator {
             
             // check limit height for name label
             let limitHeight = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
-            
             if height > limitHeight {
                 height = VideoCellConstants.videoNameFont.lineHeight * VideoCellConstants.videoNameFontMaxLines
             }
@@ -63,12 +62,18 @@ class YouTubeVideoSearchCellLayoutCalculator {
         
         // MARK: TableView cell height
         // in case video name is in one line
-        let minTableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + imageHeight + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize
-        let tableViewCellHeight: CGFloat = max(minTableViewCellHeight,
-                                               videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom)
+//        let minTableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + imageHeight + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.top + VideoCellConstants.videoImageInsets.bottom + VideoCellConstants.channelIconSize
+//        let tableViewCellHeight: CGFloat = max(minTableViewCellHeight,
+//                                               videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom)
+        
+        let tableViewCellHeight: CGFloat = videoDetailsRect.maxY + VideoCellConstants.videoDetailsInsets.bottom + VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom
+        let minTableViewCellHeight: CGFloat = VideoCellConstants.cardViewOffset.top + VideoCellConstants.cardViewOffset.bottom + imageHeight + VideoCellConstants.channelIconInsets.top + VideoCellConstants.channelIconSize + VideoCellConstants.channelIconInsets.bottom
+        
+        let finalTableViewCellHeight: CGFloat = max(tableViewCellHeight, minTableViewCellHeight)
+        //let finalTableViewCellHeight: CGFloat = tableViewCellHeight
         
         return VideoViewModel.Sizes(imageFrame: imageFrame,
-                                    tableViewCellHeight: tableViewCellHeight,
+                                    tableViewCellHeight: finalTableViewCellHeight,
                                     videoNameFrame: videoNameRect,
                                     videoDetailsFrame: videoDetailsRect)
     }

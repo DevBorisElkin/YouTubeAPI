@@ -85,7 +85,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
                 
                 let rawVideoItem = RawVideoItem(
                     videoId: pair.videoItem.id,
-                    videoTitle: pair.videoItem.snippet.description,
+                    videoTitle: pair.videoItem.snippet.title,
                     videoPublishTime: pair.videoItem.snippet.publishedAt,
                     videoThumbnailSizeInfo: pair.videoItem.snippet.thumbnails.medium,
                     channelTitle: pair.videoItem.snippet.channelTitle,
@@ -201,7 +201,7 @@ class VideoSearchInteractor: VideoSearchPresenterToInteractorProtocol {
             var rawVideoItems = [RawVideoItem]()
             for pair in completeVideoResultPairs {
                 
-                let rawVideoItem = RawVideoItem(videoId: pair.videoItem.id.videoId!, videoTitle: pair.videoItem.snippet.description, videoPublishTime: pair.videoItem.snippet.publishTime ?? "", videoThumbnailSizeInfo: pair.videoItem.snippet.thumbnails.medium, channelTitle: pair.videoItem.snippet.channelTitle, channelImageUrl: pair.channelInfo.snippet.thumbnails.def.url, videoViewsCount: pair.videoStatistics.statistics.viewCount ?? "0", videoLikesCount: pair.videoStatistics.statistics.likeCount ?? "0", videoCommentsCount: pair.videoStatistics.statistics.commentCount ?? "0", channelSubscribersCount: pair.channelInfo.statistics.subscriberCount)
+                let rawVideoItem = RawVideoItem(videoId: pair.videoItem.id.videoId!, videoTitle: pair.videoItem.snippet.title, videoPublishTime: pair.videoItem.snippet.publishTime ?? "", videoThumbnailSizeInfo: pair.videoItem.snippet.thumbnails.medium, channelTitle: pair.videoItem.snippet.channelTitle, channelImageUrl: pair.channelInfo.snippet.thumbnails.def.url, videoViewsCount: pair.videoStatistics.statistics.viewCount ?? "0", videoLikesCount: pair.videoStatistics.statistics.likeCount ?? "0", videoCommentsCount: pair.videoStatistics.statistics.commentCount ?? "0", channelSubscribersCount: pair.channelInfo.statistics.subscriberCount)
                 
                 rawVideoItems.append(rawVideoItem)
             }
