@@ -45,6 +45,7 @@ class YouTubeVideoSearchCell: UITableViewCell {
         label.backgroundColor = .clear
         label.textColor = VideoCellConstants.videoNameFontColor
         label.font = VideoCellConstants.videoNameFont
+        label.backgroundColor = .brown
         return label
     }()
     

@@ -619,6 +619,7 @@
 				DEVELOPMENT_TEAM = T74HR6T3C3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YouTubeAPI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Your Tube";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
@@ -648,6 +649,7 @@
 				DEVELOPMENT_TEAM = T74HR6T3C3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YouTubeAPI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Your Tube";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;

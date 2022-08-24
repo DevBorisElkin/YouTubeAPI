@@ -75,6 +75,7 @@ class CommentTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -109,11 +110,11 @@ class CommentTableViewCell: UITableViewCell {
         
         addSubview(likesCount)
         likesCount.frame = viewModel.sizes.likesFrame
-        likesCount.setUp(imageName: "like_white", text: viewModel.likeCount)
+        likesCount.setUp(imageName: "like_2", text: viewModel.likeCount, iconYImageOffset: 0)
         
         addSubview(repliesCount)
         repliesCount.frame = viewModel.sizes.repliesFrame
-        repliesCount.setUp(imageName: "comment_white", text: viewModel.totalReplyCount)
+        repliesCount.setUp(imageName: "com_1", text: viewModel.totalReplyCount, iconYImageOffset: 1.8)
     }
     
     @objc private func showFullCommentText(_ sender: Any){
@@ -130,7 +131,7 @@ class ImageCounterView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 13.5, weight: .regular)
-        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.3959505427, green: 0.3950697562, blue: 0.4164385191, alpha: 1)
         return label
     }()
     
@@ -138,24 +139,24 @@ class ImageCounterView: UIView {
         super.init(frame: frame)
     }
     
-    func setUp(imageName: String, text: String){
+    func setUp(imageName: String, text: String, iconYImageOffset: CGFloat = 0){
         setUpImage(imageName: imageName)
         label.text = text
         
-        setUpConstraints()
+        setUpConstraints(iconYImageOffset: iconYImageOffset)
     }
     
     private func setUpImage(imageName: String){
-        let uiImage = UIImage(named: imageName)
+        let uiImage = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: uiImage)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         image = imageView
     }
     
-    private func setUpConstraints(){
+    private func setUpConstraints(iconYImageOffset: CGFloat){
         addSubview(image)
-        image.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        image.centerYAnchor.constraint(equalTo: centerYAnchor, constant: iconYImageOffset).isActive = true
         image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
         image.heightAnchor.constraint(equalToConstant: 15).isActive = true
         image.widthAnchor.constraint(equalToConstant: 15).isActive = true
